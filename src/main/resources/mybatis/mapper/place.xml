@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.onTrip.dao.PlaceDao">	
+	<select id="placeHotelList"  resultType="com.onTrip.dto.PlaceDto">
+	    select placeNum, placeName, placeRoadAddr,
+	           placeDetailAddr, placeLat, placeLong, 
+	           placeImage,placeContent,placeLike,placeScore
+		from place
+		where destinationNum = #{destinationNum} and placeCategory = 'hotel';
+	</select>
+	
+	<select id="searchHotel" resultType="com.onTrip.dto.PlaceDto">
+  		select placeNum, placeName, placeRoadAddr,
+  			   placeDetailAddr, placeLat, placeLong,
+  			   placeImage, placeContent,placelike,placeScore
+   		from place
+        where destinationNum = #{destinationNum}
+        and placeCategory = 'hotel'
+        and placeName like concat('%', #{keyword}, '%')
+	</select>
+	
+	<insert id="insertPlace" parameterType="com.onTrip.dto.PlaceDto">
+        insert into place(
+         placeName, placeCategory, placeRoadAddr,placeDetailAddr,
+         placeLat, placeLong, placeImage,
+         placeContent, destinationNum, placelike,placeScore
+          )
+         values
+        (
+         #{placeName}, #{placeCategory}, #{placeRoadAddr},#{placeDetailAddr},
+         #{placeLat}, #{placeLong}, #{placeImage}, 
+         #{placeContent}, #{destinationNum} , #{placelike} ,#{placeScore}
+        )
+	</insert>
+	
+	</mapper>
