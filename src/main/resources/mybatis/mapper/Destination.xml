@@ -9,7 +9,13 @@
 	   from destination
 	</select>
 
-	
+	<!-- 지역 검색 -->
+	<select id="searchDestination" resultType="com.onTrip.dto.DestinationDto">
+	  select destinationNum, nameKo, nameEn, destinationLat, destinationLong, destinationImage, destinationContent
+	   from destination         
+	   where nameKo like concat('%', #{keyword}, '%')
+	 </select>
+	   
 	<!-- 지도 띄우기 -->
 	<select id="selectByNum" parameterType="int" resultType="com.onTrip.dto.DestinationDto">
 	  select * from destination where destinationNum = #{destinationNum}

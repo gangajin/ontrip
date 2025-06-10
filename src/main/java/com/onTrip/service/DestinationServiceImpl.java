@@ -25,5 +25,9 @@ public class DestinationServiceImpl implements DestinationService{
 	public DestinationDto getDestinationByNum(int destinationNum) {
 	    return destinationDao.selectByNum(destinationNum);
 	}
+	
+	public List<DestinationDto> searchDestination(String keyword) {
+	    return destinationDao.searchDestination(keyword);
+	}
 
 }
