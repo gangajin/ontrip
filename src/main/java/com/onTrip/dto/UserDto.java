@@ -1,5 +1,17 @@
 package com.onTrip.dto;
 
-public class UserDto {
+import java.time.LocalDateTime;
 
+import lombok.Data;
+@Data
+public class UserDto {
+	private int userNum;
+	private String userId;
+	private String userPasswd;
+	private String userName;
+	private String userNickname;
+	private LocalDateTime userDate;
+	private String role;
+	private String socialType;
+	private String socialId;
 }

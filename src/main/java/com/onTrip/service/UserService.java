@@ -1,0 +1,37 @@
+package com.onTrip.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.onTrip.dao.UserDao;
+import com.onTrip.dto.UserDto;
+
+@Service
+public class UserService {
+	@Autowired
+    private UserDao userDao;
+	
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+	
+	//비밀번호 암호화
+	public void registerUser(UserDto userDto) {
+        String rawPwd = userDto.getUserPasswd();
+        String encPwd = passwordEncoder.encode(rawPwd);
+        userDto.setUserPasswd(encPwd); // 암호화된 비번으로 덮어쓰기
+
+        // DB 저장
+        userDao.insertUser(userDto);
+    }
+	
+	//DB의 userId랑 암호화된 비밀번호 비교
+	public UserDto login(String userId, String userPasswd) {
+	    UserDto user = userDao.findByUserId(userId);
+	    if (user != null && passwordEncoder.matches(userPasswd, user.getUserPasswd())) {
+	        return user;
+	    }
+	    return null;
+	}
+
+}
