@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
-
+	<%@ include file="header.jsp" %>
 
 	<form id="calendarForm" action="/step1" method="get">
 	  <input type="hidden" name="destinationNum" id="destinationNum">
