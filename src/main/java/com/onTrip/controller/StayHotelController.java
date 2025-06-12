@@ -54,7 +54,6 @@ public class StayHotelController {
             scheduleDto.setDestinationNum(destinationNum);
             scheduleDto.setScheduleStart(scheduleStart);
             scheduleDto.setScheduleEnd(scheduleEnd);
-            scheduleDao.insertSchedule(scheduleDto);
             int scheduleNum = scheduleDto.getScheduleNum();
             session.setAttribute("scheduleNum", scheduleNum);
         }

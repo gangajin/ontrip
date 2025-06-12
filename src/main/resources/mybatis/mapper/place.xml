@@ -1,38 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	<mapper namespace="com.onTrip.dao.PlaceDao">	
-	<select id="placeHotelList"  resultType="com.onTrip.dto.PlaceDto">
-	    select placeNum, placeName, placeRoadAddr,
-	           placeDetailAddr, placeLat, placeLong, 
-	           placeImage,placeContent,placeLike,placeScore
-		from place
-		where destinationNum = #{destinationNum} and placeCategory = 'hotel';
-	</select>
-	
-	<select id="searchHotel" resultType="com.onTrip.dto.PlaceDto">
-  		select placeNum, placeName, placeRoadAddr,
-  			   placeDetailAddr, placeLat, placeLong,
-  			   placeImage, placeContent,placelike,placeScore
-   		from place
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onTrip.dao.PlaceDao">
+
+    <select id="placeHotelList" resultType="com.onTrip.dto.PlaceDto">
+        select placeNum, placeName, placeRoadAddr,
+               placeDetailAddr, placeLat, placeLong,
+               placeImage, placeContent, placelike, placeScore
+        from place
+        where destinationNum = #{destinationNum} and placeCategory = 'hotel'
+    </select>
+
+    <select id="searchHotel" resultType="com.onTrip.dto.PlaceDto">
+        select placeNum, placeName, placeRoadAddr,
+               placeDetailAddr, placeLat, placeLong,
+               placeImage, placeContent, placelike, placeScore
+        from place
         where destinationNum = #{destinationNum}
-        and placeCategory = 'hotel'
-        and placeName like concat('%', #{keyword}, '%')
+          and placeCategory = 'hotel'
+          and placeName like concat('%', #{keyword}, '%')
+    </select>
+    
+    <resultMap id="PlaceResultMap" type="com.onTrip.dto.PlaceDto">
+	    <result property="placeNum" column="placeNum"/>
+	    <result property="placeName" column="placeName"/>
+	    <result property="placeCategory" column="placeCategory"/>
+	    <result property="placeRoadAddr" column="placeRoadAddr"/>
+	    <result property="placeLat" column="placeLat"/>
+	    <result property="placeLong" column="placeLong"/>
+	    <result property="placeImage" column="placeImage"/>
+	    <result property="placelike" column="placelike"/>
+	    <result property="placeScore" column="placeScore"/>
+	    <result property="destinationNum" column="destinationNum"/>
+	    <result property="placeDetailAddr" column="placeDetailAddr"/>
+	    <result property="kakaoPlaceId" column="kakaoPlaceId"/>
+	    <result property="placeContent" column="placeContent"/>
+	    <result property="placeExternalApiId" column="placeExternalApiId"/>
+	</resultMap>
+
+    <!-- 장소 키워드 검색 -->
+    <select id="searchPlace" resultMap="PlaceResultMap">
+        select placeNum, placeName, placeCategory, placeRoadAddr, placeLat, placeLong,
+               placeImage, placelike, placeScore,destinationNum
+        from place
+        where destinationNum = #{destinationNum}
+          and placeName like concat('%', #{keyword}, '%')
+        order by placelike desc
+    </select>
+
+    <!-- 장소 카테고리별 추천 -->
+    <select id="recommendPlace" resultMap="PlaceResultMap">
+        select placeNum, placeName, placeCategory, placeRoadAddr, placeLat, placeLong,
+               placeImage, placelike, placeScore, destinationNum
+        from place
+        where destinationNum = #{destinationNum}
+          and placeCategory in
+            <foreach item="category" collection="categoryList" open="(" separator="," close=")">
+                #{category}
+            </foreach>
+        order by placelike desc
+    </select>
+    
+    <!-- step2용 전체 장소 리스트 조회 -->
+	<select id="selectPlaceByDestination" resultMap="PlaceResultMap">
+	    select placeNum, placeName, placeCategory, placeRoadAddr, placeLat, placeLong,
+	           placeImage, placelike, placeScore, destinationNum
+	    from place
+	    where destinationNum = #{destinationNum}
+	    order by placelike desc
 	</select>
-	
-	<insert id="insertPlace" parameterType="com.onTrip.dto.PlaceDto">
+    
+
+    <insert id="insertPlace" parameterType="com.onTrip.dto.PlaceDto">
         insert into place(
-         placeName, placeCategory, placeRoadAddr,placeDetailAddr,
-         placeLat, placeLong, placeImage,
-         placeContent, destinationNum, placelike,placeScore
-          )
-         values
-        (
-         #{placeName}, #{placeCategory}, #{placeRoadAddr},#{placeDetailAddr},
-         #{placeLat}, #{placeLong}, #{placeImage}, 
-         #{placeContent}, #{destinationNum} , #{placelike} ,#{placeScore}
+            placeName, placeCategory, placeRoadAddr, placeDetailAddr,
+            placeLat, placeLong, placeImage,
+            placeContent, destinationNum, placelike, placeScore
         )
-	</insert>
-	
-	</mapper>
+        values (
+            #{placeName}, #{placeCategory}, #{placeRoadAddr}, #{placeDetailAddr},
+            #{placeLat}, #{placeLong}, #{placeImage},
+            #{placeContent}, #{destinationNum}, #{placelike}, #{placeScore}
+        )
+    </insert>
+</mapper>
