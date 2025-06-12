@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onTrip.dao.PlanDao">
+
+    <!-- Plan 저장 -->
+    <insert id="insertPlan" parameterType="com.onTrip.dto.PlanDto">
+        insert into plan (planDate, userNum, scheduleNum, placeNum)
+        values (now(), #{userNum}, #{scheduleNum}, #{placeNum})
+    </insert>
+
+    <!-- Plan 리스트 조회 (장바구니 표시용) -->
+    <select id="selectPlanList" resultType="com.onTrip.dto.PlanDto">
+        select p.planNum as planNum, p.planDate as planDate, p.placeNum as placeNum, pl.placeName as placeName, pl.placeImage as placeImage, pl.placeRoadAddr as placeRoadAddr, pl.placeCategory as placeCategory
+        from plan p
+        join place pl on p.placeNum = pl.placeNum
+        where p.scheduleNum = #{scheduleNum} and p.userNum = #{userNum}
+        order by p.planNum asc
+    </select>
+
+    <!-- Plan 삭제 -->
+    <delete id="deletePlan" parameterType="int">
+        delete from plan
+        where planNum = #{planNum}
+    </delete>
+
+</mapper>

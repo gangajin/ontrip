@@ -16,19 +16,19 @@ import com.onTrip.service.MailService;
 
 @Controller
 public class PasswordTokenController {
-	@Autowired
-	private UserDao userDao;
-	
-	@Autowired
-	private MailService mailService;
-	
-	@Autowired
-	private PasswordTokenDao tokenDao;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	//이메일 입력 받기(비밀번호 재설정 관련)
+   @Autowired
+   private UserDao userDao;
+   
+   @Autowired
+   private MailService mailService;
+   
+   @Autowired
+   private PasswordTokenDao tokenDao;
+   
+   @Autowired
+   private PasswordEncoder passwordEncoder;
+   
+   //이메일 입력 받기(비밀번호 재설정 관련)
     @RequestMapping("/findPasswordProcess")
     public String findPassword(@RequestParam String userId) {
         // 이메일 존재 확인
@@ -50,9 +50,9 @@ public class PasswordTokenController {
     
     //비밀번호 변경 처리
     @RequestMapping("/resetPasswordProcess")
-    public String resetPasswordProcess(@RequestParam String token,
-                                        @RequestParam String userPasswd,
-                                        @RequestParam String userPasswd2) {
+    public String resetPasswordProcess(@RequestParam("token") String token,
+                                        @RequestParam("userPasswd") String userPasswd,
+                                        @RequestParam("userPasswd2") String userPasswd2) {
         if (!userPasswd.equals(userPasswd2)) {
             return "User/resetPassword?token=" + token + "&error=notMatch";
         }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onTrip.dao.ScheduleDao">
+
+    <!-- Schedule insert -->
+    <insert id="insertSchedule">
+        insert into schedule (destinationNum, scheduleStart, scheduleEnd, userNum)
+        values (#{destinationNum}, #{scheduleStart}, #{scheduleEnd}, #{userNum})
+    </insert>
+
+    <!-- Insert 후 PK값 가져오기 -->
+    <select id="getLastInsertId" resultType="int">
+        select last_insert_id()
+    </select>
+    
+    <select id="getScheduleByNum" parameterType="int" resultType="com.onTrip.dto.ScheduleDto">
+        SELECT *
+        FROM schedule
+        WHERE scheduleNum = #{scheduleNum}
+    </select>
+
+</mapper>

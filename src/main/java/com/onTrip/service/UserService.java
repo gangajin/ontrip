@@ -9,14 +9,14 @@ import com.onTrip.dto.UserDto;
 
 @Service
 public class UserService {
-	@Autowired
+   @Autowired
     private UserDao userDao;
-	
-	@Autowired
+   
+   @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-	
-	//비밀번호 암호화
-	public void registerUser(UserDto userDto) {
+   
+   //비밀번호 암호화
+   public void registerUser(UserDto userDto) {
         String rawPwd = userDto.getUserPasswd();
         String encPwd = passwordEncoder.encode(rawPwd);
         userDto.setUserPasswd(encPwd); // 암호화된 비번으로 덮어쓰기
@@ -24,14 +24,20 @@ public class UserService {
         // DB 저장
         userDao.insertUser(userDto);
     }
-	
-	//DB의 userId랑 암호화된 비밀번호 비교
-	public UserDto login(String userId, String userPasswd) {
-	    UserDto user = userDao.findByUserId(userId);
-	    if (user != null && passwordEncoder.matches(userPasswd, user.getUserPasswd())) {
-	        return user;
-	    }
-	    return null;
-	}
+   
+   //DB의 userId랑 암호화된 비밀번호 비교
+   public UserDto login(String userId, String userPasswd) {
+       UserDto user = userDao.findByUserId(userId);
+       if (user != null && passwordEncoder.matches(userPasswd, user.getUserPasswd())) {
+           return user;
+       }
+       return null;
+   }
+   
+   //로그인창에서 아이디 맞는지
+   public UserDto findByUserId(String userId) {
+       return userDao.findByUserId(userId);
+   }
+
 
 }
