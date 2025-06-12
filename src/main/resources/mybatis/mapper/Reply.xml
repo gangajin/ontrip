@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.onTrip.dao.ReplyDao">
+	<select id="selectReplyNum" resultType="com.onTrip.dto.ReplyDto">
+	   select r.*, u.userRole
+	    from reply r
+	    left join user u on r.userNum = u.userNum
+	    where r.inquiryNum = #{inquiryNum}
+	    order by r.replyTime ASC
+	</select>
+		
+		<insert id="insertReply" parameterType="com.onTrip.dto.ReplyDto">
+       		insert into reply (replyContent, replyTime, inquiryNum, userNum, parentReplyNum)
+        	values (#{replyContent}, NOW(), #{inquiryNum}, #{userNum}, #{parentReplyNum})
+        </insert>
+	</mapper>
