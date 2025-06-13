@@ -32,13 +32,13 @@ public class PasswordTokenController {
    // 이메일 존재 확인 (Ajax)
    @RequestMapping("/checkEmailExists")
    @ResponseBody
-   public boolean checkEmailExists(@RequestParam String userId) {
+   public boolean checkEmailExists(@RequestParam("userId") String userId) {
        return userDao.countByUserId(userId) > 0;
    }
    
    //이메일 입력 받기(비밀번호 재설정 관련)
     @RequestMapping("/findPasswordProcess")
-    public String findPassword(@RequestParam String userId) {
+    public String findPassword(@RequestParam("userId") String userId) {
         // 이메일 존재 확인
         UserDto user = userDao.findByUserId(userId);
         if (user != null) {
@@ -51,7 +51,7 @@ public class PasswordTokenController {
     
     //비밀번호 재설정 폼 (토큰 포함 링크)- 이메일로 오는거
     @RequestMapping("/resetPassword")
-    public String resetPasswordForm(@RequestParam String token, Model model) {
+    public String resetPasswordForm(@RequestParam("token") String token, Model model) {
         model.addAttribute("token", token);
         return "User/resetPassword"; // JSP
     }
