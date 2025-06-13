@@ -31,11 +31,28 @@
     .status {
         font-weight: bold;
     }
+    .write-button {
+	    padding: 8px 14px;
+	    background-color: #007bff;
+	    color: white;
+	    border-radius: 6px;
+	    font-size: 14px;
+	    text-decoration: none;
+	}
+
+	.write-button:hover {
+   	 background-color: #0056b3;
+	}
 </style>
 </head>
 <body>
+<c:if test="${sessionScope.loginUser.role ne 'admin'}">
 <div class="inquiry-list-container">
-    <h2>나의 문의 내역</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>나의 문의 내역</h2>
+        <a href="/inquiryWrite" class="write-button">문의 작성하기</a>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -53,11 +70,12 @@
                         </a>
                     </td>
                     <td class="status">${inquiry.inquiryStatus}</td>
-                    <td>${inquiry.inquiryTime}</td>
+                    <td>${inquiry.inquiryTime.toString().substring(0,10)} ${inquiry.inquiryTime.toString().substring(11,16)}</td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 </div>
+</c:if>
 </body>
 </html>

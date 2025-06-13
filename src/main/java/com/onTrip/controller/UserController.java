@@ -82,7 +82,7 @@ public class UserController {
 
         session.setAttribute("loginUser", user);
         session.setAttribute("userNum", user.getUserNum());
-        session.setAttribute("role", user.getRole());
+        session.setAttribute("role", user.getUserRole());
 
         String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
         if (redirectUrl != null) {

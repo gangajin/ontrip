@@ -11,7 +11,7 @@ public class UserDto {
 	private String userName;
 	private String userNickname;
 	private LocalDateTime userDate;
-	private String role;
+	private String userRole;
 	private String socialType;
 	private String socialId;
 }
