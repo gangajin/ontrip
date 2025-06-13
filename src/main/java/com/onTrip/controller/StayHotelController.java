@@ -42,8 +42,11 @@ public class StayHotelController {
             HttpSession session,
             Model model) {
 
-        LocalDate scheduleStart = (LocalDate) session.getAttribute("scheduleStart");
-        LocalDate scheduleEnd = (LocalDate) session.getAttribute("scheduleEnd");
+	    	String scheduleStartStr = (String) session.getAttribute("scheduleStart");
+	    	String scheduleEndStr = (String) session.getAttribute("scheduleEnd");
+	
+	    	LocalDate scheduleStart = LocalDate.parse(scheduleStartStr);
+	    	LocalDate scheduleEnd = LocalDate.parse(scheduleEndStr);
 
         if (session.getAttribute("scheduleNum") == null) {
             Integer userNum = (Integer) session.getAttribute("userNum"); // 로그인된 유저 번호
