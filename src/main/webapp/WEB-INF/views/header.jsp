@@ -11,9 +11,11 @@
 </head>
 <body>
 	<div class="header">
-	  <div class="header-content">
-	    <!-- 왼쪽 로고나 메뉴 등 -->
-	  </div>
+	<div class="header-content">
+	  <a href="/">
+	    <img src="/Image/header/logo.png" alt="로고" style="height: 60px;">
+	  </a>
+	</div>
 	
 	  <div class="header-right">
 	    <c:choose>
