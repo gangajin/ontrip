@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onTrip.dao.PasswordTokenDao;
 import com.onTrip.dao.UserDao;
@@ -27,6 +28,13 @@ public class PasswordTokenController {
    
    @Autowired
    private PasswordEncoder passwordEncoder;
+   
+   // 이메일 존재 확인 (Ajax)
+   @RequestMapping("/checkEmailExists")
+   @ResponseBody
+   public boolean checkEmailExists(@RequestParam String userId) {
+       return userDao.countByUserId(userId) > 0;
+   }
    
    //이메일 입력 받기(비밀번호 재설정 관련)
     @RequestMapping("/findPasswordProcess")
@@ -66,5 +74,7 @@ public class PasswordTokenController {
 
         return "redirect:/login?reset=success";
     }
+    
+    
 
 }
