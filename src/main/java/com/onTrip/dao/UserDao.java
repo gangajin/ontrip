@@ -17,9 +17,12 @@ public interface UserDao {
    int countByUserNickname(String userNickname);
    
    //DB에서 userID찾기
-   public UserDto findByUserId(String userId); 
+   UserDto findByUserId(String userId); 
    
    //비밀번호 변경
    void updatePassword(@Param("userId") String userId, @Param("userPasswd") String userPasswd);
+
+   //OAuth카카오 회원가입
+   void insertKakaoUser(UserDto userDto);
 
 }

@@ -30,6 +30,9 @@
        <input type="submit" value="로그인"><br>
        아직 회원이 아니세요? <a href="/register">회원가입</a>
    </form>
+   
+   <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
+   
 </body>
 
 </html>

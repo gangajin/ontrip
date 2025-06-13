@@ -38,6 +38,10 @@ public class UserService {
    public UserDto findByUserId(String userId) {
        return userDao.findByUserId(userId);
    }
-
+   
+   //OAuth카카오
+   public void registerKakaoUser(UserDto userDto) {
+	    userDao.insertKakaoUser(userDto);
+	}
 
 }
