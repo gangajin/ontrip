@@ -41,7 +41,7 @@ public class PasswordTokenController {
         return "redirect:/login?sent=true";
     }
     
-    //비밀번호 재설정 폼 (토큰 포함 링크)
+    //비밀번호 재설정 폼 (토큰 포함 링크)- 이메일로 오는거
     @RequestMapping("/resetPassword")
     public String resetPasswordForm(@RequestParam String token, Model model) {
         model.addAttribute("token", token);
