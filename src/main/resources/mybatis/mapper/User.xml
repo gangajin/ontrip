@@ -36,4 +36,10 @@
 		insert into user(userId, userNickname, socialId, socialType, userRole)
 		 values(#{userId}, #{userNickname}, #{socialId}, #{socialType}, #{userRole})
 	</insert>
+	
+	<!-- OAuth구글 회원가입 -->
+	<insert id="insertGoogleUser">
+		insert into user(userId, userNickname, socialId, socialType, userRole)
+		 values(#{userId}, #{userNickname}, #{socialId}, #{socialType}, #{userRole})
+	</insert>
 </mapper>

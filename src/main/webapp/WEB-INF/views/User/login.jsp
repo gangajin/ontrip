@@ -32,6 +32,7 @@
    </form>
    
    <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
+   <a href="/oauth2/authorization/google">구글로 로그인</a>
    
 </body>
 

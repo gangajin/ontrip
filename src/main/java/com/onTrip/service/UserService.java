@@ -43,5 +43,10 @@ public class UserService {
    public void registerKakaoUser(UserDto userDto) {
 	    userDao.insertKakaoUser(userDto);
 	}
+   
+   //OAuth구글
+   public void registerGoogleUser(UserDto userDto) {
+	   userDao.insertGoogleUser(userDto);
+   }
 
 }

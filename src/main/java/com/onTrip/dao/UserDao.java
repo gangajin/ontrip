@@ -24,5 +24,8 @@ public interface UserDao {
 
    //OAuth카카오 회원가입
    void insertKakaoUser(UserDto userDto);
+   
+   //OAuth구글 회원가입
+   void insertGoogleUser(UserDto user);
 
 }
