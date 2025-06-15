@@ -31,9 +31,17 @@
        아직 회원이 아니세요? <a href="/register">회원가입</a>
    </form>
    
-   <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
-   <a href="/oauth2/authorization/google">구글로 로그인</a>
-   
-</body>
+	<div style="display: flex; gap: 20px; margin-top: 20px;">
+	    <a href="/oauth2/authorization/kakao">
+	        <img src="/Image/OAuth/kakao.png" alt="카카오 로그인" width="60" height="60" style="border-radius: 15px;">
+	    </a>
+	    <a href="/oauth2/authorization/naver">
+	        <img src="/Image/OAuth/naver.png" alt="네이버 로그인" width="60" height="60" style="border-radius: 15px;">
+	    </a>
+	    <a href="/oauth2/authorization/google">
+	        <img src="/Image/OAuth/google.png" alt="구글 로그인" width="60" height="60" style="border-radius: 15px;">
+	    </a>
+	</div>
 
+</body>
 </html>

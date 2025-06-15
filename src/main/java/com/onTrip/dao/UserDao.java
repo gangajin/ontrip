@@ -22,10 +22,6 @@ public interface UserDao {
    //비밀번호 변경
    void updatePassword(@Param("userId") String userId, @Param("userPasswd") String userPasswd);
 
-   //OAuth카카오 회원가입
-   void insertKakaoUser(UserDto userDto);
-   
-   //OAuth구글 회원가입
-   void insertGoogleUser(UserDto user);
-
+   //OAuth 통합
+   void insertSocialUser(UserDto userDto);
 }

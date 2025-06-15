@@ -31,14 +31,8 @@
 	     where userId = #{userId}
 	</update>
 	
-	<!-- OAuth카카오 회원가입 -->
-	<insert id="insertKakaoUser">
-		insert into user(userId, userNickname, socialId, socialType, userRole)
-		 values(#{userId}, #{userNickname}, #{socialId}, #{socialType}, #{userRole})
-	</insert>
-	
-	<!-- OAuth구글 회원가입 -->
-	<insert id="insertGoogleUser">
+	<!-- OAuth통합(카카오,네이버,구글) 회원가입 -->
+	<insert id="insertSocialUser">
 		insert into user(userId, userNickname, socialId, socialType, userRole)
 		 values(#{userId}, #{userNickname}, #{socialId}, #{socialType}, #{userRole})
 	</insert>
