@@ -31,7 +31,7 @@
 	    </div>
 	
 	    <div id="userDropdown" class="user-dropdown">
-	      <a href="/mypage">마이페이지</a>
+	      <a href="/user/myPage">마이페이지</a>
 	
 	      <c:if test="${sessionScope.loginUser.userRole eq 'admin'}">
 	        <a href="/admininquiry">회원 문의현황</a>

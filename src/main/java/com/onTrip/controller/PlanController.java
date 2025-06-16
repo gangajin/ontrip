@@ -3,39 +3,67 @@ package com.onTrip.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import com.onTrip.dto.PlanDto;
+import com.onTrip.dto.PlaceDto;
 import com.onTrip.service.PlanService;
 
-@RestController
-@RequestMapping("/plan")
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+@RequestMapping("/plan")  // prefix /plan 으로 통일 (가독성 ↑)
 public class PlanController {
 
     @Autowired
     private PlanService planService;
 
-    // Plan 저장 (장소 등록 버튼)
-    @PostMapping("/insert")
-    public void insertPlan(@RequestBody PlanDto dto) {
-        planService.insertPlan(dto);
+    // Plan 추가 (AJAX 전용)
+    @PostMapping("/add")
+    @ResponseBody
+    public String addPlan(@RequestParam("placeNum") int placeNum, HttpSession session) {
+
+        Integer userNum = (Integer) session.getAttribute("userNum");
+        Integer scheduleNum = (Integer) session.getAttribute("scheduleNum");
+
+        if (userNum == null || scheduleNum == null) {
+            return "login";
+        }
+
+        planService.addPlan(userNum, scheduleNum, placeNum);
+        return "success";
     }
 
-    // Plan 리스트 조회 (장바구니 표시)
+    // Plan 삭제 (AJAX 전용)
+    @PostMapping("/remove")
+    @ResponseBody
+    public String removePlan(@RequestParam("placeNum") int placeNum, HttpSession session) {
+
+        Integer userNum = (Integer) session.getAttribute("userNum");
+        Integer scheduleNum = (Integer) session.getAttribute("scheduleNum");
+
+        if (userNum == null || scheduleNum == null) {
+            return "login";
+        }
+
+        planService.removePlan(userNum, scheduleNum, placeNum);
+        return "success";
+    }
+
     @GetMapping("/list")
-    public List<PlanDto> selectPlanList(@RequestParam("scheduleNum") int scheduleNum, @RequestParam("userNum") int userNum) {
-        return planService.selectPlanList(scheduleNum, userNum);
-    }
+    public String getPlanList(HttpSession session, Model model) {
 
-    // Plan 삭제 (장바구니에서 빼기)
-    @DeleteMapping("/delete")
-    public void deletePlan(@RequestParam("planNum") int planNum) {
-        planService.deletePlan(planNum);
+        Integer userNum = (Integer) session.getAttribute("userNum");
+        Integer scheduleNum = (Integer) session.getAttribute("scheduleNum");
+
+        if (userNum == null || scheduleNum == null) {
+            return "redirect:/login";
+        }
+
+        List<PlaceDto> selectedPlaceDtoList = planService.selectPlacesInPlan(userNum, scheduleNum);
+        model.addAttribute("selectedPlaceDtoList", selectedPlaceDtoList);
+
+        return "Schedule/selectedPlaceList";
     }
 }

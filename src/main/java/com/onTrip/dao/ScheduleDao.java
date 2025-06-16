@@ -1,6 +1,7 @@
 package com.onTrip.dao;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,15 @@ public interface ScheduleDao {
     int getLastInsertId();
     
     ScheduleDto getScheduleByNum(int scheduleNum);
+    
+    // 작성중인 일정 목록 조회
+    List<ScheduleDto> selectDraftSchedules(@Param("userNum") int userNum);
+
+    // 일정 삭제
+    void deleteSchedule(@Param("scheduleNum") int scheduleNum);
+    
+    // ScheduleDao.java
+    ScheduleDto selectScheduleWithUserNum(@Param("scheduleNum") int scheduleNum, @Param("userNum") int userNum, @Param("destinationNum") int destinationNum);
+
+
 }

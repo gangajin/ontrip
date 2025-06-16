@@ -22,7 +22,9 @@
     <div class="row">
         <!-- 사이드바 (selectPlace.jsp와 동일) -->
         <div class="col-2 sidebar d-flex flex-column align-items-center">
-            <h4 class="mb-4 mt-2">On:trip</h4>
+            <h4 class="mb-4 mt-2"><a href="/">
+	    		<img src="/Image/header/logo.png" alt="로고" style="height: 60px;"></a>
+	    	</h4>
             <div class="mb-3 text-primary fw-bold">STEP 1<br>날짜 확인</div>
             <div class="mb-3">STEP 2<br>장소 선택</div>
             <div class="mb-3">STEP 3<br>숙소 선택</div>
@@ -66,11 +68,21 @@
 		
 		// "다음" 버튼 클릭 시 호출
 		function goToStep2() {
+			var userNum = "${sessionScope.userNum}";
+
+		    // ✅ 로그인 안 된 경우 알림 후 로그인 페이지로 이동
+		    if (!userNum || userNum === "null") {
+		        alert("로그인 이후 사용 가능합니다.");
+		        location.href = "/login";
+		        return; // 더 이상 진행하지 않음
+		    }
 		    var destinationNum = "${destinationNum}";
 		    var destinationName = encodeURIComponent("${destinationName}");
 		    var scheduleStartParam = "${scheduleStartParam}";
 		    var scheduleEndParam = "${scheduleEndParam}";
-		    var userNum = 1; // 테스트용 → 나중에 세션에서 가져와도 됨
+		    var destinationLat = "${destinationLat}";
+		    var destinationLong = "${destinationLong}";
+		    var userNum = "${sessionScope.userNum}";; 
 		
 		    $.post("/insertSchedule", {
 		        destinationNum: destinationNum,
@@ -83,7 +95,9 @@
 		        var url = `/step2?destinationNum=${destinationNum}`
 		                + `&destinationName=${destinationName}`
 		                + `&scheduleStart=${scheduleStartParam}`
-		                + `&scheduleEnd=${scheduleEndParam}`;
+		                + `&scheduleEnd=${scheduleEndParam}`
+		                + `&destinationLat=${destinationLat}`
+		                + `&destinationLong=${destinationLong}`;
 		
 		        location.href = url;
 		    });

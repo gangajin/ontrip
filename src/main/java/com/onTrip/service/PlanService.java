@@ -1,31 +1,38 @@
 package com.onTrip.service;
 
 import java.util.List;
-import com.onTrip.dao.PlanDao;
-import com.onTrip.dto.PlanDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// Plan 관련 Service
+import com.onTrip.dao.PlanDao;
+import com.onTrip.dto.PlaceDto;
+
 @Service
 public class PlanService {
 
     @Autowired
     private PlanDao planDao;
 
-    // Plan 저장
-    public void insertPlan(PlanDto dto) {
-        planDao.insertPlan(dto);
+    // Plan 추가
+    public void addPlan(int userNum, int scheduleNum, int placeNum) {
+        if (planDao.checkPlanExists(userNum, scheduleNum, placeNum) == 0) {
+            planDao.insertPlan(userNum, scheduleNum, placeNum);
+        }
     }
 
-    // Plan 리스트 조회 (장바구니 표시용)
-    public List<PlanDto> selectPlanList(int scheduleNum, int userNum) {
-        return planDao.selectPlanList(scheduleNum, userNum);
+    // Plan 삭제
+    public void removePlan(int userNum, int scheduleNum, int placeNum) {
+        planDao.deletePlan(userNum, scheduleNum, placeNum);
     }
 
-    // Plan 삭제 (장바구니에서 빼기)
-    public void deletePlan(int planNum) {
-        planDao.deletePlan(planNum);
+    // Plan 목록 조회
+    public List<PlaceDto> selectPlacesInPlan(int userNum, int scheduleNum) {
+        return planDao.selectPlacesInPlan(userNum, scheduleNum);
     }
+    //지도 마커 찍기
+    public List<PlaceDto> selectPlanMarker(int userNum, int scheduleNum) {
+        return planDao.selectPlanMarker(userNum, scheduleNum);
+    }
+
 }
-

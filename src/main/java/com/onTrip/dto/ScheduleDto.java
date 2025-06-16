@@ -1,7 +1,7 @@
 package com.onTrip.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -10,8 +10,12 @@ public class ScheduleDto {
 	private int scheduleNum;
 	private LocalDate scheduleStart;
 	private LocalDate scheduleEnd;
-	private LocalDateTime scheduleCreated;
+	private Date scheduleCreated;
 	private int userNum;
 	private int destinationNum;
+	private String destinationName;
+	private double destinationLat;
+	private double destinationLong;
 
+	
 }

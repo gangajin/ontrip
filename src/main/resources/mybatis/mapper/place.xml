@@ -40,13 +40,14 @@
 	</resultMap>
 
     <!-- 장소 키워드 검색 -->
-    <select id="searchPlace" resultMap="PlaceResultMap">
-        select placeNum, placeName, placeCategory, placeRoadAddr, placeLat, placeLong,
-               placeImage, placelike, placeScore,destinationNum
-        from place
-        where destinationNum = #{destinationNum}
-          and placeName like concat('%', #{keyword}, '%')
-        order by placelike desc
+    <select id="searchPlaceByKeyword" resultMap="PlaceResultMap">
+        SELECT placeNum, placeName, placeCategory, placeRoadAddr, placeLat, placeLong,
+           placeImage, placelike, placeScore, destinationNum
+	    FROM place
+	    WHERE destinationNum = #{destinationNum}
+	      AND (placeName LIKE CONCAT('%', #{keyword}, '%')
+	           OR placeRoadAddr LIKE CONCAT('%', #{keyword}, '%'))
+	    ORDER BY placelike DESC
     </select>
 
     <!-- 장소 카테고리별 추천 -->
@@ -84,4 +85,40 @@
             #{placeContent}, #{destinationNum}, #{placelike}, #{placeScore}
         )
     </insert>
+    
+    <!-- 전체 장소 조회 (관리자용) -->
+	<select id="adminAllPlaces" resultType="com.onTrip.dto.PlaceDto">
+	    SELECT * FROM place ORDER BY placeNum DESC
+	</select>
+	
+	<!-- 특정 destination의 장소 조회 (관리자용) -->
+	<select id="adminPlaceByDestination" resultType="com.onTrip.dto.PlaceDto">
+	    SELECT * FROM place WHERE destinationNum = #{destinationNum} ORDER BY placeNum DESC
+	</select>
+	
+	<!-- 장소 삭제 (관리자용) -->
+	<delete id="admindeletePlace">
+	    DELETE FROM place WHERE placeNum = #{placeNum}
+	</delete>
+	
+	<!-- 전체 장소 페이징 조회 -->
+	<select id="adminPagedPlaces" resultType="com.onTrip.dto.PlaceDto">
+	    SELECT * FROM place
+	    ORDER BY placeNum DESC
+	    LIMIT #{start}, #{pageSize}
+	</select>
+	
+	<!-- 전체 장소 개수 조회 -->
+	<select id="adminPlaceCount" resultType="int">
+	    SELECT COUNT(*) FROM place
+	</select>
+	
+	<!-- 관리자용 키워드 검색 -->
+	<select id="adminSearchPlace" resultMap="PlaceResultMap">
+	    SELECT * FROM place
+	    WHERE placeName LIKE CONCAT('%', #{keyword}, '%')
+	       OR placeRoadAddr LIKE CONCAT('%', #{keyword}, '%')
+	    ORDER BY placeNum DESC
+	</select>
+	
 </mapper>

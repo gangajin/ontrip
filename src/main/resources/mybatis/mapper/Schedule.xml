@@ -21,5 +21,45 @@
         FROM schedule
         WHERE scheduleNum = #{scheduleNum}
     </select>
+    
+    <!-- 작성중인 일정 목록 조회 -->
+	<select id="selectDraftSchedules" resultType="com.onTrip.dto.ScheduleDto">
+	     SELECT 
+	        s.scheduleNum AS scheduleNum,
+	        s.scheduleStart AS scheduleStart,
+	        s.scheduleEnd AS scheduleEnd,
+	        s.scheduleCreated AS scheduleCreated,
+	        s.userNum AS userNum,
+	        s.scheduleStatus AS scheduleStatus,
+	        s.destinationNum AS destinationNum,
+	        d.nameKo AS destinationName,
+	        d.destinationLat AS destinationLat,
+	        d.destinationLong AS destinationLong
+	    FROM schedule s
+	    JOIN destination d ON s.destinationNum = d.destinationNum
+	    WHERE s.userNum = #{userNum}
+	      AND s.scheduleStatus = '작성중'
+	    ORDER BY s.scheduleCreated DESC
+	</select>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule">
+	    DELETE FROM schedule WHERE scheduleNum = #{scheduleNum}
+	</delete>
+    
+    <!-- 이어쓰기용 스케줄 + 목적지 이름 조회 -->
+	<select id="selectScheduleWithUserNum" resultType="com.onTrip.dto.ScheduleDto">
+	    SELECT 
+	        s.scheduleNum,
+	        s.scheduleStart,
+	        s.scheduleEnd,
+	        s.userNum,
+	        s.destinationNum,
+	        d.nameKo AS destinationName
+	    FROM schedule s
+	    JOIN destination d ON s.destinationNum = d.destinationNum
+	    WHERE s.scheduleNum = #{scheduleNum}
+	      AND s.userNum = #{userNum}
+	</select>
 
 </mapper>

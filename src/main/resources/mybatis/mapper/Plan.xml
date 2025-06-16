@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.onTrip.dao.PlanDao">
 
-    <!-- Plan 저장 -->
-    <insert id="insertPlan" parameterType="com.onTrip.dto.PlanDto">
-        insert into plan (planDate, userNum, scheduleNum, placeNum)
-        values (now(), #{userNum}, #{scheduleNum}, #{placeNum})
+    <!-- Plan 추가 -->
+    <insert id="insertPlan">
+        INSERT INTO plan (userNum, scheduleNum, placeNum)
+        VALUES (#{userNum}, #{scheduleNum}, #{placeNum})
     </insert>
 
-    <!-- Plan 리스트 조회 (장바구니 표시용) -->
-    <select id="selectPlanList" resultType="com.onTrip.dto.PlanDto">
-        select p.planNum as planNum, p.planDate as planDate, p.placeNum as placeNum, pl.placeName as placeName, pl.placeImage as placeImage, pl.placeRoadAddr as placeRoadAddr, pl.placeCategory as placeCategory
-        from plan p
-        join place pl on p.placeNum = pl.placeNum
-        where p.scheduleNum = #{scheduleNum} and p.userNum = #{userNum}
-        order by p.planNum asc
+    <!-- Plan 삭제 -->
+    <delete id="deletePlan">
+        DELETE FROM plan
+        WHERE userNum = #{userNum} AND scheduleNum = #{scheduleNum} AND placeNum = #{placeNum}
+    </delete>
+
+    <!-- Plan 중복 체크 -->
+    <select id="checkPlanExists" resultType="int">
+        SELECT COUNT(*) FROM plan
+        WHERE userNum = #{userNum} AND scheduleNum = #{scheduleNum} AND placeNum = #{placeNum}
     </select>
 
-    <!-- Plan 삭제 -->
-    <delete id="deletePlan" parameterType="int">
-        delete from plan
-        where planNum = #{planNum}
-    </delete>
+    <!-- Plan 목록 조회 -->
+    <select id="selectPlacesInPlan" resultType="com.onTrip.dto.PlaceDto">
+        SELECT p.*
+        FROM plan pl
+        JOIN place p ON pl.placeNum = p.placeNum
+        WHERE pl.userNum = #{userNum} AND pl.scheduleNum = #{scheduleNum}
+    </select>
+    
+    <!-- 지도마커 -->
+    <select id="selectPlanMarker" resultType="com.onTrip.dto.PlaceDto">
+	    SELECT p.*
+	    FROM plan pl
+	    JOIN place p ON pl.placeNum = p.placeNum
+	    WHERE pl.userNum = #{userNum}
+	      AND pl.scheduleNum = #{scheduleNum}
+	</select>
+    
 
 </mapper>

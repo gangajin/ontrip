@@ -18,6 +18,7 @@ import com.onTrip.dto.DestinationDto;
 import com.onTrip.dto.PlaceDto;
 import com.onTrip.service.DestinationService;
 import com.onTrip.service.PlaceService;
+import com.onTrip.service.PlanService;
 import com.onTrip.service.ScheduleService;
 
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +34,9 @@ public class ScheduleController {
     
     @Autowired
     private ScheduleService scheduleService;
+    
+    @Autowired
+    private PlanService planService;
 
     // STEP1
     @RequestMapping("/step1")
@@ -41,7 +45,8 @@ public class ScheduleController {
             @RequestParam("destinationName") String destinationName,
             @RequestParam("scheduleStart") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleStart,
             @RequestParam("scheduleEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleEnd,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(E)", Locale.KOREAN);
         DestinationDto destination = destinationService.getDestinationByNum(destinationNum);
@@ -56,43 +61,95 @@ public class ScheduleController {
         model.addAttribute("scheduleStartParam", scheduleStart.toString());
         model.addAttribute("scheduleEndParam", scheduleEnd.toString());
 
+        session.setAttribute("destinationNum", destinationNum);
+        session.setAttribute("destinationName", destinationName);
+        session.setAttribute("scheduleStart", scheduleStart.toString());
+        session.setAttribute("scheduleEnd", scheduleEnd.toString());
+
         return "Schedule/selectDate";
     }
 
-    // STEP2
+    // STEP2 
     @RequestMapping("/step2")
     public String step2(
-            @RequestParam("destinationNum") int destinationNum,
-            @RequestParam("destinationName") String destinationName,
-            @RequestParam("scheduleStart") String scheduleStart,
-            @RequestParam("scheduleEnd") String scheduleEnd,
-            Model model) {
+            @RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+            @RequestParam(value="category", required=false, defaultValue="") String category,
+            @RequestParam("destinationLat") double destinationLat,
+            @RequestParam("destinationLong") double destinationLong,
+            Model model,
+            HttpSession session) {
+    	
+    	 Integer userNum = (Integer) session.getAttribute("userNum");
+    	    if (userNum == null) {
+    	        model.addAttribute("loginMessage", "로그인 이후 사용 가능합니다.");
+    	        return "User/forceLogin";  // ✳️ alert 띄우는 전용 JSP로 이동
+    	    }
+
+        Integer destinationNum = (Integer) session.getAttribute("destinationNum");
+        String destinationName = (String) session.getAttribute("destinationName");
+        String scheduleStart = (String) session.getAttribute("scheduleStart");
+        String scheduleEnd = (String) session.getAttribute("scheduleEnd");
+
+        List<PlaceDto> placeList;
+        if (!keyword.isEmpty()) {
+            placeList = placeService.searchPlaceByKeyword(destinationNum, keyword);
+        } else if (!category.isEmpty()) {
+            if (category.equals("recommend")) {
+                placeList = placeService.recommendPlace(destinationNum, List.of("attraction", "restaurant", "cafe"));
+            } else {
+                placeList = placeService.recommendPlace(destinationNum, List.of(category));
+            }
+        } else {
+            placeList = placeService.recommendPlace(destinationNum, List.of("attraction", "restaurant", "cafe"));
+        }
 
         model.addAttribute("destinationNum", destinationNum);
         model.addAttribute("destinationName", destinationName);
         model.addAttribute("scheduleStart", scheduleStart);
         model.addAttribute("scheduleEnd", scheduleEnd);
-
-        // ✅ 장소 리스트 조회 후 model 에 추가
-        List<PlaceDto> placeList = placeService.getPlaceByDestination(destinationNum);
         model.addAttribute("placeList", placeList);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("category", category);
+        model.addAttribute("destinationLat", destinationLat);
+        model.addAttribute("destinationLong", destinationLong);
+
+        // ✅ 장바구니 리스트 추가
+        Integer scheduleNum = (Integer) session.getAttribute("scheduleNum");
+
+        if (userNum != null && scheduleNum != null) {
+            List<PlaceDto> selectedPlaceDtoList = planService.selectPlacesInPlan(userNum, scheduleNum);
+            model.addAttribute("selectedPlaceDtoList", selectedPlaceDtoList);
+        } else {
+            model.addAttribute("selectedPlaceDtoList", List.of());
+        }
+        
+        // ✅ 마커 찍기용 리스트: Kakao 지도 출력용
+        if (userNum != null && scheduleNum != null) {
+            List<PlaceDto> planMarkerList = planService.selectPlanMarker(userNum, scheduleNum);  // 새 메서드
+            model.addAttribute("planMarkerList", planMarkerList);
+        } else {
+            model.addAttribute("planMarkerList", List.of());
+        }
 
         return "Schedule/selectPlace";
     }
-    
+
+    // AJAX - insertSchedule
     @PostMapping("/insertSchedule")
     @ResponseBody
     public int insertScheduleAjax(
         @RequestParam("destinationNum") int destinationNum,
         @RequestParam("scheduleStart") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleStart,
         @RequestParam("scheduleEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleEnd,
-        @RequestParam("userNum") int userNum
-    ) {
+        @RequestParam("userNum") int userNum,
+        HttpSession session) {
         int scheduleNum = scheduleService.insertSchedule(destinationNum, scheduleStart, scheduleEnd, userNum);
+        // ✅ scheduleNum 세션에 저장 → 장바구니에서 사용
+        session.setAttribute("scheduleNum", scheduleNum);
         return scheduleNum;
     }
-    
-    //step3
+
+    // STEP3
     @PostMapping("/saveScheduleToSession")
     @ResponseBody
     public void saveScheduleToSession(
@@ -100,7 +157,7 @@ public class ScheduleController {
             @RequestParam("scheduleEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleEnd,
             HttpSession session) {
 
-        session.setAttribute("scheduleStart", scheduleStart);
-        session.setAttribute("scheduleEnd", scheduleEnd);
+        session.setAttribute("scheduleStart", scheduleStart.toString());
+        session.setAttribute("scheduleEnd", scheduleEnd.toString());
     }
 }

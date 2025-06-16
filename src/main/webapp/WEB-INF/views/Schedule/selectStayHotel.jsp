@@ -21,7 +21,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-2 sidebar d-flex flex-column align-items-center">
-      <h4 class="mb-4 mt-2">On:trip</h4>
+      <h4 class="mb-4 mt-2"><a href="/">
+	  	<img src="/Image/header/logo.png" alt="로고" style="height: 60px;"></a>
+	  </h4>
       <div class="mb-3">STEP 1<br>날짜 확인</div>
       <div class="mb-3">STEP 2<br>장소 선택</div>
       <div class="mb-3 text-primary fw-bold">STEP 3<br>숙소 선택</div>
