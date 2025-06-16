@@ -55,7 +55,9 @@
 	        s.scheduleEnd,
 	        s.userNum,
 	        s.destinationNum,
-	        d.nameKo AS destinationName
+	        d.nameKo AS destinationName,
+	        d.destinationLat,
+        	d.destinationLong
 	    FROM schedule s
 	    JOIN destination d ON s.destinationNum = d.destinationNum
 	    WHERE s.scheduleNum = #{scheduleNum}

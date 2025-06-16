@@ -1,6 +1,7 @@
 package com.onTrip.controller;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +122,12 @@ public class PlaceController {
 
         placedao.insertPlace(placeDto);
 
-        return "redirect:/step2";
+        return "redirect:/step2"
+        		+ "?destinationNum=" + destinationNum
+                + "&destinationName=" + URLEncoder.encode(placeDto.getPlaceName(), "UTF-8")
+                + "&destinationLat=" + placeDto.getPlaceLat()
+                + "&destinationLong=" + placeDto.getPlaceLong()
+                + "&scheduleStart=" + scheduleStart
+                + "&scheduleEnd=" + scheduleEnd;
     }
 }

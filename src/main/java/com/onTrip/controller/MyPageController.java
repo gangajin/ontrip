@@ -51,6 +51,8 @@ public class MyPageController {
         session.setAttribute("destinationName", schedule.getDestinationName());
         session.setAttribute("scheduleStart", schedule.getScheduleStart().toString());
         session.setAttribute("scheduleEnd", schedule.getScheduleEnd().toString());
+        session.setAttribute("destinationLat", schedule.getDestinationLat());
+        session.setAttribute("destinationLong", schedule.getDestinationLong());
 
         String encodedName = URLEncoder.encode(schedule.getDestinationName(), StandardCharsets.UTF_8);
 

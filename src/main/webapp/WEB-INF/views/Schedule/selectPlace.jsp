@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>장소 선택</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body { overflow-x: hidden; background-color: #f8f9fa; }
         .sidebar {
@@ -93,18 +94,33 @@
 
                     <!-- 추천 장소 리스트 -->
                     <div id="placeList" class="overflow-auto" style="max-height: 500px;">
-                        <c:forEach var="place" items="${placeList}" varStatus="status">
-                            <div class="card mb-2 shadow-sm">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="card-title mb-1">${place.placeName}</h6>
-                                        <p class="card-text small text-muted mb-0">${place.placeRoadAddr}</p>
-                                    </div>
-                                    <button type="button" class="btn btn-outline-success btn-sm" onclick="addSelectedPlace(${place.placeNum})">+</button>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
+					    <c:forEach var="place" items="${placeList}" varStatus="status">
+					        <div class="card mb-2 shadow-sm">
+					            <div class="card-body d-flex justify-content-between align-items-center">
+					                <div class="d-flex">
+					                    <!-- 장소 이미지 -->
+					                    <img src="${pageContext.request.contextPath}${place.placeImage}" 
+					                         alt="이미지" 
+					                         width="80" height="80" class="me-3 rounded">
+					
+					                    <!-- 장소 정보 -->
+					                    <div>
+					                        <h6 class="card-title mb-1">${place.placeName}</h6>
+					                        <p class="card-text small text-muted mb-1">${place.placeRoadAddr}</p>
+					                        <p class="mb-0">
+					                            <i class="fa-solid fa-heart" style="color: red;"></i> ${place.placelike}
+					                            &nbsp;&nbsp;
+					                            <i class="fa-solid fa-star" style="color: gold;"></i> ${place.placeScore}
+					                        </p>
+					                    </div>
+					                </div>
+					
+					                <!-- 추가 버튼 -->
+					                <button type="button" class="btn btn-outline-success btn-sm" onclick="addSelectedPlace(${place.placeNum})">+</button>
+					            </div>
+					        </div>
+					    </c:forEach>
+					</div>
                 </div>
 
                 <!-- 중앙: 장바구니 리스트 -->
@@ -158,7 +174,6 @@
 	
 	kakao.maps.load(function () {
 	    initMap();
-	    marker();
 	});
 	
 	function initMap() {
@@ -184,20 +199,46 @@
 
  	// ✅ 장소 추가
     function addSelectedPlace(placeNum) {
-        $.post("/plan/add", { placeNum: placeNum }, function(response) {
-            if (response === "success") {
-                refreshSelectedList();
+    $.post("/plan/add", { placeNum: placeNum }, function(response) {
+        if (response === "success") {
+            refreshSelectedList();
+
+            // ✅ 마커 추가
+            const addedPlace = window.currentPlaceList.find(p => p.placeNum === Number(placeNum));
+            if (addedPlace) {
+                const markerPosition = new kakao.maps.LatLng(addedPlace.placeLat, addedPlace.placeLong);
+                const marker = new kakao.maps.Marker({
+                    position: markerPosition,
+                    map: map,
+                    title: addedPlace.placeName
+                });
+                marker.placeNum = addedPlace.placeNum;
+                markers.push(marker);
+                map.setCenter(markerPosition);
             } else {
-                alert("로그인 후 이용 가능합니다.");
+                console.warn("❗ 추가할 장소를 찾을 수 없습니다. placeNum:", placeNum);
             }
-        });
-    }
+        } else {
+            alert("로그인 후 이용 가능합니다.");
+        }
+    });
+}
+
 
     // ✅ 장소 삭제
     function removeSelectedPlace(placeNum) {
         $.post("/plan/remove", { placeNum: placeNum }, function(response) {
             if (response === "success") {
                 refreshSelectedList();
+                // 마커 삭제
+                // markers 배열에서 해당 placeNum 마커 찾아서 제거
+                for (let i = 0; i < markers.length; i++) {
+                    if (markers[i].placeNum === placeNum) {
+                        markers[i].setMap(null);      // 지도에서 제거
+                        markers.splice(i, 1);         // 배열에서도 제거
+                        break;
+                    }
+                }
             } else {
                 alert("로그인 후 이용 가능합니다.");
             }
