@@ -6,23 +6,30 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 재설정</title>
+<link rel="stylesheet" href="/CSS/resetPassword.css">
 </head>
 <body>
-	<h2>비밀번호 재설정</h2>
+	<div class="reset-container">
+	    <div class="reset-box">
+	    	<a href="/">
+				<img src="/Image/header/logo.png" alt="로고" style="height: 100px;">
+			</a>
 
-    <form action="/resetPasswordProcess" method="post" onsubmit="return pwCheck()">
-        <input type="hidden" name="token" value="${token}" />
+	        <form action="/resetPasswordProcess" method="post" onsubmit="return pwCheck()">
+	            <input type="hidden" name="token" value="${token}" />
 
-        <label>새 비밀번호:</label><br>
-        <input type="password" name="userPasswd" id="userPasswd" placeholder="새 비밀번호 입력"><br><br>
+	            <label>새 비밀번호:</label>
+	            <input type="password" name="userPasswd" id="userPasswd" placeholder="새 비밀번호 입력">
 
-        <label>비밀번호 확인:</label><br>
-        <input type="password" name="userPasswd2" id="userPasswd2" placeholder="비밀번호 재입력"><br><br>
+	            <label>비밀번호 확인:</label>
+	            <input type="password" name="userPasswd2" id="userPasswd2" placeholder="비밀번호 재입력">
 
-        <button type="submit">비밀번호 변경</button>
-    </form>
+	            <button type="submit">비밀번호 변경</button>
+	        </form>
 
-    <p><a href="/login">로그인으로 돌아가기</a></p>
+	        <a href="/login">로그인으로 돌아가기</a>
+	    </div>
+	</div>
     
     <script src="${pageContext.request.contextPath}/JS/resetPassword.js"></script>
 </body>

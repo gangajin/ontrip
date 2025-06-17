@@ -5,18 +5,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/CSS/findPassword.css">
 </head>
 <body>
-	<h2>비밀번호 찾기</h2>
-	<p>가입 시 등록한 이메일 주소로 비밀번호 변경 링크 보내드립니다. </p>
-	
-	<form name="findPassword" method="post" action="/findPasswordProcess" onsubmit="return emailCheck()">
-		이메일
-		<input type="text" name="userId" id="userId" placeholder="이메일 주소 입력"><br><br>
-        <input type="submit" value="인증 메일 보내기">
-	</form>
-	
-	<p><a href="/login">로그인 화면가기</a></p>
+	<div class="find-container">
+	    <div class="find-box">
+	    	<a href="/">
+				<img src="/Image/header/logo.png" alt="로고" style="height: 100px;">
+			</a>
+			
+	        <h5>가입 시 등록한 이메일 주소로 비밀번호 변경 링크 보내드립니다.</h5>
+
+	        <form name="findPassword" method="post" action="/findPasswordProcess" onsubmit="return emailCheck()">
+	            <label>이메일</label>
+	            <input type="text" name="userId" id="userId" placeholder="이메일 주소 입력">
+	            <button type="submit">인증 메일 보내기</button>
+	        </form>
+
+	        <a href="/login">로그인 화면가기</a>
+	    </div>
+	</div>
 	
 	<script src="${pageContext.request.contextPath}/JS/findPw-emailSubmit.js"></script>
 </body>
