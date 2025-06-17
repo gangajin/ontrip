@@ -1,5 +1,7 @@
 package com.onTrip.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +26,12 @@ public interface UserDao {
 
    //OAuth 통합
    void insertSocialUser(UserDto userDto);
+   
+   //어드민 페이지 유저관리
+   List<UserDto> selectAllUsers();
+   List<UserDto> searchUsers(@Param("keyword") String keyword); //검색
+   void updateUserStatus(@Param("userNum") int userNum, @Param("status") String status);//상태 업데이트
+   void deleteUser(@Param("userNum") int userNum);//강제탈퇴 (삭제)
+
+
 }

@@ -1,5 +1,7 @@
 package com.onTrip.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,22 @@ public class UserService {
    public void registerSocialUser(UserDto userDto) {
 	    userDao.insertSocialUser(userDto);
    }
+   
+   //어드민 페이지 유저관리
+   public List<UserDto> getAllUsers() {
+       return userDao.selectAllUsers();
+   }
+
+   public List<UserDto> searchUsers(String keyword) {
+       return userDao.searchUsers(keyword);
+   }
+
+   public void updateUserStatus(int userNum, String status) {
+       userDao.updateUserStatus(userNum, status);
+   }
+   
+   public void deleteUser(int userNum) {
+	    userDao.deleteUser(userNum);
+	}
 
 }

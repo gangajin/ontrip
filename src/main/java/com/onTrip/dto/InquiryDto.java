@@ -11,7 +11,11 @@ public class InquiryDto {
 	private String inquiryStatus;
 	private String inquiryContent;
 	private LocalDateTime inquiryTime;
-	private int userNum;
+	private Integer userNum;
 	private List<ReplyDto> replies;
 	private String userNickname;
+	
+	// 비회원 식별용 사용자 입력 ID
+	private String userIdText;
+
 }

@@ -39,7 +39,16 @@
                 <tr>
                     <td>${inquiry.inquiryNum}</td>
                     <td>${inquiry.inquiryTitle}</td>
-                    <td>${inquiry.userNickname}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${inquiry.userNum == null}">
+                                <span style="color: red; font-weight: bold;">비회원 (${inquiry.userIdText})</span>
+                            </c:when>
+                            <c:otherwise>
+                                ${inquiry.userNickname}
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td>
                         <c:choose>
                             <c:when test="${inquiry.inquiryStatus == '완료'}">

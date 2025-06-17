@@ -74,4 +74,29 @@ public class InquiryController {
 	        return "Inquiry/inquiryDetail"; 
 	    }
 	    
+	    //비회원 문의
+	    @RequestMapping("/publicInquiryWrite")
+	    public String publicInquiryWriteForm() {
+	        return "Inquiry/publicInquiryWrite";
+	    }
+
+	    @RequestMapping("/publicInquirySubmit")
+	    public String publicInquirySubmit(@RequestParam("userId") String userId,
+	                                      @RequestParam("title") String title,
+	                                      @RequestParam("content") String content,
+	                                      Model model) {
+	        if (userId == null || userId.trim().isEmpty() ||
+	            title == null || title.trim().isEmpty() ||
+	            content == null || content.trim().isEmpty()) {
+	            
+	            model.addAttribute("errorMessage", "이메일, 제목, 내용을 모두 입력해주세요.");
+	            return "Inquiry/publicInquiryWrite";
+	        }
+
+	        // 수정된 서비스 호출 (title 인자 포함)
+	        inquiryService.savePublicInquiry(userId, title, content);
+	        model.addAttribute("successMessage", "문의가 정상적으로 접수되었습니다!");
+	        return "Inquiry/publicInquiryWrite";
+	    }
+	    
 }

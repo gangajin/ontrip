@@ -40,6 +40,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         session.setAttribute("loginUser", loginUser);
+        session.setAttribute("userNum", loginUser.getUserNum());
 
         return oAuth2User;
     }

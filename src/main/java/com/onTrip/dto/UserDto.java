@@ -14,4 +14,6 @@ public class UserDto {
 	private String userRole;
 	private String socialType;
 	private String socialId;
+	
+	private String userStatus;  // ✅ 회원 상태 (정상, 잠금, 휴면, 탈퇴)
 }

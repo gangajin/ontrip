@@ -29,5 +29,5 @@ public class DestinationServiceImpl implements DestinationService{
 	public List<DestinationDto> searchDestination(String keyword) {
 	    return destinationDao.searchDestination(keyword);
 	}
-
+	
 }

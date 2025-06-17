@@ -1,5 +1,6 @@
 package com.onTrip.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,20 @@ public class InquiryService {
 	   public void updateInquiryStatus(int inquiryNum, String status) {
 	    	inquirydao.updateInquiryStatus(inquiryNum, status);
 	    }
+	   
+	   //비회원 전용 문의
+	   public void savePublicInquiry(String userIdText, String title,String content) {
+		    InquiryDto inquiry = new InquiryDto();
+		    inquiry.setUserNum(null);  // 로그인 사용자 아님
+		    inquiry.setUserIdText(userIdText);  // 새 필드 필요
+		    inquiry.setInquiryTitle(title);
+		    inquiry.setInquiryContent(content);
+		    inquiry.setInquiryStatus("대기");
+		    inquiry.setInquiryTime(LocalDateTime.now());
+
+		    inquirydao.insertPublicInquiry(inquiry);
+		}
+
 	   
 	}
 

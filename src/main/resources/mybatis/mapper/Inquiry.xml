@@ -24,7 +24,7 @@
 	 <select id="selectAllInquiries" resultType="com.onTrip.dto.InquiryDto">
 	    select i.*, u.userNickname
 	    from inquiry i
-	    join user u on i.userNum = u.userNum
+	    left join user u on i.userNum = u.userNum
 	    order by i.inquiryTime desc
 	</select>
 
@@ -33,4 +33,10 @@
 	    set inquiryStatus = #{inquiryStatus}
 	    where inquiryNum = #{inquiryNum}
 	</update>
+	
+	<!-- 비회원 문의 저장용 insert 문  -->
+	<insert id="insertPublicInquiry" parameterType="com.onTrip.dto.InquiryDto">
+	    insert into inquiry (inquiryTitle, inquiryStatus, inquiryContent, inquiryTime, userNum, userIdText)
+	     values (#{inquiryTitle}, #{inquiryStatus}, #{inquiryContent}, #{inquiryTime}, #{userNum}, #{userIdText})
+	</insert>
 	</mapper>

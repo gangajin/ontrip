@@ -15,4 +15,7 @@ public interface DestinationDao {
 	DestinationDto selectByNum(int destinationNum); //지도 쓰기위함
 	
     List<DestinationDto> searchDestination(@Param("keyword") String keyword);
+    
+    // 관리자용 전체 지역 조회
+    List<DestinationDto> adminSelectAll();
 }

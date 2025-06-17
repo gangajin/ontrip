@@ -36,4 +36,28 @@
 		insert into user(userId, userNickname, socialId, socialType, userRole)
 		 values(#{userId}, #{userNickname}, #{socialId}, #{socialType}, #{userRole})
 	</insert>
+	
+	<!-- 어드민 페이지 로그인관리 -->
+	<select id="selectAllUsers" resultType="com.onTrip.dto.UserDto">
+	    SELECT * FROM user
+	</select>
+	
+	<select id="searchUsers" resultType="com.onTrip.dto.UserDto">
+	    SELECT * FROM user
+	    WHERE userNickname LIKE CONCAT('%', #{keyword}, '%')
+	       OR userId LIKE CONCAT('%', #{keyword}, '%')
+	       OR userStatus LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+	
+	<update id="updateUserStatus">
+	    UPDATE user
+	    SET userStatus = #{status}
+	    WHERE userNum = #{userNum}
+	</update>
+	
+	<delete id="deleteUser">
+	    DELETE FROM user
+	    WHERE userNum = #{userNum}
+	</delete>
+	
 </mapper>

@@ -46,7 +46,7 @@
 </style>
 </head>
 <body>
-<c:if test="${sessionScope.loginUser.role ne 'admin'}">
+<c:if test="${sessionScope.loginUser.userRole ne 'admin'}">
 <div class="inquiry-list-container">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2>나의 문의 내역</h2>

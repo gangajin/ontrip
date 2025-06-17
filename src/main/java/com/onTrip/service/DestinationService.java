@@ -13,4 +13,5 @@ public interface DestinationService {
 	DestinationDto getDestinationByNum(int destinationNum);  //지도 쓰기위함
 
 	 List<DestinationDto> searchDestination(@Param("keyword") String keyword);
+	 
 }

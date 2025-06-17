@@ -18,4 +18,8 @@ public interface InquiryDao {
 	List<InquiryDto> selectAllInquiries();
 	
 	void updateInquiryStatus(@Param("inquiryNum") int inquiryNum, @Param("inquiryStatus") String status);
+
+	//비회원문의 시 필요
+	void insertPublicInquiry(InquiryDto inquiry);
+
 }

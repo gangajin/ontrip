@@ -69,6 +69,13 @@ public class PasswordTokenController {
         if (userId != null) {
             String encodedPw = passwordEncoder.encode(userPasswd);
             userDao.updatePassword(userId, encodedPw);
+            
+         // 상태가 휴면이면 정상으로 전환
+            UserDto user = userDao.findByUserId(userId);
+            if ("휴면".equals(user.getUserStatus())) {
+                userDao.updateUserStatus(user.getUserNum(), "정상");
+            }
+            
             tokenDao.delete(token);
         }
 
