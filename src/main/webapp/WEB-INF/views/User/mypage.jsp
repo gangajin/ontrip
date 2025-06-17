@@ -1,18 +1,73 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지 - 작성 중인 스케줄</title>
+    <title>마이페이지</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- 부트스트랩 아이콘 CDN -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .profile-header {
+            background-color: #4ad8e9;
+            height: 250px;
+            position: relative;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            border-radius: 50%;
+            display: inline-block;
+            margin-top: -50px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-avatar i {
+            color: white;
+            font-size: 40px;
+            line-height: 100px;
+        }
+        .profile-info {
+            background-color: white;
+            padding-top: 60px;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .table-container {
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h3>📝 작성 중인 여행 일정</h3>
-    <table class="table table-hover mt-3">
-        <thead>
+<%@ include file="../header.jsp" %>
+<!-- 프로필 정보 영역 -->
+<div class="profile-info">
+    <div class="profile-avatar d-inline-flex justify-content-center align-items-center">
+        <i class="bi bi-person-fill"></i>
+    </div>
+    <div>${sessionScope.loginUser.userNickname}님</div>
+    <div>
+        <a href="#" class="text-primary text-decoration-none">
+            프로필 관리 <i class="bi bi-gear-fill"></i>
+        </a>
+    </div>
+</div>
+
+<!-- 작성 중인 여행 일정 테이블 -->
+<div class="table-container">
+    <h4 class="mb-3">📝 작성 중인 여행 일정</h4>
+    <table class="table table-hover">
+        <thead class="table-light">
         <tr>
             <th>일정 번호</th>
             <th>여행 시작</th>
