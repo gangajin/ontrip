@@ -253,15 +253,21 @@
 
     function goToStep3() {
         const destinationNum = "${destinationNum}";
+        const scheduleStart = "${scheduleStartParam}";
+        const scheduleEnd = "${scheduleEndParam}";
 
-        $.post("/saveScheduleToSession", {
-            scheduleStart: "${scheduleStart}",
-            scheduleEnd: "${scheduleEnd}"
-        }, function() {
+        fetch("/saveScheduleToSession", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}`
+        }).then(() => {
             location.href = `/selectStayHotel?destinationNum=${destinationNum}`;
+        }).catch(err => {
+            alert("세션 저장 실패");
         });
     }
-
     function setCategoryAndSubmit(category) {
         document.getElementById("categoryInput").value = category;
         document.getElementById("searchForm").submit();

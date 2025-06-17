@@ -4,23 +4,24 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onTrip.dao.PlaceDao">
 
-    <select id="placeHotelList" resultType="com.onTrip.dto.PlaceDto">
+    <select id="placeHotelList" resultMap="PlaceResultMap">
         select placeNum, placeName, placeRoadAddr,
                placeDetailAddr, placeLat, placeLong,
-               placeImage, placeContent, placelike, placeScore
+               placeImage, placeContent, placelike, placeScore, destinationNum
         from place
         where destinationNum = #{destinationNum} and placeCategory = 'hotel'
     </select>
 
-    <select id="searchHotel" resultType="com.onTrip.dto.PlaceDto">
-        select placeNum, placeName, placeRoadAddr,
-               placeDetailAddr, placeLat, placeLong,
-               placeImage, placeContent, placelike, placeScore
-        from place
-        where destinationNum = #{destinationNum}
-          and placeCategory = 'hotel'
-          and placeName like concat('%', #{keyword}, '%')
-    </select>
+	<select id="searchHotel" resultMap="PlaceResultMap">
+	  select
+	    placeNum, placeName, placeCategory, placeRoadAddr, placeDetailAddr,
+	    placeLat, placeLong, placeImage, placeContent,
+	    destinationNum, placelike, placeScore, kakaoPlaceId, placeExternalApiId
+	  from place
+	  where destinationNum = #{destinationNum}
+	    and placeCategory = 'hotel'    
+	    and placeName like concat('%', #{keyword}, '%')
+	</select>
     
     <resultMap id="PlaceResultMap" type="com.onTrip.dto.PlaceDto">
 	    <result property="placeNum" column="placeNum"/>

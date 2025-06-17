@@ -1,7 +1,6 @@
 package com.onTrip.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onTrip.dao.DestinationDao;
 import com.onTrip.dao.PlaceDao;
 import com.onTrip.dao.ScheduleDao;
 import com.onTrip.dao.StayHotelDao;
 import com.onTrip.dto.DestinationDto;
-import com.onTrip.dto.ScheduleDto;
+import com.onTrip.dto.PlaceDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -39,68 +41,76 @@ public class StayHotelController {
     @RequestMapping("selectStayHotel")
     public String selectStayHotel(
             @RequestParam("destinationNum") int destinationNum,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "scheduleStart", required = false) String startStr,
+            @RequestParam(value = "scheduleEnd", required = false) String endStr,
             HttpSession session,
             Model model) {
 
-        // 날짜 파싱
-        LocalDate scheduleStart;
-        LocalDate scheduleEnd;
 
+        // 날짜 가져오기
         Object startObj = session.getAttribute("scheduleStart");
         Object endObj = session.getAttribute("scheduleEnd");
 
-        if (startObj instanceof String) {
-            scheduleStart = LocalDate.parse((String) startObj);
-            scheduleEnd = LocalDate.parse((String) endObj);
-        } else {
-            scheduleStart = (LocalDate) startObj;
-            scheduleEnd = (LocalDate) endObj;
+        LocalDate scheduleStart;
+        LocalDate scheduleEnd;
+
+        try {
+            scheduleStart = (startObj instanceof String)
+                    ? LocalDate.parse((String) startObj)
+                    : (LocalDate) startObj;
+
+            scheduleEnd = (endObj instanceof String)
+                    ? LocalDate.parse((String) endObj)
+                    : (LocalDate) endObj;
+        } catch (Exception e) {
+            scheduleStart = LocalDate.now();
+            scheduleEnd = scheduleStart.plusDays(2);
+            session.setAttribute("scheduleStart", scheduleStart.toString());
+            session.setAttribute("scheduleEnd", scheduleEnd.toString());
         }
 
-        // 일정 번호가 없고 로그인 상태일 경우 일정 생성
-        if (session.getAttribute("scheduleNum") == null && session.getAttribute("userNum") != null) {
-            Integer userNum = (Integer) session.getAttribute("userNum");
-
-            ScheduleDto scheduleDto = new ScheduleDto();
-            scheduleDto.setUserNum(userNum);
-            scheduleDto.setDestinationNum(destinationNum);
-            scheduleDto.setScheduleStart(scheduleStart);
-            scheduleDto.setScheduleEnd(scheduleEnd);
-
-            scheduleDao.insertSchedule(destinationNum, scheduleStart, scheduleEnd, userNum);
-            int scheduleNum = scheduleDao.getLastInsertId(); // ← insert 후 ID를 가져오는 방식 필요
-            session.setAttribute("scheduleNum", scheduleNum);
+        // 날짜 리스트 생성
+        List<String> travelDates = new ArrayList<>();
+        LocalDate current = scheduleStart;
+        while (!current.isAfter(scheduleEnd)) {
+            travelDates.add(current.toString());
+            current = current.plusDays(1);
         }
+        model.addAttribute("travelDates", travelDates);
 
-        // 목적지 및 호텔 정보 전달
+        // 목적지 정보
         DestinationDto destination = destinationDao.selectByNum(destinationNum);
+        if (destination == null) throw new RuntimeException("목적지 조회 실패");
 
-        model.addAttribute("destinationNum", destinationNum);
         model.addAttribute("destinationLat", destination.getDestinationLat());
         model.addAttribute("destinationLong", destination.getDestinationLong());
         model.addAttribute("destinationName", destination.getNameKo());
-        model.addAttribute("hotelList", placedao.placeHotelList(destinationNum));
-        model.addAttribute("scheduleStart", scheduleStart);
-        model.addAttribute("scheduleEnd", scheduleEnd);
+        model.addAttribute("destinationNum", destinationNum);
 
-        // 여행 날짜 리스트
-        List<String> travelDates = new ArrayList<>();
-        for (LocalDate date = scheduleStart; !date.isAfter(scheduleEnd); date = date.plusDays(1)) {
-            travelDates.add(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        // 숙소 리스트
+        List<PlaceDto> hotelList = (keyword == null || keyword.isEmpty())
+                ? placedao.placeHotelList(destinationNum)
+                : placedao.searchHotel(destinationNum, keyword);
+        model.addAttribute("hotelList", hotelList);
+
+        // JSON 변환
+        try {
+        	String json = new ObjectMapper().writeValueAsString(hotelList);
+        	model.addAttribute("hotelListJson", json); 
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            model.addAttribute("hotelListJson", "[]");
         }
-
-        session.setAttribute("destinationNum", destinationNum);
-        session.setAttribute("travelDates", travelDates);
 
         return "Schedule/selectStayHotel";
     }
 
-    @RequestMapping("/saveStayHotel")
+    @RequestMapping("saveStayHotel")
     public String saveStayHotel(HttpServletRequest request, HttpSession session) {
         Integer userNum = (Integer) session.getAttribute("userNum");
 
         if (userNum == null) {
-            // 로그인 안 된 상태: 임시 저장 후 로그인 요청
             session.setAttribute("temp_stayHotelDate", request.getParameterValues("stayHotelDate"));
             session.setAttribute("temp_placeNum", request.getParameterValues("placeNum"));
             session.setAttribute("redirectAfterLogin", "/resumeStayHotelSave");
@@ -118,11 +128,10 @@ public class StayHotelController {
         return "redirect:/scheduleDetail?scheduleNum=" + scheduleNum;
     }
 
-    @RequestMapping("/resumeStayHotelSave")
+    @RequestMapping("resumeStayHotelSave")
     public String resumeStayHotelSave(HttpSession session) {
         String[] stayHotelDates = (String[]) session.getAttribute("temp_stayHotelDate");
         String[] placeNums = (String[]) session.getAttribute("temp_placeNum");
-
         Integer userNum = (Integer) session.getAttribute("userNum");
         Integer scheduleNum = (Integer) session.getAttribute("scheduleNum");
 
@@ -130,43 +139,46 @@ public class StayHotelController {
             return "redirect:/";
         }
 
-        // 로그인 후 일정이 없다면 생성
         if (scheduleNum == null) {
             int destinationNum = (Integer) session.getAttribute("destinationNum");
-            LocalDate scheduleStart;
-            LocalDate scheduleEnd;
 
             Object startObj = session.getAttribute("scheduleStart");
             Object endObj = session.getAttribute("scheduleEnd");
 
-            if (startObj instanceof String) {
-                scheduleStart = LocalDate.parse((String) startObj);
-                scheduleEnd = LocalDate.parse((String) endObj);
-            } else {
-                scheduleStart = (LocalDate) startObj;
-                scheduleEnd = (LocalDate) endObj;
+            LocalDate start, end;
+
+            try {
+                start = (startObj instanceof String)
+                        ? LocalDate.parse((String) startObj)
+                        : (LocalDate) startObj;
+
+                end = (endObj instanceof String)
+                        ? LocalDate.parse((String) endObj)
+                        : (LocalDate) endObj;
+            } catch (Exception e) {
+                throw new RuntimeException("여행 날짜가 유효하지 않습니다.", e);
             }
 
-            ScheduleDto scheduleDto = new ScheduleDto();
-            scheduleDto.setUserNum(userNum);
-            scheduleDto.setDestinationNum(destinationNum);
-            scheduleDto.setScheduleStart(scheduleStart);
-            scheduleDto.setScheduleEnd(scheduleEnd);
-
-            scheduleDao.insertSchedule(destinationNum, scheduleStart, scheduleEnd, userNum);
-            scheduleNum = scheduleDao.getLastInsertId(); // 실제 저장된 ID 가져오기
+            scheduleDao.insertSchedule(destinationNum, start, end, userNum);
+            scheduleNum = scheduleDao.getLastInsertId();
             session.setAttribute("scheduleNum", scheduleNum);
         }
 
-        // 숙소 정보 저장
         for (int i = 0; i < stayHotelDates.length; i++) {
             stayhoteldao.insertStayHotel(scheduleNum, stayHotelDates[i], Integer.parseInt(placeNums[i]));
         }
 
-        // 임시 세션 값 제거
         session.removeAttribute("temp_stayHotelDate");
         session.removeAttribute("temp_placeNum");
 
         return "redirect:/scheduleDetail?scheduleNum=" + scheduleNum;
+    }
+
+    @ResponseBody
+    @RequestMapping("/ajax/searchHotel")
+    public List<PlaceDto> searchHotel(@RequestParam("destinationNum") int destinationNum,
+                                      @RequestParam("keyword") String keyword) {
+        List<PlaceDto> result = placedao.searchHotel(destinationNum, keyword);
+        return result;
     }
 }
