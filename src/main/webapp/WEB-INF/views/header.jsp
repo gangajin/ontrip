@@ -35,7 +35,6 @@
 	
 	      <c:if test="${sessionScope.loginUser.userRole eq 'admin'}">
 	        <a href="/adminMain">관리자 페이지</a>
-	        <a href="/admininquiry">회원 문의현황</a>
 	      </c:if>
 	
 	      <c:if test="${sessionScope.loginUser.userRole ne 'admin'}">
