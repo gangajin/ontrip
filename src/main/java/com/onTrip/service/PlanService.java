@@ -6,14 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onTrip.dao.PlanDao;
+import com.onTrip.dao.StayHotelDao;
 import com.onTrip.dto.PlaceDto;
+import com.onTrip.dto.StayHotelDto;
 
 @Service
 public class PlanService {
 
     @Autowired
     private PlanDao planDao;
-
+    
+    @Autowired
+    private StayHotelDao stayHotelDao;
     // Plan 추가
     public void addPlan(int userNum, int scheduleNum, int placeNum) {
         if (planDao.checkPlanExists(userNum, scheduleNum, placeNum) == 0) {
@@ -34,5 +38,11 @@ public class PlanService {
     public List<PlaceDto> selectPlanMarker(int userNum, int scheduleNum) {
         return planDao.selectPlanMarker(userNum, scheduleNum);
     }
+    
+    
 
+    public List<StayHotelDto> getStayHotelsByScheduleNum(int scheduleNum) {
+        return stayHotelDao.selectByScheduleNum(scheduleNum);
+    }
+    
 }

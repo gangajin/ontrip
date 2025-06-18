@@ -27,5 +27,5 @@ public interface PlanDao {
                                       @Param("scheduleNum") int scheduleNum);
     //지도 마커찍기
     List<PlaceDto> selectPlanMarker(@Param("userNum") int userNum, @Param("scheduleNum") int scheduleNum);
-
+    
 }

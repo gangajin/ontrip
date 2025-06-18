@@ -43,5 +43,16 @@ public class ScheduleService {
 	    public ScheduleDto getScheduleWithUserNum(int scheduleNum, int userNum, int destinationNum) {
 	        return scheduleDao.selectScheduleWithUserNum(scheduleNum, userNum, destinationNum);
 	    }
-
+	    
+	    public List<ScheduleDto> selectByScheduleNum(int scheduleNum) {
+	        return scheduleDao.selectByScheduleNum(scheduleNum);
+	    }
+	    
+	    
+	    public int getPlanIdByScheduleNum(int scheduleNum) {
+	        return scheduleDao.getPlanIdByScheduleNum(scheduleNum);
+	    }
+	    public ScheduleDto selectOneByScheduleNum(int scheduleNum) {
+	        return scheduleDao.selectOneByScheduleNum(scheduleNum);
+	    }
 }

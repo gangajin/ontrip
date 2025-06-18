@@ -29,5 +29,9 @@ public interface ScheduleDao {
     // ScheduleDao.java
     ScheduleDto selectScheduleWithUserNum(@Param("scheduleNum") int scheduleNum, @Param("userNum") int userNum, @Param("destinationNum") int destinationNum);
 
-
+    List<ScheduleDto> selectByScheduleNum(@Param("scheduleNum") int scheduleNum);
+    
+    int getPlanIdByScheduleNum(int scheduleNum);
+    
+    ScheduleDto selectOneByScheduleNum(int scheduleNum);
 }

@@ -40,5 +40,12 @@
 	      AND pl.scheduleNum = #{scheduleNum}
 	</select>
     
-
+	<select id="getPlaceListByPlanId" resultType="com.onTrip.dto.PlaceDto">
+    select p.*
+    from plan pl
+    join place p on pl.placeNum = p.placeNum
+    WHERE pl.scheduleNum in (
+        select scheduleNum from schedule where plan_id = #{planId}
+    )
+</select>
 </mapper>

@@ -87,9 +87,16 @@
         )
     </insert>
     
+    <!-- 일정생성전에 조회 -->
+	<select id="selectByScheduleNum" resultType="com.onTrip.dto.PlaceDto">
+	  select p.* from plan pl
+	  join place p on pl.placeNum = p.placeNum
+	  where pl.scheduleNum = #{scheduleNum}
+	</select>
+	
     <!-- 전체 장소 조회 (관리자용) -->
 	<select id="adminAllPlaces" resultType="com.onTrip.dto.PlaceDto">
-	    SELECT * FROM place ORDER BY placeNum DESC
+	    select * from place order by placeNum desc
 	</select>
 	
 	<!-- 특정 destination의 장소 조회 (관리자용) -->

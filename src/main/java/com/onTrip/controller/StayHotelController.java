@@ -125,7 +125,7 @@ public class StayHotelController {
             stayhoteldao.insertStayHotel(scheduleNum, stayHotelDates[i], Integer.parseInt(placeNums[i]));
         }
 
-        return "redirect:/scheduleDetail?scheduleNum=" + scheduleNum;
+        return "redirect:/schedulePreview?scheduleNum=" + scheduleNum;
     }
 
     @RequestMapping("resumeStayHotelSave")

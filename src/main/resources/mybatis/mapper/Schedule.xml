@@ -15,6 +15,11 @@
     <select id="getLastInsertId" resultType="int">
         select last_insert_id()
     </select>
+    <!-- 해당하는 스케쥴 하나만 가져오기 -->
+    <select id="selectOneByScheduleNum" resultType="com.onTrip.dto.ScheduleDto">
+	    SELECT * FROM schedule
+	    WHERE scheduleNum = #{scheduleNum}
+	</select>
     
     <select id="getScheduleByNum" parameterType="int" resultType="com.onTrip.dto.ScheduleDto">
         SELECT *
@@ -63,5 +68,8 @@
 	    WHERE s.scheduleNum = #{scheduleNum}
 	      AND s.userNum = #{userNum}
 	</select>
-
+	
+	<select id="selectByScheduleNum" resultType="com.onTrip.dto.ScheduleDto">
+	    SELECT * FROM schedule WHERE scheduleNum = #{scheduleNum}
+	</select>
 </mapper>

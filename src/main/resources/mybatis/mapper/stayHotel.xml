@@ -7,4 +7,18 @@
 		    insert into stayhotel (scheduleNum, stayHotelDate, placeNum)
 		    values (#{scheduleNum}, #{stayHotelDate}, #{placeNum})
 		</insert>
+		
+	<select id="selectByScheduleNum" resultType="com.onTrip.dto.StayHotelDto">
+	   select
+		    s.*, 
+		    p.placeName, 
+		    p.placeImage, 
+		    p.placeLat, 
+		    p.placeLong
+		  from stayhotel s
+		  join place p on s.placeNum = p.placeNum
+		  where s.scheduleNum = #{scheduleNum}
+	</select>
+	
+
 	</mapper>
