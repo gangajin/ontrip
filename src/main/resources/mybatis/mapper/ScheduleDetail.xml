@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onTrip.dao.ScheduleDetailDao">
+
+    <insert id="insert" parameterType="com.onTrip.dto.ScheduleDetailDto">
+        INSERT INTO scheduleDetail (
+            scheduleDetailDay,
+            scheduleDetailMemo,
+            placeNum,
+            scheduleNum
+        ) VALUES (
+            #{scheduleDetailDay},
+            #{scheduleDetailMemo},
+            #{placeNum},
+            #{scheduleNum}
+        )
+    </insert>
+    
+    <!-- ScheduleDetail.xml -->
+	<select id="getScheduleDetailsWithPlace" resultMap="ScheduleDetailResultMap">
+	    SELECT sd.*, 
+	           p.placeName, p.placeCategory, p.placeRoadAddr, p.placeLat, p.placeLong,
+	           p.placeImage, p.placeContent, p.placelike, p.placeScore, p.destinationNum
+	    FROM scheduleDetail sd
+	    JOIN place p ON sd.placeNum = p.placeNum
+	    WHERE sd.scheduleNum = #{scheduleNum}
+	    ORDER BY sd.scheduleDetailDay ASC
+	</select>
+	
+	<resultMap id="ScheduleDetailResultMap" type="com.onTrip.dto.ScheduleDetailDto">
+	    <id property="scheduleDetailNum" column="scheduleDetailNum"/>
+	    <result property="scheduleDetailDay" column="scheduleDetailDay"/>
+	    <result property="scheduleDetailMemo" column="scheduleDetailMemo"/>
+	    <result property="placeNum" column="placeNum"/>
+	    <result property="scheduleNum" column="scheduleNum"/>
+	
+	    <association property="place" javaType="com.onTrip.dto.PlaceDto">
+	        <id property="placeNum" column="placeNum"/>
+	        <result property="placeName" column="placeName"/>
+	        <result property="placeCategory" column="placeCategory"/>
+	        <result property="placeRoadAddr" column="placeRoadAddr"/>
+	        <result property="placeLat" column="placeLat"/>
+	        <result property="placeLong" column="placeLong"/>
+	        <result property="placeImage" column="placeImage"/>
+	        <result property="placeContent" column="placeContent"/>
+	        <result property="placelike" column="placelike"/>
+	        <result property="placeScore" column="placeScore"/>
+	        <result property="destinationNum" column="destinationNum"/>
+	    </association>
+	</resultMap>
+    
+</mapper>
