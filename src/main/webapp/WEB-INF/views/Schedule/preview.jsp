@@ -215,7 +215,7 @@
     </div>
 
     <form id="transportForm" action="/generateAiSchedule" method="post">
-      <input type="hidden" name="planId" value="${schedule.scheduleNum}" />
+      <input type="hidden" name="scheduleNum" value="${schedule.scheduleNum}" />
       <input type="hidden" name="transportType" id="transportType" value="대중교통" />
       <div class="modal-footer">
         <button type="button" class="close-btn" onclick="closeTransportModal()">닫기</button>

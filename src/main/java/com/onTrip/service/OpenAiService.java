@@ -27,44 +27,42 @@ public class OpenAiService {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            // 요청 바디 구성 - gpt-4 모델을 사용, 사용자 프롬프트 포함
             String requestBody = """
                 {
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-4",
                     "messages": [
                         { "role": "system", "content": "너는 여행 전문가이자 동선 설계자야. 사용자의 장소 리스트를 가장 효율적인 순서로 재배열해줘." },
                         { "role": "user", "content": "%s" }
                     ],
                     "temperature": 0.7
                 }
-                """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n")); // 따옴표/개행 이스케이프
+                """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(apiKey); // API 키 인증
+            headers.setBearerAuth(apiKey);
 
             HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
-            // GPT API 호출
             ResponseEntity<String> response = restTemplate.exchange(
                     OPENAI_API_URL, HttpMethod.POST, entity, String.class);
 
-            // 응답이 정상이라면 파싱
             if (response.getStatusCode() == HttpStatus.OK) {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode root = mapper.readTree(response.getBody());
 
-                // ✅ 예외 처리: 응답이 비어있거나 잘못된 경우
                 if (!root.has("choices") || !root.path("choices").isArray() || root.path("choices").isEmpty()) {
                     throw new RuntimeException("GPT 응답이 비어 있거나 유효하지 않습니다.");
                 }
 
                 String content = root.path("choices").get(0).path("message").path("content").asText();
 
-                // 응답에서 장소명 추출
                 List<String> result = new ArrayList<>();
                 for (String line : content.split("\n")) {
-                    line = line.replaceAll("^[0-9]+[.)]?\\s*", "").trim(); // 번호 제거
+                    line = line.replaceAll("^[0-9]+[.)]?\\s*", "")
+                               .replaceAll("^(아침|점심|저녁|숙소|명소\\d*):\\s*", "")
+                               .replaceAll("[^가-힣a-zA-Z0-9\\s]", "")
+                               .trim();
                     if (!line.isEmpty()) result.add(line);
                 }
                 return result;
@@ -77,34 +75,58 @@ public class OpenAiService {
         }
     }
 
+
     /**
      * ✅ 프롬프트 생성 메서드
      * 사용자의 장소 리스트, 이동수단, 일정 날짜를 바탕으로 GPT에 보낼 자연어 프롬프트 문자열 생성
      */
-    public String buildAiPrompt(List<PlaceDto> placeList, String transportType, String scheduleStart, String scheduleEnd) {
-        StringBuilder prompt = new StringBuilder();
-
-        // 기본 정보 입력
-        prompt.append("당신은 여행 전문가입니다. 사용자가 여행지를 선택했고, 일정은 다음과 같습니다.\n");
-        prompt.append("이동수단: ").append(transportType).append("\n");
-        prompt.append("여행 기간: ").append(scheduleStart).append(" ~ ").append(scheduleEnd).append("\n\n");
-
-        // 장소 리스트 출력
-        prompt.append("사용자가 선택한 장소 목록은 다음과 같습니다.\n");
-        for (PlaceDto place : placeList) {
-            prompt.append("- 장소명: ").append(place.getPlaceName())
-                  .append(", 카테고리: ").append(place.getPlaceCategory())
-                  .append(", 주소: ").append(place.getPlaceRoadAddr()).append("\n");
-        }
-
-        // 요청 조건 명시
-        prompt.append("\n아래 조건에 따라 1일차, 2일차 등으로 나눠 일정을 짜주세요:\n");
-        prompt.append("- 하루 기준: 아침, 점심, 저녁 식사 장소 1곳씩 포함\n");
-        prompt.append("- 하루 최소 1곳 ~ 최대 3곳의 명소 포함\n");
-        prompt.append("- 숙소에서 가까운 곳 위주로 효율적인 동선을 구성\n");
-        prompt.append("- 반환 형식: '1일차\\n아침: 장소명\\n명소1: 장소명\\n점심: 장소명...' 와 같이 요일별로\n");
-        prompt.append("- 날짜는 자동 분배, 사용자가 카카오 지도로 시각화할 수 있도록 장소명을 명확히 출력");
-
-        return prompt.toString();
-    }
+	public String buildAiPrompt(List<PlaceDto> placeList, String transportType, String scheduleStart, String scheduleEnd) {
+	    StringBuilder prompt = new StringBuilder();
+	
+	    // GPT 역할 설명
+	    prompt.append("당신은 여행 동선을 최적화하는 여행 전문가입니다.\n\n");
+	
+	    // 여행 정보
+	    prompt.append("사용자는 다음과 같은 여행 계획을 가지고 있습니다:\n");
+	    prompt.append("- 이동 수단: ").append(transportType).append("\n");
+	    prompt.append("- 여행 기간: ").append(scheduleStart).append(" ~ ").append(scheduleEnd).append("\n\n");
+	
+	    // 선택한 장소 목록 출력
+	    prompt.append("여행자가 선택한 장소 목록은 다음과 같습니다:\n");
+	    for (PlaceDto place : placeList) {
+	        prompt.append("- ").append(place.getPlaceName())
+	              .append(" (").append(place.getPlaceCategory()).append(", ")
+	              .append(place.getPlaceRoadAddr()).append(")\n");
+	    }
+	
+	    // 일정 구성 조건 설명
+	    prompt.append("\n아래 조건에 따라 요일별 일정을 구성해주세요:\n");
+	    prompt.append("1. 하루 기준:\n");
+	    prompt.append("   - 아침, 점심, 저녁 식사 장소 각 1곳 포함\n");
+	    prompt.append("   - 명소는 하루 1~3곳 포함\n");
+	    prompt.append("   - 숙소 1곳 포함\n");
+	    prompt.append("2. 장소 간 이동 동선을 고려하여 효율적으로 구성해주세요.\n");
+	    prompt.append("3. 결과는 반드시 다음 형식으로 출력해주세요:\n\n");
+	
+	    // 출력 예시 제공
+	    prompt.append("형식 예시:\n");
+	    prompt.append("1일차\n");
+	    prompt.append("- 아침: 에그드랍 서초점\n");
+	    prompt.append("- 명소1: 서울 더 현대\n");
+	    prompt.append("- 점심: 마마스 서래마을본점\n");
+	    prompt.append("- 명소2: 롯데월드타워\n");
+	    prompt.append("- 저녁: 라이너스 바베큐\n");
+	    prompt.append("- 숙소: 글래드 강남 코엑스 센터\n\n");
+	
+	    prompt.append("2일차\n");
+	    prompt.append("- 아침: ...\n");
+	    prompt.append("...\n\n");
+	
+	    // 결과 형식 제한
+	    prompt.append("출력은 반드시 위와 같이 '요일 단위 + 장소명만' 포함된 목록으로 해주세요.\n");
+	    prompt.append("설명, 요약, 기타 문장은 생략하고, 장소명만 명확히 반환해주세요.");
+	
+	    return prompt.toString();
+	}
+	
 }
