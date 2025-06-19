@@ -8,7 +8,9 @@
 <title>메인페이지</title>
 <link rel="stylesheet" href="/CSS/Main-destination.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -23,10 +25,14 @@
 	<input type="text" id="datePicker" style="opacity:0; pointer-events:none; position:absolute;" />
 	
 	<h2>국내 어디로 여행을 떠나시나요?</h2>
-	<form action="/" method="get" style="text-align:center; margin-top:20px;">
-		<input type="text" name="keyword" placeholder="지역명 검색" style="width:200px; height:30px; font-size:16px;">
-		<button type="submit" style="height:34px; font-size:16px;">검색</button>
-	</form>
+	<div class="search-box">
+	  <form action="/" method="get">
+	    <div class="search-input-wrapper">
+	      <input type="text" name="keyword" placeholder="국가명이나 도시명으로 검색해보세요." />
+	      <button type="submit"><i class="fas fa-search"></i></button>
+	    </div>
+	  </form>
+	</div>
 	<div class="destination-container">
 	  <c:forEach var="destination" items="${destinationList}">
 	    <div class="destination-card" onclick="openCalendarWithForm(${destination.destinationNum}, '${destination.nameKo}')">

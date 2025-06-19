@@ -1,7 +1,9 @@
 package com.onTrip.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -58,12 +60,15 @@ public class OpenAiService {
                 String content = root.path("choices").get(0).path("message").path("content").asText();
 
                 List<String> result = new ArrayList<>();
+                Set<String> seen = new HashSet<>();
                 for (String line : content.split("\n")) {
                     line = line.replaceAll("^[0-9]+[.)]?\\s*", "")
                                .replaceAll("^(아침|점심|저녁|숙소|명소\\d*):\\s*", "")
                                .replaceAll("[^가-힣a-zA-Z0-9\\s]", "")
                                .trim();
-                    if (!line.isEmpty()) result.add(line);
+                    if (!line.isEmpty() && seen.add(line)) {
+                        result.add(line);
+                    }
                 }
                 return result;
             } else {
@@ -75,7 +80,6 @@ public class OpenAiService {
         }
     }
 
-
     /**
      * ✅ 프롬프트 생성 메서드
      * 사용자의 장소 리스트, 이동수단, 일정 날짜를 바탕으로 GPT에 보낼 자연어 프롬프트 문자열 생성
@@ -83,15 +87,11 @@ public class OpenAiService {
     public String buildAiPrompt(List<PlaceDto> placeList, String transportType, String scheduleStart, String scheduleEnd) {
         StringBuilder prompt = new StringBuilder();
 
-        // GPT 역할 설명
         prompt.append("당신은 여행 동선을 최적화하는 여행 전문가입니다.\n\n");
-
-        // 여행 정보
         prompt.append("사용자는 다음과 같은 여행 계획을 가지고 있습니다:\n");
         prompt.append("- 이동 수단: ").append(transportType).append("\n");
         prompt.append("- 여행 기간: ").append(scheduleStart).append(" ~ ").append(scheduleEnd).append("\n\n");
 
-        // 선택한 장소 목록 출력
         prompt.append("여행자가 선택한 장소 목록은 다음과 같습니다:\n");
         for (PlaceDto place : placeList) {
             prompt.append("- ").append(place.getPlaceName())
@@ -99,7 +99,6 @@ public class OpenAiService {
                   .append(place.getPlaceRoadAddr()).append(")\n");
         }
 
-        // 일정 구성 조건 설명
         prompt.append("\n아래 조건에 따라 요일별 일정을 구성해주세요:\n");
         prompt.append("1. 하루 기준:\n");
         prompt.append("   - 아침, 점심, 저녁 식사 장소 각 1곳 포함\n");
@@ -108,9 +107,9 @@ public class OpenAiService {
         prompt.append("2. 장소 간 이동 동선을 고려하여 효율적으로 구성해주세요.\n");
         prompt.append("3. 장소는 반드시 사용자가 선택한 장소 목록에서만 사용해주세요. 목록 외 장소는 절대 포함하지 마세요.\n");
         prompt.append("4. 출력은 반드시 아래 예시 형식처럼 각 장소명을 줄 단위로 출력해주세요.\n");
-        prompt.append("5. 절대 설명 문장, 요약 문장 등을 포함하지 마세요. 장소명만 출력하세요.\n\n");
+        prompt.append("5. 절대 설명 문장, 요약 문장 등을 포함하지 마세요. 장소명만 출력하세요.\n");
+        prompt.append("6. 장소명을 정확히 반환해주세요. 주소만 반환하지 마세요.\n");
 
-        // 출력 예시
         prompt.append("형식 예시:\n");
         prompt.append("1일차\n");
         prompt.append("에그드랍 서초점\n");
@@ -125,5 +124,33 @@ public class OpenAiService {
 
         return prompt.toString();
     }
-	
+
+    public List<PlaceDto> matchOrderedPlaces(List<String> orderedNames, List<PlaceDto> placeList) {
+        List<PlaceDto> orderedList = new ArrayList<>();
+        Set<Integer> seenPlaceNums = new HashSet<>();
+
+        for (String name : orderedNames) {
+            String cleanedName = name.trim()
+                                     .replaceAll("[^가-힣a-zA-Z0-9\\s]", "")
+                                     .toLowerCase();
+
+            for (PlaceDto place : placeList) {
+                String dbName = place.getPlaceName().trim()
+                                     .replaceAll("[^가-힣a-zA-Z0-9\\s]", "")
+                                     .toLowerCase();
+                String dbAddr = place.getPlaceRoadAddr().trim()
+                                     .replaceAll("[^가-힣a-zA-Z0-9\\s]", "")
+                                     .toLowerCase();
+
+                if ((dbName.equals(cleanedName) || dbName.contains(cleanedName) || cleanedName.contains(dbName) ||
+                     dbAddr.equals(cleanedName) || dbAddr.contains(cleanedName) || cleanedName.contains(dbAddr))
+                    && seenPlaceNums.add(place.getPlaceNum())) {
+                    orderedList.add(place);
+                    break;
+                }
+            }
+        }
+
+        return orderedList;
+    }
 }

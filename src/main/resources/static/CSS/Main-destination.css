@@ -38,3 +38,40 @@
   color: gray;
   margin-bottom: 10px;
 }
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 500px; /* ✅ 기존 400 → 500으로 약간 길게 */
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 50px;
+  padding: 14px 24px; /* ✅ padding 조금 늘려서 두께감 */
+}
+
+.search-input-wrapper input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: 17px; /* ✅ 기존보다 약간 키움 */
+  font-weight: 500; /* ✅ 약간 더 두껍게 */
+  color: #333;
+}
+
+.search-input-wrapper input::placeholder {
+  color: #aaa;
+}
+
+.search-input-wrapper button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #333;
+}
