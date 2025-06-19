@@ -73,7 +73,7 @@ public class StayHotelController {
         // 날짜 리스트 생성
         List<String> travelDates = new ArrayList<>();
         LocalDate current = scheduleStart;
-        while (!current.isAfter(scheduleEnd)) {
+        while (current.isBefore(scheduleEnd)) {
             travelDates.add(current.toString());
             current = current.plusDays(1);
         }
