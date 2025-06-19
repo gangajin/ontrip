@@ -51,7 +51,7 @@
         <div class="col-md-3">
             <div class="card text-center admin-card p-4">
                 <i class="bi bi-map-fill"></i>
-                <h5 class="card-title">호텔 등록</h5>
+                <h5 class="card-title">장소 등록</h5>
                 <a href="insertplaceform" class="btn btn-outline-warning mt-3">바로가기</a>
             </div>
         </div>
