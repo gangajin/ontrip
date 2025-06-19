@@ -80,53 +80,50 @@ public class OpenAiService {
      * ✅ 프롬프트 생성 메서드
      * 사용자의 장소 리스트, 이동수단, 일정 날짜를 바탕으로 GPT에 보낼 자연어 프롬프트 문자열 생성
      */
-	public String buildAiPrompt(List<PlaceDto> placeList, String transportType, String scheduleStart, String scheduleEnd) {
-	    StringBuilder prompt = new StringBuilder();
-	
-	    // GPT 역할 설명
-	    prompt.append("당신은 여행 동선을 최적화하는 여행 전문가입니다.\n\n");
-	
-	    // 여행 정보
-	    prompt.append("사용자는 다음과 같은 여행 계획을 가지고 있습니다:\n");
-	    prompt.append("- 이동 수단: ").append(transportType).append("\n");
-	    prompt.append("- 여행 기간: ").append(scheduleStart).append(" ~ ").append(scheduleEnd).append("\n\n");
-	
-	    // 선택한 장소 목록 출력
-	    prompt.append("여행자가 선택한 장소 목록은 다음과 같습니다:\n");
-	    for (PlaceDto place : placeList) {
-	        prompt.append("- ").append(place.getPlaceName())
-	              .append(" (").append(place.getPlaceCategory()).append(", ")
-	              .append(place.getPlaceRoadAddr()).append(")\n");
-	    }
-	
-	    // 일정 구성 조건 설명
-	    prompt.append("\n아래 조건에 따라 요일별 일정을 구성해주세요:\n");
-	    prompt.append("1. 하루 기준:\n");
-	    prompt.append("   - 아침, 점심, 저녁 식사 장소 각 1곳 포함\n");
-	    prompt.append("   - 명소는 하루 1~3곳 포함\n");
-	    prompt.append("   - 숙소 1곳 포함\n");
-	    prompt.append("2. 장소 간 이동 동선을 고려하여 효율적으로 구성해주세요.\n");
-	    prompt.append("3. 결과는 반드시 다음 형식으로 출력해주세요:\n\n");
-	
-	    // 출력 예시 제공
-	    prompt.append("형식 예시:\n");
-	    prompt.append("1일차\n");
-	    prompt.append("- 아침: 에그드랍 서초점\n");
-	    prompt.append("- 명소1: 서울 더 현대\n");
-	    prompt.append("- 점심: 마마스 서래마을본점\n");
-	    prompt.append("- 명소2: 롯데월드타워\n");
-	    prompt.append("- 저녁: 라이너스 바베큐\n");
-	    prompt.append("- 숙소: 글래드 강남 코엑스 센터\n\n");
-	
-	    prompt.append("2일차\n");
-	    prompt.append("- 아침: ...\n");
-	    prompt.append("...\n\n");
-	
-	    // 결과 형식 제한
-	    prompt.append("출력은 반드시 위와 같이 '요일 단위 + 장소명만' 포함된 목록으로 해주세요.\n");
-	    prompt.append("설명, 요약, 기타 문장은 생략하고, 장소명만 명확히 반환해주세요.");
-	
-	    return prompt.toString();
-	}
+    public String buildAiPrompt(List<PlaceDto> placeList, String transportType, String scheduleStart, String scheduleEnd) {
+        StringBuilder prompt = new StringBuilder();
+
+        // GPT 역할 설명
+        prompt.append("당신은 여행 동선을 최적화하는 여행 전문가입니다.\n\n");
+
+        // 여행 정보
+        prompt.append("사용자는 다음과 같은 여행 계획을 가지고 있습니다:\n");
+        prompt.append("- 이동 수단: ").append(transportType).append("\n");
+        prompt.append("- 여행 기간: ").append(scheduleStart).append(" ~ ").append(scheduleEnd).append("\n\n");
+
+        // 선택한 장소 목록 출력
+        prompt.append("여행자가 선택한 장소 목록은 다음과 같습니다:\n");
+        for (PlaceDto place : placeList) {
+            prompt.append("- ").append(place.getPlaceName())
+                  .append(" (").append(place.getPlaceCategory()).append(", ")
+                  .append(place.getPlaceRoadAddr()).append(")\n");
+        }
+
+        // 일정 구성 조건 설명
+        prompt.append("\n아래 조건에 따라 요일별 일정을 구성해주세요:\n");
+        prompt.append("1. 하루 기준:\n");
+        prompt.append("   - 아침, 점심, 저녁 식사 장소 각 1곳 포함\n");
+        prompt.append("   - 명소는 하루 1~3곳 포함\n");
+        prompt.append("   - 숙소 1곳 포함\n");
+        prompt.append("2. 장소 간 이동 동선을 고려하여 효율적으로 구성해주세요.\n");
+        prompt.append("3. 장소는 반드시 사용자가 선택한 장소 목록에서만 사용해주세요. 목록 외 장소는 절대 포함하지 마세요.\n");
+        prompt.append("4. 출력은 반드시 아래 예시 형식처럼 각 장소명을 줄 단위로 출력해주세요.\n");
+        prompt.append("5. 절대 설명 문장, 요약 문장 등을 포함하지 마세요. 장소명만 출력하세요.\n\n");
+
+        // 출력 예시
+        prompt.append("형식 예시:\n");
+        prompt.append("1일차\n");
+        prompt.append("에그드랍 서초점\n");
+        prompt.append("서울 더 현대\n");
+        prompt.append("마마스 서래마을본점\n");
+        prompt.append("롯데월드타워\n");
+        prompt.append("라이너스 바베큐\n");
+        prompt.append("글래드 강남 코엑스 센터\n\n");
+
+        prompt.append("2일차\n");
+        prompt.append("...\n\n");
+
+        return prompt.toString();
+    }
 	
 }
