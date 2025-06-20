@@ -10,32 +10,23 @@
     <style>
         .container-flex {
             display: flex;
-            gap: 30px;
+            flex-direction: column;
+            gap: 40px;
         }
 
-        .left {
-            flex: 1;
+        .timeline {
+            border-left: 2px dotted #ccc;
+            padding-left: 20px;
         }
 
-        .right {
-            flex: 1;
-            position: sticky;
-            top: 20px;
+        .timeline-item {
+            position: relative;
         }
 
-        .day-box {
-            background: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .schedule-card {
-            border-radius: 10px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            padding: 15px;
-            margin-top: 10px;
+        .timeline-icon {
+            position: absolute;
+            left: -40px;
+            top: 5px;
         }
 
         #map {
@@ -53,26 +44,71 @@
     <h3 class="mb-4">🗓 AI 자동 생성된 일정 미리보기</h3>
 
     <div class="container-flex">
-        <!-- 왼쪽: 일정 -->
-        <div class="left">
+        <!-- 일정 영역 -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             <c:forEach var="entry" items="${groupedDetailMap}" varStatus="dayStatus">
-                <div class="day-box">
-                    <h4>📅 ${dayStatus.index + 1}일차 (${entry.key})</h4>
+                <div class="col">
+                    <div class="border rounded p-3 h-100 bg-light">
+                        <!-- 일차 헤더 -->
+                        <h5 class="mb-3 text-center">📅 ${dayStatus.index + 1}일차<br>(${entry.key})</h5>
 
-                    <c:forEach var="detail" items="${entry.value}" varStatus="placeStatus">
-                        <div class="schedule-card">
-                            <p><strong>${placeStatus.index + 1}번 장소</strong></p>
-                            <p><strong>시간:</strong> <fmt:formatDate value="${detail.scheduleDetailDay}" pattern="yyyy-MM-dd HH:mm" /></p>
-                            <p><strong>장소명:</strong> ${detail.place.placeName}</p>
-                            <p><strong>주소:</strong> ${detail.place.placeRoadAddr}</p>
+                        <!-- 타임라인 시작 -->
+                        <div class="timeline position-relative ms-4">
+                            <c:forEach var="detail" items="${entry.value}" varStatus="placeStatus">
+                                <div class="timeline-item d-flex mb-4">
+                                    <!-- 순서 원형 번호 + 색상 -->
+                                    <div class="timeline-icon me-3">
+                                        <span class="badge rounded-circle text-white fs-6 px-3 py-2
+                                            <c:choose>
+                                                <c:when test="${dayStatus.index == 0}"> bg-danger</c:when>
+                                                <c:when test="${dayStatus.index == 1}"> bg-primary</c:when>
+                                                <c:when test="${dayStatus.index == 2}"> bg-success</c:when>
+                                                <c:when test="${dayStatus.index == 3}"> bg-warning text-dark</c:when>
+                                                <c:otherwise> bg-secondary</c:otherwise>
+                                            </c:choose>">
+                                            ${placeStatus.index + 1}
+                                        </span>
+                                    </div>
+
+                                    <!-- 카드 정보 -->
+                                    <div class="timeline-content card flex-fill shadow-sm border-0">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-1">${detail.place.placeName}</h6>
+                                            <p class="mb-1"><strong>시간:</strong>
+                                                <fmt:formatDate value="${detail.scheduleDetailDay}" pattern="yyyy-MM-dd HH:mm" />
+                                            </p>
+                                            <p class="mb-1"><strong>주소:</strong> ${detail.place.placeRoadAddr}</p>
+                                            <p class="mb-0">
+                                                <c:choose>
+                                                    <c:when test="${detail.place.placeCategory == 'attraction'}">
+                                                        <span class="badge bg-primary">명소</span>
+                                                    </c:when>
+                                                    <c:when test="${detail.place.placeCategory == 'cafe'}">
+                                                        <span class="badge bg-warning text-dark">카페</span>
+                                                    </c:when>
+                                                    <c:when test="${detail.place.placeCategory == 'food'}">
+                                                        <span class="badge bg-danger">식당</span>
+                                                    </c:when>
+                                                    <c:when test="${detail.place.placeCategory == 'hotel'}">
+                                                        <span class="badge bg-success">호텔</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="badge bg-secondary">기타</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
-                    </c:forEach>
+                    </div>
                 </div>
             </c:forEach>
         </div>
 
-        <!-- 오른쪽: 지도 -->
-        <div class="right">
+        <!-- 지도 영역 -->
+        <div class="mt-5">
             <div id="map"></div>
         </div>
     </div>
@@ -94,6 +130,8 @@
 
     var map;
     kakao.maps.load(function () {
+        if (!placeList.length) return;
+
         var container = document.getElementById('map');
         var options = {
             center: new kakao.maps.LatLng(placeList[0].lat, placeList[0].lng),
@@ -103,7 +141,6 @@
 
         var bounds = new kakao.maps.LatLngBounds();
         var linePath = [];
-
         const markerSet = new Set();
 
         placeList.forEach(function (place, index) {
@@ -132,7 +169,7 @@
                 infoWindow.close();
             });
         });
-        
+
         var polyline = new kakao.maps.Polyline({
             map: map,
             path: linePath,

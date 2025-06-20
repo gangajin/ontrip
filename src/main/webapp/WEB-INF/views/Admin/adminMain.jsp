@@ -25,6 +25,7 @@
     </style>
 </head>
 <body class="bg-light">
+<%@ include file="../header.jsp" %>
 <div class="container py-5">
     <h2 class="text-center mb-5">관리자 페이지</h2>
     <div class="row g-4 justify-content-center">

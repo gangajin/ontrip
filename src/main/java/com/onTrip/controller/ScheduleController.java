@@ -50,10 +50,10 @@ public class ScheduleController {
     // STEP1
     @RequestMapping("/step1")
     public String step1(
-            @RequestParam("destinationNum") int destinationNum,
-            @RequestParam("destinationName") String destinationName,
-            @RequestParam("scheduleStart") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleStart,
-            @RequestParam("scheduleEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleEnd,
+    		@RequestParam(value = "destinationNum", required = false) Integer destinationNum,
+    	    @RequestParam(value = "destinationName", required = false) String destinationName,
+    	    @RequestParam(value = "scheduleStart", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleStart,
+    	    @RequestParam(value = "scheduleEnd", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate scheduleEnd,
             Model model,
             HttpSession session) {
 

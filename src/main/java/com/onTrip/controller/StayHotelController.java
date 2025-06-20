@@ -111,8 +111,15 @@ public class StayHotelController {
     }
 
     @RequestMapping("saveStayHotel")
-    public String saveStayHotel(HttpServletRequest request, HttpSession session) {
+    public String saveStayHotel(HttpServletRequest request, HttpSession session, Model model) {
         Integer userNum = (Integer) session.getAttribute("userNum");
+        String[] stayHotelDates = request.getParameterValues("stayHotelDate");
+        String[] placeNums = request.getParameterValues("placeNum");
+        
+        if (stayHotelDates == null || placeNums == null || stayHotelDates.length == 0 || placeNums.length == 0) {
+            model.addAttribute("errorMessage", "숙소를 최소 1개 이상 선택해야 합니다.");
+            return "stayHotelError"; 
+        }
 
         if (userNum == null) {
             session.setAttribute("temp_stayHotelDate", request.getParameterValues("stayHotelDate"));
@@ -122,8 +129,6 @@ public class StayHotelController {
         }
 
         int scheduleNum = (Integer) session.getAttribute("scheduleNum");
-        String[] stayHotelDates = request.getParameterValues("stayHotelDate");
-        String[] placeNums = request.getParameterValues("placeNum");
 
         for (int i = 0; i < stayHotelDates.length; i++) {
             stayhoteldao.insertStayHotel(scheduleNum, stayHotelDates[i], Integer.parseInt(placeNums[i]));

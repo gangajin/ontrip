@@ -45,9 +45,9 @@
             <h4 class="mb-4 mt-2"><a href="/">
 	    		<img src="/Image/header/logo.png" alt="로고" style="height: 60px;"></a>
 	    	</h4>
-            <div class="mb-3">STEP 1<br>날짜 확인</div>
-            <div class="mb-3 text-primary fw-bold">STEP 2<br>장소 선택</div>
-            <div class="mb-3">STEP 3<br>숙소 선택</div>
+            <div class="mb-3"><a href="/step1?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}"class="text-decoration-none text-dark">STEP 1<br>날짜 확인</a></div>
+          	<div class="mb-3"><a href="/step2?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStartParam}&scheduleEnd=${scheduleEndParam}&destinationLat=${destinationLat}&destinationLong=${destinationLong}"class="text-decoration-none text-primary fw-bold">STEP 2<br>장소 선택</a></div>
+            <div class="mb-3"><a href="/selectStayHotel?destinationNum=${destinationNum}"class="text-decoration-none text-dark">STEP 3<br>숙소 선택</a></div>
             <div class="d-grid mt-4">
                 <button class="btn btn-dark" onclick="goToStep3()">다음</button>
             </div>

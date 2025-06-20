@@ -21,6 +21,7 @@
     </style>
 </head>
 <body>
+<%@ include file="../header.jsp" %>
     <h2 style="text-align:center;">회원 문의 관리</h2>
     <table>
         <thead>
