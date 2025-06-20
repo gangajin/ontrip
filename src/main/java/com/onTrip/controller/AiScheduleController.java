@@ -115,28 +115,36 @@ public class AiScheduleController {
             int added = 0;
             while (added < placeCountPerDay && idx < nonHotels.size()) {
                 PlaceDto place = nonHotels.get(idx++);
-                if (!visited.contains(place.getPlaceNum())) {
-                    insert(scheduleNum, place, currentTime);
-                    visited.add(place.getPlaceNum());
-                    currentTime = currentTime.plusHours(2);
-                    added++;
+                
+                //호텔이 아니고 이미 방문했다면 스킵
+                if (!"hotel".equalsIgnoreCase(place.getPlaceCategory()) && visited.contains(place.getPlaceNum())) {
+                    continue;
                 }
+
+                insert(scheduleNum, place, currentTime);
+
+                //호텔은 중복 허용 → visited에 안 넣고, 명소는 중복 방지
+                if (!"hotel".equalsIgnoreCase(place.getPlaceCategory())) {
+                    visited.add(place.getPlaceNum());
+                }
+
+                currentTime = currentTime.plusHours(2);
+                added++;
             }
 
-            // 마지막 날은 역으로 끝냄 (숙소에서 출발한 건 위에서 처리함)
+
+            // 마지막: 숙소 or 도착역
             if (d == totalDays - 1) {
                 insert(scheduleNum, endStation, currentTime);
             } else {
-                // 그 외 날은 숙소로 끝냄
-                if (d < filteredHotels.size()) {
-                    PlaceDto hotel = filteredHotels.get(d);
-                    if (!visited.contains(hotel.getPlaceNum())) {
-                        insert(scheduleNum, hotel, currentTime);
-                        visited.add(hotel.getPlaceNum());
-                        prevHotel = hotel;
-                    }
+                // 숙소는 중복 허용
+                if (!filteredHotels.isEmpty()) {
+                    PlaceDto hotel = filteredHotels.get(d % filteredHotels.size());
+                    insert(scheduleNum, hotel, currentTime);
+                    prevHotel = hotel;
                 }
             }
+            
         }
 
         return "redirect:/aiPreview?scheduleNum=" + scheduleNum;
