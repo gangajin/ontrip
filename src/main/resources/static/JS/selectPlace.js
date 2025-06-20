@@ -51,14 +51,14 @@ function addStayHotel() {
   const placeNum = document.getElementById("selectedPlaceNum").value;
   const placeName = document.querySelector(".modal-title").innerText;
 
-  // 기존 선택 제거 (같은 날짜에 이미 선택된 숙소가 있으면 삭제)
-  document.querySelectorAll(".date-card").forEach(card => {
-    const date = card.getAttribute("data-date");
-    stayHotelData = stayHotelData.filter(item => item.stayHotelDate !== date);
-  });
+  const selectedDates = [...document.querySelectorAll(".date-card.selected")]
+    .map(card => card.getAttribute("data-date"));
 
-  document.querySelectorAll(".date-card.selected").forEach(card => {
-    const date = card.getAttribute("data-date");
+  // ✅ 선택된 날짜만 기존 목록에서 제거
+  stayHotelData = stayHotelData.filter(item => !selectedDates.includes(item.stayHotelDate));
+
+  // ✅ 선택된 날짜만 새로 추가
+  selectedDates.forEach(date => {
     stayHotelData.push({
       stayHotelDate: date,
       placeNum,
