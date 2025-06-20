@@ -8,19 +8,7 @@
   <title>숙소 선택</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body { background-color: #f8f9fa; }
-    .sidebar {
-      min-height: 100vh;
-      background-color: #fff;
-      padding-top: 20px;
-      border-right: 1px solid #ddd;
-    }
-    .card:hover { cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .hotel-img { width: 100%; height: 120px; object-fit: cover; }
-    .rating i, .likes i { color: #f39c12; margin-right: 2px; }
-    .likes i { color: #e74c3c; }
-  </style>
+	<link rel="stylesheet" href="/CSS/stayHotel.css">
 </head>
 <body>
 <div class="container-fluid">
@@ -73,10 +61,6 @@
   <h3 id="hotelName" style="font-size: 20px; margin-bottom: 15px;"></h3>
   <input type="hidden" id="selectedPlaceNum">
   <div id="dateSelection" style="margin-bottom: 15px;"></div>
-  <div style="text-align: center;">
-    <button onclick="addStayHotel()">추가</button>
-    <button onclick="closeModal()">닫기</button>
-  </div>
 </div>
 <form id="saveForm" action="saveStayHotel" method="post">
   <input type="hidden" name="scheduleNum" value="${scheduleNum}">
@@ -93,18 +77,17 @@
   <c:out value="${hotelListJson}" escapeXml="false"/>
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const rawJson = document.getElementById("hotelListData").textContent.trim();
-    try {
-      const hotelData = JSON.parse(rawJson);
-      renderHotelList(hotelData);
-    } catch (e) {
-      console.error("🚨 숙소 데이터 파싱 오류:", e);
-    }
-  });
+document.addEventListener("DOMContentLoaded", function () {
+	  const rawJson = document.getElementById("hotelListData").textContent.trim();
+	  try {
+	    const hotelData = JSON.parse(rawJson);
+	    renderHotelList(hotelData);  // hotel은 여기서 쓰면 안 됨
+	  } catch (e) {
+	    console.error("🚨 숙소 데이터 파싱 오류:", e);
+	  }
+	});
 
-  function renderHotelList(hotels) {
-
+	function renderHotelList(hotels) {
 	  const hotelListContainer = document.getElementById("hotelList");
 	  hotelListContainer.innerHTML = "";
 
@@ -114,37 +97,44 @@
 	  }
 
 	  hotels.forEach(hotel => {
+	    console.log("✅ hotel object:", hotel); // 여기서만 hotel 변수가 유효함
+
+	    const placeImage = hotel.placeImage || "/images/default.png";
+	    const placeName = hotel.placeName || "이름 없음";
+	    const placeRoadAddr = hotel.placeRoadAddr || "";
+	    const placeScore = (hotel.placeScore !== undefined && !isNaN(hotel.placeScore))
+	      ? Number(hotel.placeScore).toFixed(1)
+	      : "0.0";
+	    const placelike = (hotel.placelike !== undefined && !isNaN(hotel.placelike))
+	      ? hotel.placelike
+	      : 0;
+
 	    const item = document.createElement("div");
 	    item.className = "card mb-2";
 	    item.innerHTML = `
-	    	  <div class="row g-0">
-	    	    <div class="col-4">
-	    	      <img src="${'$'}{hotel.placeImage}" class="img-fluid rounded-start hotel-img" alt="숙소 이미지">
-	    	    </div>
-	    	    <div class="col-8 d-flex flex-column justify-content-between">
-	    	      <div class="card-body">
-	    	        <div class="d-flex justify-content-between align-items-center">
-	    	          <h5 class="card-title mb-1 mb-0">${'$'}{hotel.placeName}</h5>
-	    	          <button class="btn btn-outline-primary btn-sm"
-	    	            onclick="openModal('${'$'}{hotel.placeNum}', '${'$'}{hotel.placeName}', '${'$'}{hotel.placeLat}', '${'$'}{hotel.placeLong}')">+
-	    	          </button>
-	    	        </div>
-	    	        <p class="card-text mb-1">${'$'}{hotel.placeRoadAddr}</p>
-	    	        <div class="d-flex align-items-center gap-2">
-	    	          <div class="rating">
-	    	            <i class="fa-solid fa-star text-warning"></i>
-	    	            ${'$'}{hotel.placeScore !== undefined && !isNaN(hotel.placeScore)
-	    	                ? Number(hotel.placeScore).toFixed(1)
-	    	                : '0.0'}
-	    	          </div>
-	    	          <div class="likes">
-	    	            <i class="fa-solid fa-heart text-danger"></i> ${'$'}{hotel.placelike !== undefined && hotel.placelike !== null ? hotel.placelike : 0}
-	    	          </div>
-	    	        </div>
-	    	      </div>
-	    	    </div>
-	    	  </div>
-	    	`;
+	      <div class="row g-0">
+	        <div class="col-4">
+	          <img src="${placeImage}" class="img-fluid rounded-start hotel-img" alt="숙소 이미지">
+	        </div>
+	        <div class="col-8 d-flex flex-column justify-content-between">
+	          <div class="card-body">
+	            <div class="d-flex justify-content-between align-items-center">
+	              <h5 class="card-title mb-1 mb-0">${placeName}</h5>
+	              <button class="btn btn-outline-primary btn-sm"
+	                onclick="openModal('${hotel.placeNum}', '${placeName}', '${hotel.placeLat}', '${hotel.placeLong}')">+
+	              </button>
+	            </div>
+	            <p class="card-text mb-1">${placeRoadAddr}</p>
+	            <div class="d-flex align-items-center gap-2">
+	              <div class="rating">
+	                <i class="fa-solid fa-star text-warning"></i> ${placeScore}
+	              </div>
+	              <i class="fa-solid fa-heart text-danger"></i> ${placelike}
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    `;
 	    hotelListContainer.appendChild(item);
 	  });
 	}

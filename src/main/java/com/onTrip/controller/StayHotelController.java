@@ -97,12 +97,16 @@ public class StayHotelController {
         // JSON 변환
         try {
         	String json = new ObjectMapper().writeValueAsString(hotelList);
+            System.out.println("🔥 직렬화된 hotelListJson: " + json);  // ← 이 줄
         	model.addAttribute("hotelListJson", json); 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             model.addAttribute("hotelListJson", "[]");
         }
-
+        for (PlaceDto hotel : hotelList) {
+            System.out.println("호텔명: " + hotel.getPlaceName());
+            System.out.println("placelike: " + hotel.getPlacelike());
+        }
         return "Schedule/selectStayHotel";
     }
 

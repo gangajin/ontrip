@@ -7,45 +7,62 @@ let mapReady = false;
 
 function openModal(placeNum, placeName, lat, lng) {
   document.getElementById("selectedPlaceNum").value = placeNum;
-  document.getElementById("hotelName").innerText = placeName;
   selectedLat = lat;
   selectedLng = lng;
 
-  let html = "";
-  travelDates.forEach(date => {
-    const isSelected = stayHotelData.some(item => item.stayHotelDate === date && item.placeNum == placeNum);
-    const isAlreadySelected = stayHotelData.some(item => item.stayHotelDate === date && item.placeNum != placeNum);
+  let html = "<div class='modal-header'>"
+           + "<span class='modal-title'>" + placeName + "</span>"
+           + "<button class='modal-close' onclick='closeModal()'>×</button>"
+           + "</div>";
 
-    html += `<label>
-      <input type="checkbox" name="dates" value="${date}" ${isSelected ? 'checked' : ''} ${isAlreadySelected && !isSelected ? 'disabled' : ''}>
-      ${date} ${isAlreadySelected && !isSelected ? '(다른 숙소 선택됨)' : ''}
-    </label><br>`;
+  html += "<div class='date-card-container'>";
+  travelDates.forEach(date => {
+    const matched = stayHotelData.find(item => item.stayHotelDate === date);
+    const isSelected = matched && matched.placeNum == placeNum;
+
+    html += `
+      <div class="date-card ${isSelected ? 'selected' : ''}" data-date="${date}">
+        ${date.split("-")[2]}
+      </div>
+    `;
   });
+  html += "</div><div class='modal-btn-group'>"
+        + "<button class='btn btn-primary btn-sm' onclick='selectAllDates()'>전체 선택</button>"
+        + "<button class='btn btn-primary btn-sm' onclick='addStayHotel()'>완료</button>"
+        + "</div>";
 
   document.getElementById("dateSelection").innerHTML = html;
   document.getElementById("modal").style.display = "block";
+
+  document.querySelectorAll(".date-card").forEach(card => {
+    card.addEventListener("click", () => {
+      card.classList.toggle("selected");
+    });
+  });
 }
 
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
+function selectAllDates() {
+  document.querySelectorAll(".date-card").forEach(card => {
+    card.classList.add("selected");
+  });
 }
 
 function addStayHotel() {
   const placeNum = document.getElementById("selectedPlaceNum").value;
-  const placeName = document.getElementById("hotelName").innerText;
-  const selectedDates = document.querySelectorAll("input[name='dates']:checked");
+  const placeName = document.querySelector(".modal-title").innerText;
 
-  if (selectedDates.length === 0) {
-    alert("날짜를 선택해주세요.");
-    return;
-  }
+  // 기존 선택 제거 (같은 날짜에 이미 선택된 숙소가 있으면 삭제)
+  document.querySelectorAll(".date-card").forEach(card => {
+    const date = card.getAttribute("data-date");
+    stayHotelData = stayHotelData.filter(item => item.stayHotelDate !== date);
+  });
 
-  selectedDates.forEach(d => {
-    stayHotelData = stayHotelData.filter(item => item.stayHotelDate !== d.value);
+  document.querySelectorAll(".date-card.selected").forEach(card => {
+    const date = card.getAttribute("data-date");
     stayHotelData.push({
-      stayHotelDate: d.value,
-      placeNum: placeNum,
-      placeName: placeName,
+      stayHotelDate: date,
+      placeNum,
+      placeName,
       lat: selectedLat,
       lng: selectedLng
     });
@@ -56,14 +73,42 @@ function addStayHotel() {
   closeModal();
 }
 
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+
+
+
 function updateHotelStatus() {
   const statusDiv = document.getElementById("selectedHotelStatus");
-  let html = "";
+  statusDiv.innerHTML = "";
+
   travelDates.forEach(date => {
     const matched = stayHotelData.find(item => item.stayHotelDate === date);
-    html += `<div>${date} : ${matched ? matched.placeName : '선택안함'}</div>`;
+    
+    const card = document.createElement("div");
+    card.className = "status-card";
+
+    if (matched) {
+		card.innerHTML = `
+		  <div class="status-info">
+		    <div class="status-date">${date}</div>
+		    <div class="status-hotel">${matched.placeName}</div>
+		  </div>
+		  <div>
+		    <button class="btn btn-sm btn-outline-primary">예약하기</button>
+		  </div>
+		`;
+    } else {
+      card.innerHTML = `
+        <div class="status-date">${date}</div>
+        <div class="status-hotel text-muted">선택 안함</div>
+      `;
+    }
+
+    statusDiv.appendChild(card);
   });
-  statusDiv.innerHTML = html;
 }
 
 function renderStayHotelMarkers() {
@@ -140,7 +185,7 @@ function renderHotelList(hotels) {
     const placeName = hotel.placeName;
     const address = hotel.placeRoadAddr || hotel.placeAddr || "";
     const score = hotel.placeScore || "0.0";
-    const like = hotel.placeLike || "0";
+    const like = hotel.placelike || "0"; // ✅ 여기가 핵심 수정 부분!
     const image = hotel.placeImage ? hotel.placeImage : "/image/default_hotel.jpg";
 
     const item = document.createElement("div");

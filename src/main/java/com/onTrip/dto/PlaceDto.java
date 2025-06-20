@@ -6,7 +6,7 @@ public class PlaceDto {
     private int placeNum;
     private String placeName ;
     private String placeCategory; 
-    private String placeRoadAddr ;
+    private String placeRoadAddr;
     private String placeDetailAddr;
     private double placeLat;
     private double placeLong;
@@ -15,7 +15,7 @@ public class PlaceDto {
     private String placeContent;
     private int destinationNum;
     private String placeExternalApiId;
-    private int placelike;
+    private Integer placelike;
     private double placeScore; 
     
     // ✅ 복사 생성자 추가
