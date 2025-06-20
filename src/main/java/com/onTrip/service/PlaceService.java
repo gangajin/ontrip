@@ -56,4 +56,12 @@ public class PlaceService {
     public List<PlaceDto> adminSearchPlace(String keyword) {
         return placeDao.adminSearchPlace(keyword);
     }
+    
+    //기차역
+    public PlaceDto getStationByDestination(int destinationNum) {
+        return placeDao.getStationByDestination(destinationNum);
+    }
+
+
+
 }

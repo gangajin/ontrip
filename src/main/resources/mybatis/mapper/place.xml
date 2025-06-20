@@ -129,4 +129,9 @@
 	    ORDER BY placeNum DESC
 	</select>
 	
+	<!-- 각 지역의 기차역 -->
+	<select id="getStationByDestination" resultType="com.onTrip.dto.PlaceDto">
+	    SELECT * FROM place WHERE destinationNum  = #{destinationNum} AND placeCategory = 'station'
+	</select>
+	
 </mapper>

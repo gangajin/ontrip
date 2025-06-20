@@ -4,27 +4,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.onTrip.dto.PlaceDto;
-import com.onTrip.dto.ScheduleDetailDto;
-import com.onTrip.dto.ScheduleDto;
-import com.onTrip.dto.StayHotelDto;
-import com.onTrip.service.OpenAiService;
-import com.onTrip.service.PlaceService;
-import com.onTrip.service.ScheduleDetailService;
-import com.onTrip.service.ScheduleService;
-import com.onTrip.service.StayHotelService;
+import com.onTrip.dto.*;
+import com.onTrip.service.*;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -44,6 +32,9 @@ public class AiScheduleController {
     private ScheduleDetailService scheduleDetailService;
 
     @Autowired
+    private DestinationService destinationService;
+
+    @Autowired
     private OpenAiService openAiService;
 
     @PostMapping("/generateAiSchedule")
@@ -51,62 +42,122 @@ public class AiScheduleController {
                                      @RequestParam("transportType") String transportType,
                                      HttpSession session) {
 
+        // 장소 조회
         List<PlaceDto> placeList = placeService.getPlacesByScheduleNum(scheduleNum);
+        List<StayHotelDto> hotelDtoList = stayHotelService.getStayListByScheduleNum(scheduleNum);
+        List<PlaceDto> hotelList = new ArrayList<>();
 
-        List<PlaceDto> hotelPlaceList = new ArrayList<>();
-        List<StayHotelDto> hotelList = stayHotelService.getStayListByScheduleNum(scheduleNum);
-
-        for (StayHotelDto hotel : hotelList) {
-            PlaceDto hotelPlace = new PlaceDto();
-            hotelPlace.setPlaceNum(hotel.getPlaceNum());
-            hotelPlace.setPlaceName(hotel.getPlaceName());
-            hotelPlace.setPlaceLat(hotel.getPlaceLat());
-            hotelPlace.setPlaceLong(hotel.getPlaceLong());
-            hotelPlace.setPlaceRoadAddr("호텔 주소 미정");
-            hotelPlace.setPlaceCategory("hotel");
-            hotelPlaceList.add(hotelPlace);
+        for (StayHotelDto hotel : hotelDtoList) {
+            PlaceDto dto = new PlaceDto();
+            dto.setPlaceNum(hotel.getPlaceNum());
+            dto.setPlaceName(hotel.getPlaceName());
+            dto.setPlaceLat(hotel.getPlaceLat());
+            dto.setPlaceLong(hotel.getPlaceLong());
+            dto.setPlaceRoadAddr("호텔 주소 미정");
+            dto.setPlaceCategory("hotel");
+            hotelList.add(dto);
         }
 
-        List<PlaceDto> fullPlaceList = new ArrayList<>();
-        fullPlaceList.addAll(placeList);
-        fullPlaceList.addAll(hotelPlaceList);
-
+        // 일정 조회
         ScheduleDto schedule = scheduleService.selectOneByScheduleNum(scheduleNum);
         LocalDate startDate = schedule.getScheduleStart();
         LocalDate endDate = schedule.getScheduleEnd();
+        int totalDays = (int) (endDate.toEpochDay() - startDate.toEpochDay() + 1);
 
-        String prompt = openAiService.buildAiPrompt(
-                fullPlaceList,
-                transportType,
-                startDate.toString(),
-                endDate.toString()
-        );
+        // 도시 기반 역 정보
+        int destinationNum = schedule.getDestinationNum();
+        PlaceDto station = placeService.getStationByDestination(destinationNum);
+        PlaceDto startStation = new PlaceDto(station);
+        PlaceDto endStation = new PlaceDto(station);
 
+        // GPT 응답
+        List<PlaceDto> fullList = new ArrayList<>(placeList);
+        fullList.addAll(hotelList);
+        String prompt = openAiService.buildAiPrompt(fullList, transportType, startDate.toString(), endDate.toString());
         List<String> orderedNames = openAiService.getOrderedPlaceNames(prompt);
-        List<PlaceDto> orderedList = openAiService.matchOrderedPlaces(orderedNames, fullPlaceList);
+        List<PlaceDto> orderedList = openAiService.matchOrderedPlaces(orderedNames, fullList);
 
-        System.out.println("✅ GPT 응답: " + orderedNames);
+        // 분류
+        List<PlaceDto> filteredHotels = new ArrayList<>();
+        List<PlaceDto> nonHotels = new ArrayList<>();
         for (PlaceDto place : orderedList) {
-            System.out.println("✅ 정렬된 장소명: " + place.getPlaceName());
+            if ("hotel".equalsIgnoreCase(place.getPlaceCategory())) {
+                filteredHotels.add(place);
+            } else if (!"station".equalsIgnoreCase(place.getPlaceCategory())) {
+                nonHotels.add(place);
+            }
         }
 
-        LocalDateTime startTime = startDate.atTime(9, 0);
-        for (int i = 0; i < orderedList.size(); i++) {
-            ScheduleDetailDto detail = new ScheduleDetailDto();
-            detail.setScheduleNum(scheduleNum);
-            detail.setPlaceNum(orderedList.get(i).getPlaceNum());
-            detail.setScheduleDetailDay(Timestamp.valueOf(startTime.plusHours(i * 2)));
-            detail.setScheduleDetailMemo("");
-            scheduleDetailService.insert(detail);
+        Set<Integer> visited = new HashSet<>();
+        PlaceDto prevHotel = null;
+        int idx = 0;
+
+        // 일정 생성
+        for (int d = 0; d < totalDays; d++) {
+            LocalDate currentDate = startDate.plusDays(d);
+            LocalDateTime currentTime = currentDate.atTime(9, 0);
+
+            // 첫날: 역에서 출발
+            if (d == 0) {
+                insert(scheduleNum, startStation, currentTime);
+                visited.add(startStation.getPlaceNum());
+                currentTime = currentTime.plusHours(2);
+            }
+
+            // 2일차 이상: 전날 숙소에서 출발
+            if (d > 0 && prevHotel != null) {
+                insert(scheduleNum, prevHotel, currentTime);
+                currentTime = currentTime.plusHours(2);
+            }
+
+            // 명소 분배
+            int placeCountPerDay = (int) Math.ceil((double) nonHotels.size() / totalDays);
+            int added = 0;
+            while (added < placeCountPerDay && idx < nonHotels.size()) {
+                PlaceDto place = nonHotels.get(idx++);
+                if (!visited.contains(place.getPlaceNum())) {
+                    insert(scheduleNum, place, currentTime);
+                    visited.add(place.getPlaceNum());
+                    currentTime = currentTime.plusHours(2);
+                    added++;
+                }
+            }
+
+            // 마지막 날은 역으로 끝냄 (숙소에서 출발한 건 위에서 처리함)
+            if (d == totalDays - 1) {
+                insert(scheduleNum, endStation, currentTime);
+            } else {
+                // 그 외 날은 숙소로 끝냄
+                if (d < filteredHotels.size()) {
+                    PlaceDto hotel = filteredHotels.get(d);
+                    if (!visited.contains(hotel.getPlaceNum())) {
+                        insert(scheduleNum, hotel, currentTime);
+                        visited.add(hotel.getPlaceNum());
+                        prevHotel = hotel;
+                    }
+                }
+            }
         }
 
         return "redirect:/aiPreview?scheduleNum=" + scheduleNum;
     }
 
+
+
+
+
+    private void insert(int scheduleNum, PlaceDto place, LocalDateTime time) {
+        ScheduleDetailDto detail = new ScheduleDetailDto();
+        detail.setScheduleNum(scheduleNum);
+        detail.setPlaceNum(place.getPlaceNum());
+        detail.setScheduleDetailDay(Timestamp.valueOf(time));
+        detail.setScheduleDetailMemo("");
+        scheduleDetailService.insert(detail);
+    }
+
     @GetMapping("/aiPreview")
     public String previewSchedule(@RequestParam("scheduleNum") int scheduleNum, Model model) {
         List<ScheduleDetailDto> detailList = scheduleDetailService.getScheduleDetailsWithPlace(scheduleNum);
-
         Map<String, List<ScheduleDetailDto>> groupedByDate = new LinkedHashMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

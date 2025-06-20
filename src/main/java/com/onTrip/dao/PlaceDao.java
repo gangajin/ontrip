@@ -42,4 +42,8 @@ public interface PlaceDao {
     List<PlaceDto> adminSearchPlace(@Param("keyword") String keyword);
 
     List<PlaceDto> selectByScheduleNum(@Param("scheduleNum") int scheduleNum);
+    
+    //기차역 띄우기
+    PlaceDto getStationByDestination(int destinationNum);
+
 }

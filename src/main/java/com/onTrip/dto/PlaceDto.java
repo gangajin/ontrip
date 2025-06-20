@@ -1,7 +1,6 @@
 package com.onTrip.dto;
 
 import lombok.Data;
-
 @Data
 public class PlaceDto {
     private int placeNum;
@@ -18,4 +17,17 @@ public class PlaceDto {
     private String placeExternalApiId;
     private int placelike;
     private double placeScore; 
+    
+    // ✅ 복사 생성자 추가
+    public PlaceDto(PlaceDto other) {
+    	
+        this.placeNum = other.placeNum;
+        this.placeName = other.placeName;
+        this.placeCategory = other.placeCategory;
+        this.placeRoadAddr = other.placeRoadAddr;
+        this.placeLat = other.placeLat;
+        this.placeLong = other.placeLong;
+    }
+    
+    public PlaceDto() {}
 }
