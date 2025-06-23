@@ -71,7 +71,7 @@
     <table class="table table-hover">
         <thead class="table-light">
         <tr>
-            <th>일정 번호</th>
+            <th>여행 지역</th>
             <th>여행 시작</th>
             <th>여행 종료</th>
             <th>작성일</th>
@@ -81,7 +81,7 @@
         <tbody>
         <c:forEach var="schedule" items="${draftList}">
             <tr>
-                <td>${schedule.scheduleNum}</td>
+                <td>${schedule.destinationName}</td>
                 <td>${schedule.scheduleStart}</td>
                 <td>${schedule.scheduleEnd}</td>
                 <td><fmt:formatDate value="${schedule.scheduleCreated}" pattern="yyyy.MM.dd HH:mm"/></td>
@@ -107,7 +107,7 @@
     <table class="table table-hover">
         <thead class="table-light">
         <tr>
-            <th>일정 번호</th>
+            <th>여행 지역</th>
             <th>여행 시작</th>
             <th>여행 종료</th>
             <th>작성일</th>
@@ -117,7 +117,7 @@
         <tbody>
         <c:forEach var="schedule" items="${completedList}">
             <tr>
-                <td>${schedule.scheduleNum}</td>
+                <td>${schedule.destinationName}</td>
                 <td>${schedule.scheduleStart}</td>
                 <td>${schedule.scheduleEnd}</td>
                 <td><fmt:formatDate value="${schedule.scheduleCreated}" pattern="yyyy.MM.dd HH:mm"/></td>

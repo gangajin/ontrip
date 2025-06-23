@@ -74,10 +74,22 @@
 	</select>
 	
 	<select id="selectCompletedSchedules" resultType="com.onTrip.dto.ScheduleDto">
-	    SELECT * FROM schedule
-	    WHERE userNum = #{userNum}
-	      AND scheduleStatus = '완성'
-	    ORDER BY scheduleCreated DESC
+	    SELECT 
+	        s.scheduleNum AS scheduleNum,
+	        s.scheduleStart AS scheduleStart,
+	        s.scheduleEnd AS scheduleEnd,
+	        s.scheduleCreated AS scheduleCreated,
+	        s.userNum AS userNum,
+	        s.scheduleStatus AS scheduleStatus,
+	        s.destinationNum AS destinationNum,
+	        d.nameKo AS destinationName,
+	        d.destinationLat AS destinationLat,
+	        d.destinationLong AS destinationLong
+	    FROM schedule s
+	    JOIN destination d ON s.destinationNum = d.destinationNum
+	    WHERE s.userNum = #{userNum}
+	      AND s.scheduleStatus = '완성'
+	    ORDER BY s.scheduleCreated DESC
 	</select>
 	
 </mapper>
