@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.onTrip.dao.UserDao;
 import com.onTrip.dto.ScheduleDto;
+import com.onTrip.dto.UserDto;
 import com.onTrip.service.ScheduleService;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +25,9 @@ public class MyPageController {
 
     @Autowired
     private ScheduleService scheduleService;
+    
+    @Autowired
+    private UserDao userDao;
 
     @GetMapping("/myPage")
     public String myPage(HttpSession session, Model model) {
@@ -72,4 +77,34 @@ public class MyPageController {
         scheduleService.deleteSchedule(scheduleNum);
         return "redirect:/user/myPage";
     }
+    
+    //프로필관리 들어가기
+    @RequestMapping("/profileSettings")
+    public String profilePage(HttpSession session, Model model) {
+    	UserDto loginUser = (UserDto)session.getAttribute("loginUser");
+    	model.addAttribute("user", loginUser);
+    	return "User/userProfileSettings";
+    }
+    
+    
+    //nickname 변경
+    @PostMapping("/changeNickname")
+    public String changeNickname(@RequestParam("userNickname") String userNickname, HttpSession session) {
+    	UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+    	
+    	// 본인 닉네임과 동일한 경우는 제외
+        if (!userNickname.equals(loginUser.getUserNickname())) {
+            // 다른 사람과 중복되면 에러 처리
+            if (userDao.countByUserNickname(userNickname) > 0) {
+                return "redirect:/user/profileSettings?error=nickname";
+            }
+        }
+
+    	loginUser.setUserNickname(userNickname);
+    	userDao.changeNickname(loginUser);
+    	session.setAttribute("loginUser", loginUser);
+    	
+    	return "redirect:/user/profileSettings?success=nickname";
+    }
+    	
 }

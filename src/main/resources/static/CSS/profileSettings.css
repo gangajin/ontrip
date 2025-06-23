@@ -1,0 +1,114 @@
+@charset "UTF-8";
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 40px;
+    color: #333;
+}
+
+.profile-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #dee2e6;
+    border-radius: 50%;
+    font-size: 40px;
+    color: #6c757d;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+input[readonly] {
+    background-color: #f1f1f1;
+    color: #555;               
+    border: 1px solid #ccc;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+input[type="button"],
+input[type="submit"] {
+    width: 48%;
+    padding: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="button"] {
+    background-color: #e0e0e0;
+    margin-right: 4%;
+}
+
+input[type="button"]:hover {
+    background-color: #d5d5d5;
+}
+
+input[type="submit"] {
+    background-color: #00c6be;
+    color: white;
+}
+
+input[type="submit"]:hover {
+    background-color: #ff3b3b;
+}
+
+.profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            border-radius: 50%;
+            display: inline-block;
+            margin-top: -50px;
+            position: relative;
+            z-index: 1;
+}
+        
+.profile-avatar i {
+            color: white;
+            font-size: 40px;
+            line-height: 100px;
+}

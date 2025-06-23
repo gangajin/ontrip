@@ -59,7 +59,7 @@
     </div>
     <div>${sessionScope.loginUser.userNickname}님</div>
     <div>
-        <a href="#" class="text-primary text-decoration-none">
+        <a href="/user/profileSettings" class="text-primary text-decoration-none">
             프로필 관리 <i class="bi bi-gear-fill"></i>
         </a>
     </div>

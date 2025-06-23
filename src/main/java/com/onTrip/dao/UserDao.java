@@ -33,5 +33,6 @@ public interface UserDao {
    void updateUserStatus(@Param("userNum") int userNum, @Param("status") String status);//상태 업데이트
    void deleteUser(@Param("userNum") int userNum);//강제탈퇴 (삭제)
 
-
+   //User닉네임 변경
+   void changeNickname(UserDto userDto);
 }

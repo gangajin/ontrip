@@ -60,4 +60,10 @@
 	    WHERE userNum = #{userNum}
 	</delete>
 	
+	<!-- 닉네임변경 -->
+	<update id="changeNickname">
+		update user 
+		 set userNickname = #{userNickname}
+		 where userNum = #{userNum}
+	</update>
 </mapper>
