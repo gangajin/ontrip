@@ -160,6 +160,9 @@ public class AiScheduleController {
     private LocalDateTime insertCategory(int scheduleNum, List<PlaceDto> list, Set<Integer> visited, LocalDateTime time) {
         for (Iterator<PlaceDto> it = list.iterator(); it.hasNext();) {
             PlaceDto p = it.next();
+            if ("hotel".equals(p.getPlaceCategory())) {
+                continue;
+            }
             if (!visited.contains(p.getPlaceNum())) {
                 insert(scheduleNum, p, time);
                 visited.add(p.getPlaceNum());
