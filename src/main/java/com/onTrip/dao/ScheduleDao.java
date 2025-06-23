@@ -26,7 +26,6 @@ public interface ScheduleDao {
     // 일정 삭제
     void deleteSchedule(@Param("scheduleNum") int scheduleNum);
     
-    // ScheduleDao.java
     ScheduleDto selectScheduleWithUserNum(@Param("scheduleNum") int scheduleNum, @Param("userNum") int userNum, @Param("destinationNum") int destinationNum);
 
     List<ScheduleDto> selectByScheduleNum(@Param("scheduleNum") int scheduleNum);
@@ -34,4 +33,9 @@ public interface ScheduleDao {
     int getPlanIdByScheduleNum(int scheduleNum);
     
     ScheduleDto selectOneByScheduleNum(int scheduleNum);
+    
+    //작성 완료된 일정 목록 조회
+    List<ScheduleDto> selectCompletedSchedules(@Param("userNum") int userNum);
+    
+
 }

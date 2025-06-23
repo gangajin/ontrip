@@ -21,5 +21,15 @@ public class ScheduleDetailService {
     public List<ScheduleDetailDto> getScheduleDetailsWithPlace(int scheduleNum) {
         return scheduleDetailDao.getScheduleDetailsWithPlace(scheduleNum);
     }
+    
+    // 상태를 '완성'으로 변경하는 메서드
+    public void updateScheduleStatusToComplete(int scheduleNum) {
+        scheduleDetailDao.updateScheduleStatusToComplete(scheduleNum);
+    }
+    
+    // 일정 삭제 (이어쓰기 시 기존 일정 제거용)
+    public void deleteDetailsByScheduleNum(int scheduleNum) {
+        scheduleDetailDao.deleteByScheduleNum(scheduleNum);
+    }
 
 }

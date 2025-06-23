@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-
+<%@ include file="../header.jsp" %>
     <h2 class="mb-4">장소 관리 (관리자)</h2>
 
 	<form action="/admin/place/search" method="get" class="mb-4 row gx-2 align-items-center">

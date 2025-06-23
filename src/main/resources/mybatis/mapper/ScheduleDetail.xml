@@ -19,7 +19,6 @@
         )
     </insert>
     
-    <!-- ScheduleDetail.xml -->
 	<select id="getScheduleDetailsWithPlace" resultMap="ScheduleDetailResultMap">
 	    SELECT sd.*, 
 	           p.placeName, p.placeCategory, p.placeRoadAddr, p.placeLat, p.placeLong,
@@ -51,5 +50,16 @@
 	        <result property="destinationNum" column="destinationNum"/>
 	    </association>
 	</resultMap>
+	
+	<!-- 스케줄 상태를 '완성'으로 변경 -->
+    <update id="updateScheduleStatusToComplete" parameterType="int">
+        UPDATE schedule
+        SET scheduleStatus = '완성'
+        WHERE scheduleNum = #{scheduleNum}
+    </update>
+    
+    <delete id="deleteByScheduleNum" parameterType="int">
+	    DELETE FROM scheduledetail WHERE scheduleNum = #{scheduleNum}
+	</delete>
     
 </mapper>

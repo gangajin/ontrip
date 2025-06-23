@@ -49,6 +49,9 @@ public class AiScheduleController {
     public String generateAiSchedule(@RequestParam("scheduleNum") int scheduleNum,
                                      @RequestParam("transportType") String transportType,
                                      HttpSession session) {
+    	
+    	// 0. 기존 일정 삭제 (중복 방지)
+        scheduleDetailService.deleteDetailsByScheduleNum(scheduleNum);
 
         // 1. 유저가 선택한 장소 및 호텔 리스트 조회
         List<PlaceDto> placeList = placeService.getPlacesByScheduleNum(scheduleNum);
@@ -145,6 +148,8 @@ public class AiScheduleController {
                 insert(scheduleNum, hotel, time.withHour(20));
             }
         }
+        // 모든 일정 생성 완료 후 상태를 '완성'으로 변경
+        scheduleDetailService.updateScheduleStatusToComplete(scheduleNum);
 
         return "redirect:/aiPreview?scheduleNum=" + scheduleNum;
     }

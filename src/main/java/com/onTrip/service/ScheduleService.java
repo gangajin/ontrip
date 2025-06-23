@@ -55,4 +55,8 @@ public class ScheduleService {
 	    public ScheduleDto selectOneByScheduleNum(int scheduleNum) {
 	        return scheduleDao.selectOneByScheduleNum(scheduleNum);
 	    }
+	    //작성 완료된 일정 목록 조회
+	    public List<ScheduleDto> getCompletedSchedules(int userNum) {
+	        return scheduleDao.selectCompletedSchedules(userNum);
+	    }
 }

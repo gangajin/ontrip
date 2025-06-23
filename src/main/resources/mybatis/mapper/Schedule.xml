@@ -72,4 +72,12 @@
 	<select id="selectByScheduleNum" resultType="com.onTrip.dto.ScheduleDto">
 	    SELECT * FROM schedule WHERE scheduleNum = #{scheduleNum}
 	</select>
+	
+	<select id="selectCompletedSchedules" resultType="com.onTrip.dto.ScheduleDto">
+	    SELECT * FROM schedule
+	    WHERE userNum = #{userNum}
+	      AND scheduleStatus = '완성'
+	    ORDER BY scheduleCreated DESC
+	</select>
+	
 </mapper>

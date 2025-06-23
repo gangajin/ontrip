@@ -8,7 +8,7 @@
   <script type="text/javascript" src="/js/placeCheck.js"></script>
 </head>
 <body>
-
+<%@ include file="../header.jsp" %>
 <div class="container">
   <div class="form-box">
     <h2>📍 신규 장소 등록</h2>

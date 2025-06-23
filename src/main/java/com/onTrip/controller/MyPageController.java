@@ -30,7 +30,10 @@ public class MyPageController {
         if (userNum == null) return "redirect:/login";
 
         List<ScheduleDto> draftList = scheduleService.getDraftSchedules(userNum);
+        List<ScheduleDto> completedList = scheduleService.getCompletedSchedules(userNum);
+
         model.addAttribute("draftList", draftList);
+        model.addAttribute("completedList", completedList);
         return "User/mypage";
     }
 
