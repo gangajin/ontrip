@@ -3,10 +3,9 @@ package com.onTrip.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -176,6 +175,9 @@ public class ScheduleController {
         List<PlaceDto> placeList = placeService.getPlacesByScheduleNum(scheduleNum);
         List<StayHotelDto> stayList = stayHotelService.getStayListByScheduleNum(scheduleNum);
 
+        // 날짜 기준으로 숙소 정렬
+        stayList.sort(Comparator.comparing(StayHotelDto::getStayHotelDate));
+
         // 날짜별 빈 일정 리스트 생성
         List<ScheduleDto> scheduleList = new ArrayList<>();
         LocalDate start = schedule.getScheduleStart();
@@ -183,22 +185,15 @@ public class ScheduleController {
 
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             ScheduleDto daily = new ScheduleDto();
-            daily.setScheduleStart(date);  // 날짜만 설정
+            daily.setScheduleStart(date);
             scheduleList.add(daily);
         }
 
-        // 날짜별 숙소 매핑
-        DateTimeFormatter keyFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Map<String, StayHotelDto> stayMap = new HashMap<>();
-        for (StayHotelDto stay : stayList) {
-            String dateKey = stay.getStayHotelDate().format(keyFormatter);
-            stayMap.put(dateKey, stay);
-        }
+        model.addAttribute("schedule", schedule);
+        model.addAttribute("scheduleList", scheduleList);
+        model.addAttribute("placeList", placeList);
+        model.addAttribute("stayList", stayList); // 👈 List로 전달
 
-        model.addAttribute("schedule", schedule);           // 전체 일정
-        model.addAttribute("scheduleList", scheduleList);   // 날짜별 loop용
-        model.addAttribute("placeList", placeList);         // 전체 장소 (날짜 없음)
-        model.addAttribute("stayMap", stayMap);             // 날짜별 숙소
         return "Schedule/preview";
     }
 }

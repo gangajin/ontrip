@@ -4,38 +4,53 @@ let selectedLng = null;
 let hotelMarkers = [];
 let map;
 let mapReady = false;
+let tempStayHotelData = [];
+let tempPlaceNum = null;
 
 function openModal(placeNum, placeName, lat, lng) {
   document.getElementById("selectedPlaceNum").value = placeNum;
   selectedLat = lat;
   selectedLng = lng;
+  tempPlaceNum = placeNum;
 
-  let html = "<div class='modal-header'>"
-           + "<span class='modal-title'>" + placeName + "</span>"
-           + "<button class='modal-close' onclick='closeModal()'>×</button>"
-           + "</div>";
+  tempStayHotelData = [...stayHotelData]; // 복사
 
-  html += "<div class='date-card-container'>";
+  let html = `<div class='modal-header'>
+                <span class='modal-title'>${placeName}</span>
+                <button class='modal-close' onclick='closeModal()'>×</button>
+              </div><div class='date-card-container'>`;
+
   travelDates.forEach(date => {
-    const matched = stayHotelData.find(item => item.stayHotelDate === date);
+    const matched = tempStayHotelData.find(item => item.stayHotelDate === date);
     const isSelected = matched && matched.placeNum == placeNum;
 
-    html += `
-      <div class="date-card ${isSelected ? 'selected' : ''}" data-date="${date}">
-        ${date.split("-")[2]}
-      </div>
-    `;
+    html += `<div class="date-card ${isSelected ? 'selected' : ''}" data-date="${date}">${date.split("-")[2]}</div>`;
   });
-  html += "</div><div class='modal-btn-group'>"
-        + "<button class='btn btn-primary btn-sm' onclick='selectAllDates()'>전체 선택</button>"
-        + "<button class='btn btn-primary btn-sm' onclick='addStayHotel()'>완료</button>"
-        + "</div>";
+
+  html += `</div><div class='modal-btn-group'>
+             <button class='btn btn-primary btn-sm' onclick='selectAllDates()'>전체 선택</button>
+             <button class='btn btn-primary btn-sm' onclick='addStayHotel()'>완료</button>
+           </div>`;
 
   document.getElementById("dateSelection").innerHTML = html;
   document.getElementById("modal").style.display = "block";
 
   document.querySelectorAll(".date-card").forEach(card => {
     card.addEventListener("click", () => {
+      const date = card.getAttribute("data-date");
+      const isSelected = card.classList.contains("selected");
+
+      tempStayHotelData = tempStayHotelData.filter(item => item.stayHotelDate !== date);
+
+      if (!isSelected) {
+        tempStayHotelData.push({
+          stayHotelDate: date,
+          placeNum,
+          placeName,
+          lat: selectedLat,
+          lng: selectedLng
+        });
+      }
       card.classList.toggle("selected");
     });
   });
@@ -43,71 +58,73 @@ function openModal(placeNum, placeName, lat, lng) {
 
 function selectAllDates() {
   document.querySelectorAll(".date-card").forEach(card => {
+    const date = card.getAttribute("data-date");
     card.classList.add("selected");
-  });
-}
 
-function addStayHotel() {
-  const placeNum = document.getElementById("selectedPlaceNum").value;
-  const placeName = document.querySelector(".modal-title").innerText;
-
-  const selectedDates = [...document.querySelectorAll(".date-card.selected")]
-    .map(card => card.getAttribute("data-date"));
-
-  // ✅ 선택된 날짜만 기존 목록에서 제거
-  stayHotelData = stayHotelData.filter(item => !selectedDates.includes(item.stayHotelDate));
-
-  // ✅ 선택된 날짜만 새로 추가
-  selectedDates.forEach(date => {
-    stayHotelData.push({
+    tempStayHotelData = tempStayHotelData.filter(item => item.stayHotelDate !== date);
+    tempStayHotelData.push({
       stayHotelDate: date,
-      placeNum,
-      placeName,
+      placeNum: tempPlaceNum,
+      placeName: document.querySelector(".modal-title").innerText,
       lat: selectedLat,
       lng: selectedLng
     });
   });
+}
+
+function addStayHotel() {
+  // 날짜 기준으로 하나만 남도록 정제
+  const uniqueDates = new Map();
+  tempStayHotelData.forEach(item => {
+    uniqueDates.set(item.stayHotelDate, item); // 같은 날짜면 마지막 걸로 덮어씀
+  });
+
+  // 갱신
+  stayHotelData = Array.from(uniqueDates.values());
+  stayHotelData.sort((a, b) => a.stayHotelDate.localeCompare(b.stayHotelDate));
 
   updateHotelStatus();
   renderStayHotelMarkers();
   closeModal();
 }
 
+
 function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
-
-
-
 
 function updateHotelStatus() {
   const statusDiv = document.getElementById("selectedHotelStatus");
   statusDiv.innerHTML = "";
 
+  const dateListDiv = document.getElementById("hotelReservationTextList");
+  if (dateListDiv) dateListDiv.innerHTML = "";
+
   travelDates.forEach(date => {
     const matched = stayHotelData.find(item => item.stayHotelDate === date);
-    
+
     const card = document.createElement("div");
     card.className = "status-card";
+    let html = `<div class='status-info'><div class='status-date'>${date}</div>`;
 
-    if (matched) {
-		card.innerHTML = `
-		  <div class="status-info">
-		    <div class="status-date">${date}</div>
-		    <div class="status-hotel">${matched.placeName}</div>
-		  </div>
-		  <div>
-		    <button class="btn btn-sm btn-outline-primary">예약하기</button>
-		  </div>
-		`;
-    } else {
-      card.innerHTML = `
-        <div class="status-date">${date}</div>
-        <div class="status-hotel text-muted">선택 안함</div>
-      `;
-    }
+    html += matched
+      ? `<div class='status-hotel'>${matched.placeName}</div></div><div><button class='btn btn-sm btn-outline-primary'>예약하기</button></div>`
+      : `<div class='status-hotel text-muted'>선택 안함</div></div>`;
 
+    card.innerHTML = html;
     statusDiv.appendChild(card);
+
+    if (dateListDiv && matched) {
+      const line = document.createElement("div");
+      line.innerHTML = `
+        <div class="border p-2 mb-2">
+          <strong>${date}</strong><br/>
+          ${matched.placeName}
+          <button class='btn btn-sm btn-outline-primary'>예약하기</button>
+        </div>
+      `;
+      dateListDiv.appendChild(line);
+    }
   });
 }
 
@@ -121,17 +138,15 @@ function renderStayHotelMarkers() {
     if (!item.lat || !item.lng) return;
 
     const pos = new kakao.maps.LatLng(parseFloat(item.lat), parseFloat(item.lng));
-    const markerImage = new kakao.maps.MarkerImage(
-      "/image/marker_hotel_selected.png",
-      new kakao.maps.Size(40, 42),
-      { offset: new kakao.maps.Point(20, 42) }
-    );
-
     const marker = new kakao.maps.Marker({
       map: map,
       position: pos,
       title: item.placeName,
-      image: markerImage
+      image: new kakao.maps.MarkerImage(
+        "/image/marker_hotel_selected.png",
+        new kakao.maps.Size(40, 42),
+        { offset: new kakao.maps.Point(20, 42) }
+      )
     });
 
     hotelMarkers.push(marker);
@@ -140,76 +155,20 @@ function renderStayHotelMarkers() {
 
 function submitStayHotel() {
   const form = document.getElementById("saveForm");
-
-  Array.from(form.querySelectorAll("input[name='stayHotelDate'], input[name='placeNum']")).forEach(el => el.remove());
+  form.querySelectorAll("input[name='stayHotelDate'], input[name='placeNum']").forEach(el => el.remove());
 
   stayHotelData.forEach(item => {
-    [
-      { name: "stayHotelDate", value: item.stayHotelDate },
-      { name: "placeNum", value: item.placeNum }
-    ].forEach(field => {
+    ["stayHotelDate", "placeNum"].forEach(field => {
       const input = document.createElement("input");
       input.type = "hidden";
-      input.name = field.name;
-      input.value = field.value;
+      input.name = field;
+      input.value = item[field];
       form.appendChild(input);
     });
   });
 
   form.submit();
 }
-
-function searchHotels() {
-  const destinationNum = document.getElementById("destinationNum").value;
-  const keyword = document.getElementById("searchKeyword").value;
-
-  fetch(`/ajax/searchHotel?destinationNum=${destinationNum}&keyword=` + encodeURIComponent(keyword))
-    .then(response => response.json())
-    .then(data => renderHotelList(data))
-    .catch(error => {
-      console.error("검색 실패", error);
-      alert("검색 중 문제가 발생했습니다.");
-    });
-}
-
-function renderHotelList(hotels) {
-  const hotelListContainer = document.getElementById("hotelList");
-  hotelListContainer.innerHTML = "";
-
-  if (!hotels || hotels.length === 0) {
-    hotelListContainer.innerHTML = "<p>검색 결과가 없습니다.</p>";
-    return;
-  }
-
-  hotels.forEach(hotel => {
-    const placeName = hotel.placeName;
-    const address = hotel.placeRoadAddr || hotel.placeAddr || "";
-    const score = hotel.placeScore || "0.0";
-    const like = hotel.placelike || "0"; // ✅ 여기가 핵심 수정 부분!
-    const image = hotel.placeImage ? hotel.placeImage : "/image/default_hotel.jpg";
-
-    const item = document.createElement("div");
-    item.className = "hotel-card mb-2 p-2 border d-flex";
-    item.innerHTML = `
-      <img src="${image}" class="me-2" style="width: 90px; height: 90px; object-fit: cover;" alt="숙소 이미지"/>
-      <div class="flex-grow-1">
-        <div><strong>${placeName}</strong></div>
-        <div>${address}</div>
-        <div>
-          <i class="fas fa-star text-warning"></i> ${score}
-          <i class="fas fa-heart text-danger ms-2"></i> ${like}
-        </div>
-        <button class="btn btn-sm btn-outline-primary mt-1"
-          onclick="openModal('${hotel.placeNum}', \`${placeName}\`, '${hotel.placeLat}', '${hotel.placeLong}')">+
-        </button>
-      </div>
-    `;
-    hotelListContainer.appendChild(item);
-  });
-}
-window.renderHotelList = renderHotelList;
-
-// 초기 지도 렌더링
 document.addEventListener("DOMContentLoaded", function () {
   const rawJson = document.getElementById("hotelListData").textContent.trim();
   try {
@@ -219,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("🚨 숙소 JSON 파싱 오류:", e);
   }
 
+  // ✅ 지도 로드
   kakao.maps.load(function () {
     const container = document.getElementById("map");
     const lat = parseFloat(container.dataset.lat);
@@ -230,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
       level: 9
     });
 
+    // 중심 마커
     new kakao.maps.Marker({
       map: map,
       position: new kakao.maps.LatLng(lat, lng),
@@ -238,10 +199,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     mapReady = true;
     setTimeout(() => map.relayout(), 300);
-    renderStayHotelMarkers();
+    renderStayHotelMarkers(); // ✅ 숙소 마커 그려주기
   });
 
-  updateHotelStatus();
+  updateHotelStatus(); // 상태도 반영
 });
-
-window.openModal = openModal;

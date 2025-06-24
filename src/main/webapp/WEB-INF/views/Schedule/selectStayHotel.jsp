@@ -9,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="/CSS/selectStayHotel.css">
+    <link rel="stylesheet" href="/CSS/StayHotel.css">
 </head>
 <body>
 <div class="container-fluid">
@@ -59,10 +60,7 @@
   <h3 id="hotelName" style="font-size: 20px; margin-bottom: 15px;"></h3>
   <input type="hidden" id="selectedPlaceNum">
   <div id="dateSelection" style="margin-bottom: 15px;"></div>
-  <div style="text-align: center;">
-    <button onclick="addStayHotel()">추가</button>
-    <button onclick="closeModal()">닫기</button>
-  </div>
+
 </div>
 <form id="saveForm" action="saveStayHotel" method="post">
   <input type="hidden" name="scheduleNum" value="${scheduleNum}">

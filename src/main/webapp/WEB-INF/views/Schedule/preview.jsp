@@ -27,11 +27,11 @@
 
     <div class="section-title">설정한 숙소</div>
     <div class="card-list">
-      <c:forEach var="entry" items="${stayMap}" varStatus="vs">
+      <c:forEach var="stay" items="${stayList}" varStatus="vs">
         <div class="card">
-          <img src="${entry.value.placeImage}" alt="${entry.value.placeName}">
+          <img src="${stay.placeImage}" alt="${stay.placeName}">
           <div>DAY ${vs.index + 1}</div>
-          <div>${entry.value.placeName}</div>
+          <div>${stay.placeName}</div>
         </div>
       </c:forEach>
     </div>
@@ -90,11 +90,11 @@
   ];
 
   const stayList = [
-    <c:forEach var="entry" items="${stayMap}" varStatus="vs">
+    <c:forEach var="stay" items="${stayList}" varStatus="vs">
       {
-        name: "${entry.value.placeName}",
-        lat: ${entry.value.placeLat},
-        lng: ${entry.value.placeLong}
+        name: "${stay.placeName}",
+        lat: ${stay.placeLat},
+        lng: ${stay.placeLong}
       }<c:if test="${!vs.last}">,</c:if>
     </c:forEach>
   ];
@@ -105,6 +105,7 @@
       level: 9
     });
 
+    // 명소 마커 + 오버레이
     placeList.forEach(place => {
       const pos = new kakao.maps.LatLng(place.lat, place.lng);
       new kakao.maps.Marker({ map, position: pos, title: place.name });
@@ -115,10 +116,11 @@
       });
     });
 
+    // 숙소 마커
     const hotelImg = new kakao.maps.MarkerImage("/image/marker_hotel_selected.png", new kakao.maps.Size(40, 42), { offset: new kakao.maps.Point(20, 42) });
     stayList.forEach(hotel => {
       const pos = new kakao.maps.LatLng(hotel.lat, hotel.lng);
-      new kakao.maps.Marker({ map, position: pos, title: "[숙소] " + hotel.name, image: hotelImg });
+      new kakao.maps.Marker({ map, position: pos, title: "[숙소] " + hotel.name, image: hotelImg }); // ✅ 고침
     });
   });
 </script>

@@ -21,29 +21,36 @@
 	.date-card-container {
 	  display: flex;
 	  flex-wrap: wrap;
-	  gap: 10px;
+	  gap: 12px;
 	  justify-content: center;
 	  margin-bottom: 15px;
+	  max-width: 270px; /* 3개 * 80px + 여백 고려 */
+	  margin-left: auto;
+	  margin-right: auto;
 	}
 	
 	.date-card {
-	  width: 70px;
-	  height: 70px;
-	  border: 1px solid #ccc;
+	  width: 80px;
+	  height: 60px;
+	  background-color: #f2f2f2;
 	  border-radius: 8px;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  background-color: #f9f9f9;
-	  cursor: pointer;
+	  text-align: center;
+	  line-height: 60px;
 	  font-weight: bold;
-	  transition: all 0.2s ease-in-out;
+	  cursor: pointer;
+	  transition: 0.2s ease;
+	  user-select: none;
+	  border: 1px solid #ccc;
+	}
+	
+	.date-card:hover {
+	  background-color: #e0e0e0;
 	}
 	
 	.date-card.selected {
-	  background-color: #6f42c1;
-	  color: #fff;
-	  border-color: #6f42c1;
+	  background-color: #7b4eff;
+	  color: white;
+	  border-color: #5a189a;
 	}
 	
 	.modal-btn-group {
