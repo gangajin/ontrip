@@ -4,46 +4,7 @@
 <html>
 <head>
 <title>나의 문의 내역</title>
-<style>
-    .inquiry-list-container {
-        width: 700px;
-        margin: 30px auto;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
-    th {
-        background-color: #f4f4f4;
-    }
-    a {
-        text-decoration: none;
-        color: #007bff;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
-    .status {
-        font-weight: bold;
-    }
-    .write-button {
-	    padding: 8px 14px;
-	    background-color: #007bff;
-	    color: white;
-	    border-radius: 6px;
-	    font-size: 14px;
-	    text-decoration: none;
-	}
-
-	.write-button:hover {
-   	 background-color: #0056b3;
-	}
-</style>
+<link rel="stylesheet" href="/CSS/inquiryList.css">
 </head>
 <body>
 <c:if test="${sessionScope.loginUser.userRole ne 'admin'}">

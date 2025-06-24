@@ -1,0 +1,28 @@
+@charset "UTF-8";
+body { overflow-x: hidden; background-color: #f8f9fa; }
+        .sidebar {
+            min-height: 100vh;
+            background-color: #ffffff;
+            padding-top: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .map-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .selected-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+        .btn-category {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .btn-category:hover {
+            opacity: 0.85;
+        }

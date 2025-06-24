@@ -4,21 +4,7 @@
 <html>
 <head>
     <title>회원 문의 관리</title>
-    <style>
-        table {
-            width: 90%;
-            margin: 30px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-            text-align: center;
-        }
-        th {
-            background-color: #f3f3f3;
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/adminInquiry.css">
 </head>
 <body>
 <%@ include file="../header.jsp" %>

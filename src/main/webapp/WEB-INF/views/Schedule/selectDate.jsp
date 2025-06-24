@@ -7,24 +7,14 @@
     <title>여행 일정 확인</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { overflow-x: hidden; background-color: #f8f9fa; }
-        .sidebar {
-            min-height: 100vh;
-            background-color: #ffffff;
-            padding-top: 20px;
-            border-right: 1px solid #ddd;
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/selectDate.css">
 </head>
 <body>
 <div class="container-fluid">
+<%@ include file="../header.jsp" %>
     <div class="row">
         <!-- 사이드바 (selectPlace.jsp와 동일) -->
         <div class="col-2 sidebar d-flex flex-column align-items-center">
-            <h4 class="mb-4 mt-2"><a href="/">
-	    		<img src="/Image/header/logo.png" alt="로고" style="height: 60px;"></a>
-	    	</h4>
             <div class="mb-3"><a href="/step1?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStartParam}&scheduleEnd=${scheduleEndParam}"class="text-decoration-none text-primary fw-bold">STEP 1<br>날짜 확인</a></div>
           	<div class="mb-3"><a href="/step2?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStartParam}&scheduleEnd=${scheduleEndParam}&destinationLat=${destinationLat}&destinationLong=${destinationLong}"class="text-decoration-none text-dark">STEP 2<br>장소 선택</a></div>
             <div class="mb-3"><a href="/selectStayHotel?destinationNum=${destinationNum}"class="text-decoration-none text-dark">STEP 3<br>숙소 선택</a></div>

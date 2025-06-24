@@ -5,53 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>문의 작성</title>
-<style>
-    
-    .inquiry-form-container {
-        width: 500px; 
-        margin: 20px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 2px 2px 5px #eee;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    .form-group label {
-        display: block; 
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    .form-group textarea {
-        width: calc(100% - 22px); 
-        height: 150px; 
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical; 
-        font-size: 1em;
-    }
-    .form-actions {
-        text-align: right; 
-    }
-    .form-actions button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1em;
-    }
-    .form-actions button:hover {
-        background-color: #0056b3;
-    }
-    .error-message {
-        color: red;
-        margin-bottom: 15px;
-    }
-</style>
+<link rel="stylesheet" href="/CSS/inquiryWrite.css">
 </head>
 <body>
 

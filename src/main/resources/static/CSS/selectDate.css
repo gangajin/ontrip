@@ -1,0 +1,8 @@
+@charset "UTF-8";
+body { overflow-x: hidden; background-color: #f8f9fa; }
+        .sidebar {
+            min-height: 100vh;
+            background-color: #ffffff;
+            padding-top: 20px;
+            border-right: 1px solid #ddd;
+        }

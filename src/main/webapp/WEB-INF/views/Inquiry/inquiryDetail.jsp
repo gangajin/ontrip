@@ -4,64 +4,7 @@
 <html>
 <head>
     <title>문의 상세</title>
-    <style>
-        .chat-container {
-            width: 600px;
-            margin: 20px auto;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 10px;
-            background: #f9f9f9;
-        }
-
-        .message {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 70%;
-            clear: both;
-        }
-
-        .user-message {
-            background: #d4eaf7;
-            float: left;
-            text-align: left;
-        }
-
-        .admin-message {
-            background: #f1d6d6;
-            float: right;
-            text-align: right;
-        }
-
-        .time {
-            font-size: 0.8em;
-            color: gray;
-            margin-top: 5px;
-        }
-
-        .reply-form {
-            clear: both;
-            margin-top: 30px;
-        }
-
-        .reply-form textarea {
-            width: 100%;
-            height: 60px;
-            resize: none;
-            padding: 10px;
-            font-size: 1em;
-        }
-
-        .reply-form button {
-            margin-top: 5px;
-            padding: 8px 20px;
-        }
-
-        .clear {
-            clear: both;
-        }
-    </style>
+	<link rel="stylesheet" href="/CSS/inquiry.css">
 </head>
 <body>
 <div class="chat-container">

@@ -8,22 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Bootstrap Icons (선택사항) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body {
-            background-color: #fff5f5;
-        }
-        .error-box {
-            border: 2px solid #dc3545;
-            border-radius: 10px;
-            padding: 40px;
-            background-color: #f8d7da;
-            box-shadow: 0 0 15px rgba(220, 53, 69, 0.3);
-        }
-        .error-icon {
-            font-size: 3rem;
-            color: #dc3545;
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/RoleErrorPage.css"/>
 </head>
 <body>
 <div class="container d-flex justify-content-center align-items-center vh-100">

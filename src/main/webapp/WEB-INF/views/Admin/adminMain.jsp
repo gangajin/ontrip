@@ -9,20 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 부트스트랩 아이콘 CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        .admin-card {
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease-in-out;
-        }
-        .admin-card:hover {
-            transform: scale(1.03);
-        }
-        .bi {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/adminMain.css">
 </head>
 <body class="bg-light">
 <%@ include file="../header.jsp" %>

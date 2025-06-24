@@ -8,27 +8,13 @@
   <title>숙소 선택</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body { background-color: #f8f9fa; }
-    .sidebar {
-      min-height: 100vh;
-      background-color: #fff;
-      padding-top: 20px;
-      border-right: 1px solid #ddd;
-    }
-    .card:hover { cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .hotel-img { width: 100%; height: 120px; object-fit: cover; }
-    .rating i, .likes i { color: #f39c12; margin-right: 2px; }
-    .likes i { color: #e74c3c; }
-  </style>
+  <link rel="stylesheet" href="/CSS/selectStayHotel.css">
 </head>
 <body>
 <div class="container-fluid">
+<%@ include file="../header.jsp" %>
   <div class="row">
     <div class="col-2 sidebar d-flex flex-column align-items-center">
-      <h4 class="mb-4 mt-2">
-        <a href="/"><img src="Image/header/logo.png" alt="로고" style="height:60px"></a>
-      </h4>
       		<div class="mb-3"><a href="/step1?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}"class="text-decoration-none text-dark">STEP 1<br>날짜 확인</a></div>
           	<div class="mb-3"><a href="/step2?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}&destinationLat=${destinationLat}&destinationLong=${destinationLong}"class="text-decoration-none text-dark">STEP 2<br>장소 선택</a></div>
             <div class="mb-3"><a href="/selectStayHotel?destinationNum=${destinationNum}"class="text-decoration-none text-primary fw-bold">STEP 3<br>숙소 선택</a></div>

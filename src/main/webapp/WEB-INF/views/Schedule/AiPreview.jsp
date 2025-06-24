@@ -7,68 +7,7 @@
     <meta charset="UTF-8">
     <title>AI 자동 일정 미리보기</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .container-flex {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        .schedule-panel {
-            flex: 0 0 50%;
-            overflow-y: auto;
-            background-color: #f8f9fa;
-            padding: 30px;
-        }
-
-        .map-panel {
-            flex: 1;
-            height: 100%;
-        }
-
-        .day-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 30px;
-        }
-
-        .timeline {
-            border-left: 2px dotted #ccc;
-            padding-left: 20px;
-        }
-
-        .timeline-item {
-            position: relative;
-        }
-
-        .timeline-icon {
-            position: absolute;
-            left: -40px;
-            top: 5px;
-        }
-
-        #map {
-            width: 100%;
-            height: 100%;
-            border-left: 1px solid #ddd;
-        }
-        
-        .sidebar {
-            min-height: 100vh;
-            background-color: #ffffff;
-            padding-top: 20px;
-            border-right: 1px solid #ddd;
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/AiPreview.css">
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51c4a2ab2dc8447ff9c8ce7270d89439&autoload=false&libraries=services"></script>
 </head>

@@ -68,11 +68,6 @@
 	    </div>
 	</div>
 	
-	<script>
-		function togglePassword() {
-		    const pwInput = document.getElementById("userPasswd");
-		    pwInput.type = pwInput.type === "password" ? "text" : "password";
-		}
-	</script>
+	<script src="/JS/login.js"></script>
 </body>
 </html>

@@ -9,45 +9,7 @@
     <title>마이페이지</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        .profile-header {
-            background-color: #4ad8e9;
-            height: 250px;
-            position: relative;
-            text-align: center;
-        }
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            background-color: black;
-            border-radius: 50%;
-            display: inline-block;
-            margin-top: -50px;
-            position: relative;
-            z-index: 1;
-        }
-        .profile-avatar i {
-            color: white;
-            font-size: 40px;
-            line-height: 100px;
-        }
-        .profile-info {
-            background-color: white;
-            padding-top: 60px;
-            text-align: center;
-            padding-bottom: 20px;
-        }
-        .table-container {
-            padding: 30px;
-            max-width: 900px;
-            margin: auto;
-        }
-        .section-divider {
-            border-top: 2px solid #ddd;
-            margin: 50px auto 30px;
-            width: 90%;
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/mypage.css"/>
 </head>
 <body>
 <%@ include file="../header.jsp" %>
