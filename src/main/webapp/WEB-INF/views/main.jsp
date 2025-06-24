@@ -22,7 +22,7 @@
 	  <input type="hidden" name="scheduleEnd" id="scheduleEnd">
 	</form>
 	
-	<input type="text" id="datePicker" style="opacity:0; pointer-events:none; position:absolute;" />
+<!-- 	<input type="text" id="datePicker" style="opacity:0; pointer-events:none; position:absolute;" /> -->
 	
 	<h2>국내 어디로 여행을 떠나시나요?</h2>
 	<div class="search-box">
@@ -42,7 +42,24 @@
 	    </div>
 	  </c:forEach>
 	</div>
+	
+	<div id="calendarOverlay" class="calendar-overlay" style="display: none;"></div>
+	
+	<div id="calendarModal" class="calendar-modal" style="display: none;">
+	  <div class="calendar-box">
+	    <h4 class="calendar-title">여행 기간이 어떻게 되시나요?</h4>
+	    <p class="calendar-subtitle">
+	      * 여행 일자는 최대 <strong style="color:#000">10일</strong>까지 설정 가능합니다.<br>
+	      현재 여행 기간(<span style="font-weight:600">여행지 도착 날짜, 여행지 출발 날짜</span>)으로 입력해 주세요.
+	    </p>
+	    <input type="text" id="datePicker" />
+	    <div class="calendar-btn-group">
+	      <button id="cancelBtn" class="calendar-btn cancel">닫기</button>
+		  <button id="confirmBtn" class="calendar-btn confirm" disabled>선택</button>
+		</div>
 
+	  </div>
+	</div>
 
 	<script src="/JS/Main-selectDate.js"></script>	
 </body>

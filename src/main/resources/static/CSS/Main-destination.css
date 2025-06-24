@@ -1,3 +1,4 @@
+/* ====== 여행지 카드 ====== */
 .destination-container {
   display: flex;
   flex-wrap: wrap;
@@ -39,6 +40,8 @@
   margin-bottom: 10px;
 }
 
+
+/* ====== 검색창 ====== */
 .search-box {
   display: flex;
   justify-content: center;
@@ -48,19 +51,19 @@
 .search-input-wrapper {
   display: flex;
   align-items: center;
-  width: 500px; /* ✅ 기존 400 → 500으로 약간 길게 */
+  width: 500px;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   border-radius: 50px;
-  padding: 14px 24px; /* ✅ padding 조금 늘려서 두께감 */
+  padding: 14px 24px;
 }
 
 .search-input-wrapper input {
   border: none;
   outline: none;
   flex-grow: 1;
-  font-size: 17px; /* ✅ 기존보다 약간 키움 */
-  font-weight: 500; /* ✅ 약간 더 두껍게 */
+  font-size: 17px;
+  font-weight: 500;
   color: #333;
 }
 
@@ -74,4 +77,88 @@
   cursor: pointer;
   font-size: 22px;
   color: #333;
+}
+
+
+/* ====== 달력 오버레이 & 모달 ====== */
+.calendar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 998;
+}
+
+.calendar-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.calendar-box {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  min-width: 400px;
+}
+
+
+/* ====== 달력 타이틀 ====== */
+.calendar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.calendar-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+
+/* ====== 달력 버튼 그룹 ====== */
+.calendar-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.calendar-btn {
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 선택 버튼 스타일 */
+.calendar-btn.confirm {
+  background-color: #00c6be;
+  color: #fff;
+}
+
+.calendar-btn.confirm:disabled {
+  background-color: #ccc;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* 닫기 버튼 스타일 */
+.calendar-btn.cancel {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.calendar-btn.cancel:hover {
+  background-color: #d0d0d0;
 }

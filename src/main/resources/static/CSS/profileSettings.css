@@ -92,10 +92,6 @@ input[type="submit"] {
     color: white;
 }
 
-input[type="submit"]:hover {
-    background-color: #ff3b3b;
-}
-
 .profile-avatar {
             width: 100px;
             height: 100px;
