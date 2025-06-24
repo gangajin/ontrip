@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="/CSS/inquiryDetail.css">
 </head>
 <body>
+<%@ include file="../header.jsp" %>
 <div class="chat-container">
     <h3>문의 내역</h3>
 

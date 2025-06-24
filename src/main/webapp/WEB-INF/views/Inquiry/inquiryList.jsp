@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,9 @@
 <link rel="stylesheet" href="/CSS/inquiryList.css">
 </head>
 <body>
+<%@ include file="../header.jsp" %>
 <c:if test="${sessionScope.loginUser.userRole ne 'admin'}">
+
 <div class="inquiry-list-container">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2>나의 문의 내역</h2>

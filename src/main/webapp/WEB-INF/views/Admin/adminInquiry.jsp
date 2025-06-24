@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/CSS/adminInquiry.css">
 </head>
 <body>
+<%@ include file="../header.jsp" %>
     <h2 style="text-align:center;">회원 문의 관리</h2>
     <table>
         <thead>
