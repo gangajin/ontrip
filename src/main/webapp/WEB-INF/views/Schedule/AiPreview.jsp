@@ -61,6 +61,13 @@
             height: 100%;
             border-left: 1px solid #ddd;
         }
+        
+        .sidebar {
+            min-height: 100vh;
+            background-color: #ffffff;
+            padding-top: 20px;
+            border-right: 1px solid #ddd;
+        }
     </style>
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51c4a2ab2dc8447ff9c8ce7270d89439&autoload=false&libraries=services"></script>
@@ -68,12 +75,32 @@
 <body>
 
 <div class="container-flex">
+
+		<!-- 사이드바 -->
+        <div class="col-2 sidebar d-flex flex-column align-items-center">
+            <h4 class="mb-4 mt-2"><a href="/">
+	    		<img src="/Image/header/logo.png" alt="로고" style="height: 60px;"></a>
+	    	</h4>
+		    <div class="d-flex flex-column align-items-center w-100 px-2">
+		        <button class="btn btn-outline-primary btn-sm mb-3 w-100 schedule-button active" style="padding: 15px 0;" onclick="filterSchedule('all')">전체일정</button>
+		        <c:forEach var="entry" items="${groupedDetailMap}" varStatus="status">
+		            <button class="btn btn-outline-primary btn-sm mb-3 w-100 schedule-button" style="padding: 15px 0;"
+		                    onclick="filterSchedule('day${status.index + 1}')">
+		                ${status.index + 1}일차
+		            </button>
+		        </c:forEach>
+		    </div>
+            <div class="d-grid mt-4">
+			    <button class="btn btn-dark" onclick="confirmAndRedirect()">저장</button>
+			</div>
+        </div>
+        
     <!-- 왼쪽: 일정 카드 -->
     <div class="schedule-panel">
         <h4 class="mb-4">🗓 AI 자동 생성된 일정 미리보기</h4>
         <div class="d-flex gap-3 overflow-auto" style="padding-bottom: 10px;">
         <c:forEach var="entry" items="${groupedDetailMap}" varStatus="dayStatus">
-            <div class="day-card">
+            <div class="day-card" id="day${dayStatus.index + 1}">
                 <h5 class="mb-3 text-center">📅 ${dayStatus.index + 1}일차<br>(${entry.key})</h5>
                 <div class="timeline position-relative ms-4">
                     <c:forEach var="detail" items="${entry.value}" varStatus="placeStatus">
@@ -198,6 +225,33 @@
 
         map.setBounds(bounds);
     });
+    
+    function filterSchedule(dayId) {
+    	// 1. 일정 카드 표시/숨김 처리
+        const allCards = document.querySelectorAll(".day-card");
+        allCards.forEach(card => {
+            card.style.display = (dayId === 'all' || card.id === dayId) ? 'block' : 'none';
+        });
+        
+     	// 2. 모든 버튼에서 active 제거
+        document.querySelectorAll('.schedule-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // 3. 클릭된 버튼만 active 추가
+        const targetBtn = Array.from(document.querySelectorAll('.schedule-button'))
+            .find(btn => btn.getAttribute("onclick").includes(dayId));
+        if (targetBtn) {
+            targetBtn.classList.add('active');
+        }
+    }
+    
+    function confirmAndRedirect() {
+        const result = confirm("저장되었습니다. 마이페이지로 이동하시겠습니까?");
+        if (result) {
+            window.location.href = "/user/myPage";
+        }
+    }
 </script>
 </body>
 </html>
