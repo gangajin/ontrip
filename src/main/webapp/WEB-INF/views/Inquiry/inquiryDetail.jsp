@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>문의 상세</title>
-	<link rel="stylesheet" href="/CSS/inquiry.css">
+	<link rel="stylesheet" href="/CSS/inquiryDetail.css">
 </head>
 <body>
 <div class="chat-container">
