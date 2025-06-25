@@ -53,9 +53,20 @@ public class InquiryController {
 	    }
 	    
 	    @RequestMapping("/admininquiry")
-	    public String adminInquiryList(Model model) {
-	        List<InquiryDto> inquiryList = inquiryService.getAllInquiries();
+	    public String adminInquiryList(@RequestParam(value = "page", defaultValue = "1") int page,
+	                                   Model model) {
+	        int pageSize = 10;
+	        int totalCount = inquiryService.getTotalInquiryCount();
+	        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+	        int startIndex = (page - 1) * pageSize;
+
+	        List<InquiryDto> inquiryList = inquiryService.getPagedInquiries(startIndex, pageSize);
+
 	        model.addAttribute("inquiryList", inquiryList);
+	        model.addAttribute("currentPage", page);
+	        model.addAttribute("totalPages", totalPages);
+	        model.addAttribute("totalCount", totalCount);
+
 	        return "Admin/adminInquiry";
 	    }
 	    

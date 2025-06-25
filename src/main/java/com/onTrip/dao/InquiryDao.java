@@ -19,7 +19,9 @@ public interface InquiryDao {
 	
 	void updateInquiryStatus(@Param("inquiryNum") int inquiryNum, @Param("inquiryStatus") String status);
 
-	//비회원문의 시 필요
+	int countAllInquiries();
+	List<InquiryDto> selectPagedInquiries(@Param("start") int start, @Param("size") int size);
+	
 	void insertPublicInquiry(InquiryDto inquiry);
 
 }

@@ -34,9 +34,18 @@
 	    where inquiryNum = #{inquiryNum}
 	</update>
 	
-	<!-- 비회원 문의 저장용 insert 문  -->
 	<insert id="insertPublicInquiry" parameterType="com.onTrip.dto.InquiryDto">
 	    insert into inquiry (inquiryTitle, inquiryStatus, inquiryContent, inquiryTime, userNum, userIdText)
 	     values (#{inquiryTitle}, #{inquiryStatus}, #{inquiryContent}, #{inquiryTime}, #{userNum}, #{userIdText})
 	</insert>
+	
+	<select id="countAllInquiries" resultType="int">
+	    select count(*) from inquiry
+	</select>
+	
+	<select id="selectPagedInquiries" resultType="com.onTrip.dto.InquiryDto">
+	    select * from inquiry
+	    order by inquiryNum desc
+	    limit #{size} offset #{start}
+	</select>
 	</mapper>

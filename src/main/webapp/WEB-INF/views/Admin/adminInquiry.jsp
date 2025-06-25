@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/CSS/adminInquiry.css">
 </head>
 <body>
-<%@ include file="../header.jsp" %>
+	<%@ include file="../header.jsp" %>
+
 
 <div class="table-wrapper">
     <h2 class="table-title">회원 문의 관리</h2>
@@ -25,9 +26,10 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="inquiry" items="${inquiryList}">
+            <c:forEach var="inquiry" items="${inquiryList}" varStatus="status">
                 <tr>
-                    <td>${inquiry.inquiryNum}</td>
+                    <!-- 역순 번호 계산 -->
+                    <td>${totalCount - ((currentPage - 1) * 10 + status.index)}</td>
                     <td>${inquiry.inquiryTitle}</td>
                     <td>
                         <c:choose>
@@ -65,6 +67,12 @@
             </c:forEach>
         </tbody>
     </table>
+
+    <div class="pagination">
+        <c:forEach begin="1" end="${totalPages}" var="p">
+            <a href="/admininquiry?page=${p}" class="${p == currentPage ? 'active' : ''}">${p}</a>
+        </c:forEach>
+    </div>
 </div>
 
 </body>

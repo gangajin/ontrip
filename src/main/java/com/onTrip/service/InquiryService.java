@@ -89,7 +89,14 @@ public class InquiryService {
 
 		    inquirydao.insertPublicInquiry(inquiry);
 		}
+	   
+	   public int getTotalInquiryCount() {
+		    return inquirydao.countAllInquiries();
+		}
 
+		public List<InquiryDto> getPagedInquiries(int startIndex, int pageSize) {
+		    return inquirydao.selectPagedInquiries(startIndex, pageSize);
+		}
 	   
 	}
 
