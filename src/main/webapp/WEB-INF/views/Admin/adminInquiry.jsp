@@ -5,10 +5,11 @@
 <head>
     <title>회원 문의 관리</title>
     <link rel="stylesheet" href="/CSS/adminInquiry.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
-	<%@ include file="../header.jsp" %>
-
+<body style="margin: 0; padding: 0;">
+<%@ include file="../header.jsp" %>
 
 <div class="table-wrapper">
     <h2 class="table-title">회원 문의 관리</h2>

@@ -3,13 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>장소 등록</title>
-  <script type="text/javascript" src="/js/placeCheck.js"></script>
-  <link rel="stylesheet" type="text/css" href="/CSS/insertPlace.css">
+  	<meta charset="UTF-8">
+  	<title>장소 등록</title>
+  	<script type="text/javascript" src="/js/placeCheck.js"></script>
+  	<link rel="stylesheet" type="text/css" href="/CSS/insertPlace.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+ 	<script src="/JS/header.js"></script>
 </head>
-<body>
-
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
 
 <div class="container">

@@ -3,10 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>나의 문의 내역</title>
-<link rel="stylesheet" href="/CSS/inquiryList.css">
+	<title>나의 문의 내역</title>
+	<link rel="stylesheet" href="/CSS/inquiryList.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+	<script src="/JS/header.js"></script>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
 <c:if test="${sessionScope.loginUser.userRole ne 'admin'}">
 

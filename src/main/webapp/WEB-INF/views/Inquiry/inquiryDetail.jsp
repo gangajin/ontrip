@@ -5,9 +5,11 @@
 <head>
     <title>문의 상세</title>
 	<link rel="stylesheet" href="/CSS/inquiryDetail.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
-<%@ include file="../header.jsp" %>
+<body style="margin: 0; padding: 0;">
+<%@ include file="../header.jsp" %>lude file="../header.jsp" %>
 
 <div class="chat-container">
     <h3>문의 내역</h3>

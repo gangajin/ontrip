@@ -7,9 +7,12 @@
     <meta charset="UTF-8">
     <title>문의하기 (비회원)</title>    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
+
 <div class="container mt-5">
     <h2>비회원 문의하기</h2>
     

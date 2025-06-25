@@ -7,8 +7,10 @@
     <title>관리자 - 장소 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/CSS/adminPlaceList.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
     <h2 class="mb-4">장소 관리 (관리자)</h2>
 

@@ -6,8 +6,10 @@
     <meta charset="UTF-8">
     <title>회원 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
 <div class="container mt-4">
     <h2>회원 관리</h2>

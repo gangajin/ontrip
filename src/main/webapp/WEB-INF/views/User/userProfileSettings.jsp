@@ -6,12 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>프로필 설정</title>
-<link rel="stylesheet" href="/CSS/profileSettings.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="/CSS/profileSettings.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+	<script src="/JS/header.js"></script>
 </head>
-<body>
-	<%@ include file="../header.jsp" %>
+<body style="margin: 0; padding: 0;">
+<%@ include file="../header.jsp" %>
 
 	<!-- 프로필 정보 영역 -->
 	<div class="profile-info">

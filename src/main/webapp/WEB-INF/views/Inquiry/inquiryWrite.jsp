@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의 작성</title>
-<link rel="stylesheet" href="/CSS/inquiryWrite.css">
+	<title>문의 작성</title>
+	<link rel="stylesheet" href="/CSS/inquiryWrite.css">
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
     <div class="inquiry-form-container">
         <h2>새 문의 작성</h2>

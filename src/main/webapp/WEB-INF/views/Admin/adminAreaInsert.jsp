@@ -2,12 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>신규 장소 등록</title>
-  <link rel="stylesheet" href="/CSS/insertPlace.css">
-  <script type="text/javascript" src="/js/placeCheck.js"></script>
+  	<meta charset="UTF-8">
+  	<title>신규 장소 등록</title>
+  	<link rel="stylesheet" href="/CSS/insertPlace.css">
+  	<script type="text/javascript" src="/js/placeCheck.js"></script>
+	<link rel="stylesheet" href="/CSS/header.css">
+  	<script src="/JS/header.js"></script>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
 <div class="container">
   <div class="form-box">

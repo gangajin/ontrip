@@ -8,10 +8,12 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/CSS/selectDate.css">
+    <link rel="stylesheet" href="/CSS/header.css">
+	<script src="/JS/header.js"></script>
 </head>
-<body>
-<div class="container-fluid">
+<body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
+<div class="container-fluid">
     <div class="row">
         <!-- 사이드바 (selectPlace.jsp와 동일) -->
         <div class="col-2 sidebar d-flex flex-column align-items-center">
