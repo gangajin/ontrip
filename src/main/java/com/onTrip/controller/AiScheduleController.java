@@ -49,11 +49,8 @@ public class AiScheduleController {
     public String generateAiSchedule(@RequestParam("scheduleNum") int scheduleNum,
                                      @RequestParam("transportType") String transportType,
                                      HttpSession session) {
-    	
-    	// 0. 기존 일정 삭제 (중복 방지)
         scheduleDetailService.deleteDetailsByScheduleNum(scheduleNum);
 
-        // 1. 유저가 선택한 장소 및 호텔 리스트 조회
         List<PlaceDto> placeList = placeService.getPlacesByScheduleNum(scheduleNum);
         List<StayHotelDto> hotelDtoList = stayHotelService.getStayListByScheduleNum(scheduleNum);
         List<PlaceDto> hotelList = new ArrayList<>();
@@ -63,29 +60,25 @@ public class AiScheduleController {
             dto.setPlaceName(hotel.getPlaceName());
             dto.setPlaceLat(hotel.getPlaceLat());
             dto.setPlaceLong(hotel.getPlaceLong());
-            dto.setPlaceRoadAddr("호텔 주소 미정");
+            dto.setPlaceRoadAddr("호텔");
             dto.setPlaceCategory("hotel");
             hotelList.add(dto);
         }
 
-        // 2. 일정 정보 및 날짜 계산
         ScheduleDto schedule = scheduleService.selectOneByScheduleNum(scheduleNum);
         LocalDate startDate = schedule.getScheduleStart();
         LocalDate endDate = schedule.getScheduleEnd();
         int totalDays = (int) (endDate.toEpochDay() - startDate.toEpochDay() + 1);
 
-        // 3. 기차역 정보 조회 (도시 기준)
         int destinationNum = schedule.getDestinationNum();
         PlaceDto station = placeService.getStationByDestination(destinationNum);
 
-        // 4. GPT로 정렬된 장소 순서 받아오기
         List<PlaceDto> fullList = new ArrayList<>(placeList);
         fullList.addAll(hotelList);
         String prompt = openAiService.buildAiPrompt(fullList, transportType, startDate.toString(), endDate.toString());
         List<String> orderedNames = openAiService.getOrderedPlaceNames(prompt);
         List<PlaceDto> orderedList = openAiService.matchOrderedPlaces(orderedNames, fullList);
 
-        // 5. 카테고리별 분류
         List<PlaceDto> cafes = new ArrayList<>();
         List<PlaceDto> restaurants = new ArrayList<>();
         List<PlaceDto> attractions = new ArrayList<>();
@@ -101,82 +94,55 @@ public class AiScheduleController {
         }
 
         Set<Integer> visited = new HashSet<>();
+        PlaceDto lastHotel = null;
 
-        // 6. 날짜별 자동 일정 생성
         for (int d = 0; d < totalDays; d++) {
             LocalDate date = startDate.plusDays(d);
-            LocalDateTime time = date.atTime(10, 0); // 오전 10시 시작
+            LocalDateTime time = date.atTime(10, 0);
 
-            // 시작 장소
             if (d == 0) {
-                // 첫날은 기차역
                 insert(scheduleNum, station, time);
                 time = time.plusHours(2);
-            } else {
-                // 나머지는 호텔
-                PlaceDto hotel = hotels.get(d % hotels.size());
-                insert(scheduleNum, hotel, time);
+            } else if (lastHotel != null) {
+                insert(scheduleNum, lastHotel, time);
                 time = time.plusHours(2);
             }
 
-            // 카페
-            time = insertCategory(scheduleNum, cafes, visited, time);
-            // 식당
-            time = insertCategory(scheduleNum, restaurants, visited, time);
-            // 명소들 (최대 18시까지)
-            while (time.getHour() <= 18 && !attractions.isEmpty()) {
-                for (Iterator<PlaceDto> it = attractions.iterator(); it.hasNext();) {
-                    PlaceDto p = it.next();
-                    if (!visited.contains(p.getPlaceNum())) {
-                        insert(scheduleNum, p, time);
-                        visited.add(p.getPlaceNum());
-                        time = time.plusHours(2);
-                        it.remove();
-                        break;
-                    }
-                }
-                if (time.getHour() > 18) break;
-            }
+            time = insertCategory(scheduleNum, attractions, visited, time, 1);
+            time = insertCategory(scheduleNum, restaurants, visited, time, 1);
+            time = insertCategory(scheduleNum, cafes, visited, time, 1);
+            time = insertCategory(scheduleNum, attractions, visited, time, 2);
+            time = insertCategory(scheduleNum, restaurants, visited, time, 1);
 
-            // 종료 장소
             if (d == totalDays - 1) {
-                // 마지막 날은 기차역
                 insert(scheduleNum, station, time);
             } else {
-                // 나머지는 호텔 (20~22시)
-                PlaceDto hotel = hotels.get(d % hotels.size());
-                insert(scheduleNum, hotel, time.withHour(20));
+                PlaceDto hotel = !hotels.isEmpty() ? hotels.get(d % hotels.size()) : hotelList.get(d % hotelList.size());
+                insert(scheduleNum, hotel, time.withHour(22));
+                lastHotel = hotel;
             }
         }
-        // 모든 일정 생성 완료 후 상태를 '완성'으로 변경
-        scheduleDetailService.updateScheduleStatusToComplete(scheduleNum);
 
+        scheduleDetailService.updateScheduleStatusToComplete(scheduleNum);
         return "redirect:/aiPreview?scheduleNum=" + scheduleNum;
     }
 
-    /**
-     * 특정 카테고리에서 미방문 장소 1개를 추가하고 2시간 증가
-     */
-    private LocalDateTime insertCategory(int scheduleNum, List<PlaceDto> list, Set<Integer> visited, LocalDateTime time) {
+    private LocalDateTime insertCategory(int scheduleNum, List<PlaceDto> list, Set<Integer> visited, LocalDateTime time, int maxCount) {
+        int count = 0;
         for (Iterator<PlaceDto> it = list.iterator(); it.hasNext();) {
+            if (count >= maxCount || time.getHour() >= 20) break;
             PlaceDto p = it.next();
-            if ("hotel".equals(p.getPlaceCategory())) {
-                continue;
-            }
             if (!visited.contains(p.getPlaceNum())) {
                 insert(scheduleNum, p, time);
                 visited.add(p.getPlaceNum());
                 time = time.plusHours(2);
                 it.remove();
-                break;
+                count++;
             }
         }
         return time;
     }
 
-    /**
-     * 일정 상세 저장
-     */
     private void insert(int scheduleNum, PlaceDto place, LocalDateTime time) {
         ScheduleDetailDto detail = new ScheduleDetailDto();
         detail.setScheduleNum(scheduleNum);
@@ -186,9 +152,6 @@ public class AiScheduleController {
         scheduleDetailService.insert(detail);
     }
 
-    /**
-     * 일정 미리보기 페이지
-     */
     @GetMapping("/aiPreview")
     public String previewSchedule(@RequestParam("scheduleNum") int scheduleNum, Model model) {
         List<ScheduleDetailDto> detailList = scheduleDetailService.getScheduleDetailsWithPlace(scheduleNum);
