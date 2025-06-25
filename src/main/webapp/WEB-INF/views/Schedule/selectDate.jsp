@@ -24,7 +24,6 @@
         </div>
         <!-- 본문 영역 -->
         <div class="col-10 p-5">
-            <h2>여행 일정 확인(STEP1)</h2>
             <h2>${destinationName}</h2>
             <p>${scheduleStart} ~ ${scheduleEnd}</p>
             <a href="https://www.skyscanner.co.kr/" target="_blank"><button class="btn btn-outline-primary">항공</button></a>

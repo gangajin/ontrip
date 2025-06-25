@@ -106,5 +106,15 @@ public class MyPageController {
     	
     	return "redirect:/user/profileSettings?success=nickname";
     }
-    	
+    
+    //회원탈퇴
+    @RequestMapping("/userDelete")
+    public String userDelete(HttpSession session) {
+    	UserDto user = (UserDto) session.getAttribute("loginUser");
+    	if(user!=null) {
+    		userDao.deleteUser(user.getUserNum());
+    		session.invalidate();
+    	}
+    	return "redirect:/";
+    }
 }

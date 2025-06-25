@@ -18,7 +18,6 @@
 	    <div class="profile-avatar d-inline-flex justify-content-center align-items-center">
 	        <i class="bi bi-person-fill"></i>
 	    </div>
-<%-- 	    <div>${sessionScope.loginUser.userNickname}님</div> --%>
 	</div>
 	
 	<div>
@@ -27,12 +26,12 @@
 			닉네임<br>
 			<input type="text" name="userNickname" value="${user.userNickname}"><p>
 			이메일<br>
-			<input type="text" name="userId" value="${user.userId}" readonly><p>
+			<input type="text" name="userId" value="${user.userId}" readonly><br>
 			
-			<!-- <input type="button" value="회원탈퇴"><p>-->
+			<input type="submit" value="저장">
 			<div class="button-group">
 				<input type="button" value="돌아가기" onclick="history.back()">
-				<input type="submit" value="저장">
+				<input type="button" value="회원 탈퇴" onclick="userDelete()">
 			</div>
 		</form>
 	</div>
@@ -49,5 +48,12 @@
 	    </script>
 	</c:if>
 	
+	<script>
+		function userDelete(){
+			if(confirm("정말로 회원 탈퇴하시겠습니까?")){
+				location.href="/user/userDelete";
+			}
+		}
+	</script>
 </body>
 </html>
