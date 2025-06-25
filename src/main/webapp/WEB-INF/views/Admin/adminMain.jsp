@@ -10,8 +10,10 @@
     <!-- 부트스트랩 아이콘 CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/CSS/adminMain.css">
+    <link rel="stylesheet" href="/CSS/header.css">
+     <script src="/JS/header.js"></script>
 </head>
-<body class="bg-light">
+<body style="margin: 0; padding: 0;" class="bg-light">
 <%@ include file="../header.jsp" %>
 <div class="container py-5">
     <h2 class="text-center mb-5">관리자 페이지</h2>
@@ -26,16 +28,7 @@
             </div>
         </div>
 
-        <!-- 2: 지역 등록 -->
-        <div class="col-md-3">
-            <div class="card text-center admin-card p-4">
-                <i class="bi bi-geo-alt-fill"></i>
-                <h5 class="card-title">지역 등록</h5>
-                <button onclick="alertAndRedirect()" class="btn btn-outline-info mt-3">바로가기</button>
-            </div>
-        </div>
-
-        <!-- 3: 장소 등록 -->
+        <!-- 2: 장소 등록 -->
         <div class="col-md-3">
             <div class="card text-center admin-card p-4">
                 <i class="bi bi-map-fill"></i>
@@ -44,7 +37,7 @@
             </div>
         </div>
 
-        <!-- 4: 장소 목록 -->
+        <!-- 3: 장소 목록 -->
         <div class="col-md-3">
             <div class="card text-center admin-card p-4">
                 <i class="bi bi-list-ul"></i>
@@ -53,7 +46,7 @@
             </div>
         </div>
 
-        <!-- 5: 회원 관리 -->
+        <!-- 4: 회원 관리 -->
         <div class="col-md-3">
             <div class="card text-center admin-card p-4">
                 <i class="bi bi-people-fill"></i>
@@ -65,10 +58,4 @@
     </div>
 </div>
 </body>
-<script>
-	function alertAndRedirect() {
-	    alert('메인페이지에서 STEP1부터 진행해 주세요.');
-	    window.location.href = '/';
-	}
-</script>
 </html>
