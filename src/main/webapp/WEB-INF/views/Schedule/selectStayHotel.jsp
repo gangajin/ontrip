@@ -76,64 +76,9 @@
 <script id="hotelListData" type="application/json">
   <c:out value="${hotelListJson}" escapeXml="false"/>
 </script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const rawJson = document.getElementById("hotelListData").textContent.trim();
-    try {
-      const hotelData = JSON.parse(rawJson);
-      renderHotelList(hotelData);
-    } catch (e) {
-      console.error("🚨 숙소 데이터 파싱 오류:", e);
-    }
-  });
 
-  function renderHotelList(hotels) {
+<script src="/JS/selectStayHotel.js"></script>
 
-	  const hotelListContainer = document.getElementById("hotelList");
-	  hotelListContainer.innerHTML = "";
-
-	  if (!hotels || hotels.length === 0) {
-	    hotelListContainer.innerHTML = "<p>검색 결과가 없습니다.</p>";
-	    return;
-	  }
-
-	  hotels.forEach(hotel => {
-	    const item = document.createElement("div");
-	    item.className = "card mb-2";
-	    item.innerHTML = `
-	    	  <div class="row g-0">
-	    	    <div class="col-4">
-	    	      <img src="${'$'}{hotel.placeImage}" class="img-fluid rounded-start hotel-img" alt="숙소 이미지">
-	    	    </div>
-	    	    <div class="col-8 d-flex flex-column justify-content-between">
-	    	      <div class="card-body">
-	    	        <div class="d-flex justify-content-between align-items-center">
-	    	          <h5 class="card-title mb-1 mb-0">${'$'}{hotel.placeName}</h5>
-	    	          <button class="btn btn-outline-primary btn-sm"
-	    	            onclick="openModal('${'$'}{hotel.placeNum}', '${'$'}{hotel.placeName}', '${'$'}{hotel.placeLat}', '${'$'}{hotel.placeLong}')">+
-	    	          </button>
-	    	        </div>
-	    	        <p class="card-text mb-1">${'$'}{hotel.placeRoadAddr}</p>
-	    	        <div class="d-flex align-items-center gap-2">
-	    	          <div class="rating">
-	    	            <i class="fa-solid fa-star text-warning"></i>
-	    	            ${'$'}{hotel.placeScore !== undefined && !isNaN(hotel.placeScore)
-	    	                ? Number(hotel.placeScore).toFixed(1)
-	    	                : '0.0'}
-	    	          </div>
-	    	          <div class="likes">
-	    	            <i class="fa-solid fa-heart text-danger"></i> ${'$'}{hotel.placelike !== undefined && hotel.placelike !== null ? hotel.placelike : 0}
-	    	          </div>
-	    	        </div>
-	    	      </div>
-	    	    </div>
-	    	  </div>
-	    	`;
-	    hotelListContainer.appendChild(item);
-	  });
-	}
-</script>
-<script src="/JS/selectPlace.js"></script>
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=51c4a2ab2dc8447ff9c8ce7270d89439&autoload=false&libraries=services"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

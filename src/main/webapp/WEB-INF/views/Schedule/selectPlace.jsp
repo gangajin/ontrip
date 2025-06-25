@@ -127,121 +127,24 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-	window.currentPlaceList = [
-	    <c:forEach var="place" items="${placeList}" varStatus="status">
-	        {
-	            placeNum: ${place.placeNum},
-	            placeName: "${place.placeName}",
-	            placeRoadAddr: "${place.placeRoadAddr}",
-	            placeLat: ${place.placeLat},
-	            placeLong: ${place.placeLong}
-	        }<c:if test="${!status.last}">,</c:if>
-	    </c:forEach>
-	];
-	
-	var map;
-	var markers = [];
-	
-	kakao.maps.load(function () {
-	    initMap();
-	});
-	
-	function initMap() {
-	    var mapContainer = document.getElementById('map');
-	    var mapOption = {
-	        center: new kakao.maps.LatLng(${destinationLat}, ${destinationLong}),
-	        level: 5
-	    };
-	    map = new kakao.maps.Map(mapContainer, mapOption);
-	
-	    // ✅ planMarkerList 기준 마커 찍기
-	    <c:forEach var="marker" items="${planMarkerList}">
-		    var markerPosition = new kakao.maps.LatLng(${marker.placeLat}, ${marker.placeLong});
-		    var marker = new kakao.maps.Marker({
-		        position: markerPosition,
-		        map: map,
-		        title: "<c:out value='${marker.placeName}'/>"
-		    });
-		    markers.push(marker);
-		</c:forEach>
-
-	}
-
- 	// ✅ 장소 추가
-    function addSelectedPlace(placeNum) {
-    $.post("/plan/add", { placeNum: placeNum }, function(response) {
-        if (response === "success") {
-            refreshSelectedList();
-
-            // ✅ 마커 추가
-            const addedPlace = window.currentPlaceList.find(p => p.placeNum === Number(placeNum));
-            if (addedPlace) {
-                const markerPosition = new kakao.maps.LatLng(addedPlace.placeLat, addedPlace.placeLong);
-                const marker = new kakao.maps.Marker({
-                    position: markerPosition,
-                    map: map,
-                    title: addedPlace.placeName
-                });
-                marker.placeNum = addedPlace.placeNum;
-                markers.push(marker);
-                map.setCenter(markerPosition);
-            } else {
-                console.warn("❗ 추가할 장소를 찾을 수 없습니다. placeNum:", placeNum);
-            }
-        } else {
-            alert("로그인 후 이용 가능합니다.");
-        }
-    });
-}
-
-
-    // ✅ 장소 삭제
-    function removeSelectedPlace(placeNum) {
-        $.post("/plan/remove", { placeNum: placeNum }, function(response) {
-            if (response === "success") {
-                refreshSelectedList();
-                // 마커 삭제
-                // markers 배열에서 해당 placeNum 마커 찾아서 제거
-                for (let i = 0; i < markers.length; i++) {
-                    if (markers[i].placeNum === placeNum) {
-                        markers[i].setMap(null);      // 지도에서 제거
-                        markers.splice(i, 1);         // 배열에서도 제거
-                        break;
-                    }
-                }
-            } else {
-                alert("로그인 후 이용 가능합니다.");
-            }
-        });
-    }
-
-    // ✅ 장바구니 영역 새로고침
-    function refreshSelectedList() {
-        $("#selectedList").load("/plan/list");
-    }
-
-
-    function goToStep3() {
-        const destinationNum = "${destinationNum}";
-        const scheduleStart = "${scheduleStartParam}";
-        const scheduleEnd = "${scheduleEndParam}";
-
-        fetch("/saveScheduleToSession", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}`
-        }).then(() => {
-            location.href = `/selectStayHotel?destinationNum=${destinationNum}`;
-        }).catch(err => {
-            alert("세션 저장 실패");
-        });
-    }
-    function setCategoryAndSubmit(category) {
-        document.getElementById("categoryInput").value = category;
-        document.getElementById("searchForm").submit();
-    }
+  window.currentPlaceList = [
+    <c:forEach var="place" items="${placeList}" varStatus="status">
+      {
+        placeNum: ${place.placeNum},
+        placeName: "${place.placeName}",
+        placeRoadAddr: "${place.placeRoadAddr}",
+        placeLat: ${place.placeLat},
+        placeLong: ${place.placeLong}
+      }<c:if test="${!status.last}">,</c:if>
+    </c:forEach>
+  ];
+  const destinationLat = ${destinationLat};
+  const destinationLong = ${destinationLong};
+  const destinationNum = "${destinationNum}";
+  const scheduleStart = "${scheduleStartParam}";
+  const scheduleEnd = "${scheduleEndParam}";
 </script>
+<script src="/JS/selectPlace.js"></script>
+
 </body>
 </html>
