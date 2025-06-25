@@ -1,39 +1,77 @@
 @charset "UTF-8";
-.inquiry-list-container {
-        width: 700px;
-        margin: 30px auto;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    th, td {
-        border-bottom: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
-    th {
-        background-color: #f4f4f4;
-    }
-    a {
-        text-decoration: none;
-        color: #007bff;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
-    .status {
-        font-weight: bold;
-    }
-    .write-button {
-	    padding: 8px 14px;
-	    background-color: #007bff;
-	    color: white;
-	    border-radius: 6px;
-	    font-size: 14px;
-	    text-decoration: none;
-	}
 
-	.write-button:hover {
-   	 background-color: #0056b3;
-	}
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f9fafc;
+    margin: 0;
+    padding: 0;
+}
+
+.inquiry-list-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e1e1e1;
+    font-size: 15px;
+    color: #333;
+}
+
+th {
+    background-color: #f2f5f9;
+    font-weight: bold;
+    color: #555;
+}
+
+tr:hover {
+    background-color: #f8fbff;
+    transition: background-color 0.2s ease-in-out;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.status {
+    font-weight: bold;
+    color: #28a745; 
+}
+
+.write-button {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+.write-button:hover {
+    background-color: #0056b3;
+}

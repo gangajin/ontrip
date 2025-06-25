@@ -8,7 +8,10 @@
 </head>
 <body>
 <%@ include file="../header.jsp" %>
-    <h2 style="text-align:center;">회원 문의 관리</h2>
+
+<div class="table-wrapper">
+    <h2 class="table-title">회원 문의 관리</h2>
+
     <table>
         <thead>
             <tr>
@@ -29,7 +32,7 @@
                     <td>
                         <c:choose>
                             <c:when test="${inquiry.userNum == null}">
-                                <span style="color: red; font-weight: bold;">비회원 (${inquiry.userIdText})</span>
+                                <span class="guest-user">비회원 (${inquiry.userIdText})</span>
                             </c:when>
                             <c:otherwise>
                                 ${inquiry.userNickname}
@@ -39,30 +42,30 @@
                     <td>
                         <c:choose>
                             <c:when test="${inquiry.inquiryStatus == '완료'}">
-                                <span style="color: green; font-weight: bold;">${inquiry.inquiryStatus}</span>
+                                <span class="status-badge status-complete">${inquiry.inquiryStatus}</span>
                             </c:when>
                             <c:otherwise>
-                                <span style="color: red;">${inquiry.inquiryStatus}</span>
+                                <span class="status-badge status-pending">${inquiry.inquiryStatus}</span>
                             </c:otherwise>
                         </c:choose>
                     </td>
-                   <td>${fn:substring(inquiry.inquiryTime, 0, 16)}</td>
+                    <td>${fn:substring(inquiry.inquiryTime, 0, 16)}</td>
+                    <td><a href="/inquiryDetail?inquiryNum=${inquiry.inquiryNum}">보기</a></td>
                     <td>
-                        <a href="/inquiryDetail?inquiryNum=${inquiry.inquiryNum}">보기</a>
-                    </td>
-                    <td>
-                        <form action="/inquiryStatusUpdate" method="get">
+                        <form action="/inquiryStatusUpdate" method="get" class="status-form">
                             <input type="hidden" name="inquiryNum" value="${inquiry.inquiryNum}" />
-                            <select name="inquiryStatus">
+                            <select class="status-select" name="inquiryStatus">
                                 <option value="대기" ${inquiry.inquiryStatus == '대기' ? 'selected' : ''}>대기</option>
                                 <option value="완료" ${inquiry.inquiryStatus == '완료' ? 'selected' : ''}>완료</option>
                             </select>
-                            <button type="submit">변경</button>
+                            <button class="status-button" type="submit">변경</button>
                         </form>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+</div>
+
 </body>
 </html>
