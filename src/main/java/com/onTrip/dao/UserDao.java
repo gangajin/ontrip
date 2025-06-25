@@ -35,4 +35,10 @@ public interface UserDao {
 
    //User닉네임 변경
    void changeNickname(UserDto userDto);
+   
+   int countAllUsers();
+
+   List<UserDto> selectPagedUsers(@Param("offset") int offset,
+                                  @Param("pageSize") int pageSize);
+
 }

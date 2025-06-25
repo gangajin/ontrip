@@ -66,4 +66,15 @@
 		 set userNickname = #{userNickname}
 		 where userNum = #{userNum}
 	</update>
+	
+	<select id="countAllUsers" resultType="int">
+	    SELECT COUNT(*) FROM user
+	</select>
+	
+	<select id="selectPagedUsers" resultType="com.onTrip.dto.UserDto">
+	    SELECT * FROM user
+	    ORDER BY userNum DESC
+	    LIMIT #{offset}, #{pageSize}
+	</select>
+	
 </mapper>

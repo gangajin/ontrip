@@ -55,5 +55,30 @@
         </tbody>
     </table>
 </div>
+
+<!-- 페이징 영역 -->
+<div class="d-flex justify-content-center mt-4">
+    <nav>
+        <ul class="pagination">
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <li class="page-item active">
+                            <a class="page-link" href="#">${i}</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="/admin/userList?page=${i}
+                               <c:if test='${not empty keyword}'>&keyword=${keyword}</c:if>">${i}</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </ul>
+    </nav>
+</div>
+
 </body>
 </html>

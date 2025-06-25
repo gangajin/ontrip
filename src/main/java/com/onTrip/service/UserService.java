@@ -41,21 +41,6 @@ public class UserService {
        return userDao.findByUserId(userId);
    }
    
-   //OAuth카카오
-//   public void registerKakaoUser(UserDto userDto) {
-//	    userDao.insertKakaoUser(userDto);
-//	}
-   
-   //OAuth구글
-//   public void registerGoogleUser(UserDto userDto) {
-//	   userDao.insertGoogleUser(userDto);
-//   }
-   
-   //OAuth네이버
-//   public void registerNaverUser(UserDto userDto) {
-//	   userDao.insertNaverUser(userDto);
-//   }
-   
    //OAuth 통합(카카오, 구글, 네이버)
    public void registerSocialUser(UserDto userDto) {
 	    userDao.insertSocialUser(userDto);
@@ -77,5 +62,4 @@ public class UserService {
    public void deleteUser(int userNum) {
 	    userDao.deleteUser(userNum);
 	}
-
 }
