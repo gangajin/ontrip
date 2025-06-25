@@ -9,7 +9,7 @@
   	<script src="/JS/header.js"></script>
 </head>
 <body style="margin: 0; padding: 0;">
-<%@ include file="../header.jsp" %>lude file="../header.jsp" %>
+<%@ include file="../header.jsp" %>
 
 <div class="chat-container">
     <h3>문의 내역</h3>
