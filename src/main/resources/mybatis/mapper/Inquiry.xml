@@ -44,8 +44,9 @@
 	</select>
 	
 	<select id="selectPagedInquiries" resultType="com.onTrip.dto.InquiryDto">
-	    select * from inquiry
-	    order by inquiryNum desc
-	    limit #{size} offset #{start}
+	     select i.*, u.userNickname
+		    from inquiry i
+		    left join user u on i.userNum = u.userNum
+		    order by i.inquiryNum desc
 	</select>
 	</mapper>
