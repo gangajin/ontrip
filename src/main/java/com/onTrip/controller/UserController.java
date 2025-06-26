@@ -39,14 +39,14 @@ public class UserController {
     //이메일(userId) 중복검사
     @RequestMapping("/checkEmail")
     @ResponseBody
-    public boolean checkEmail(@RequestParam String userId) {
+    public boolean checkEmail(@RequestParam("userId") String userId) {
        return userDao.countByUserId(userId)==0;
     }
     
     //닉네임 중복검사
     @RequestMapping("/checkNickname")
     @ResponseBody
-    public boolean checkNickname(@RequestParam String nickname) {
+    public boolean checkNickname(@RequestParam("nickname") String nickname) {
         return userDao.countByUserNickname(nickname) == 0;
     }
 

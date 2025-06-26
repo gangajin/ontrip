@@ -4,8 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>On:trip</title>
-	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
+    <title>장소 선택</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/CSS/selectPlace.css">
@@ -51,19 +50,18 @@
                         <input type="hidden" name="scheduleEnd" value="${scheduleEnd}">
                         <input type="hidden" name="destinationLat" value="${destinationLat}">
     					<input type="hidden" name="destinationLong" value="${destinationLong}">
-                        <input type="hidden" id="categoryInput" name="category" value="${category}">
-                        
+                        <input type="hidden" id="categoryInput" name="category" value="${param.category != null ? param.category : 'recommend'}">
                         <input type="text" name="keyword" class="form-control" placeholder="장소명을 입력하세요" value="${keyword}">
                         <button class="btn btn-outline-secondary" type="submit">검색</button>
                     </form>
 
                     <!-- 카테고리 버튼 -->
                     <div class="mb-3">
-                        <button class="btn btn-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('recommend')">추천 장소</button>
-                        <button class="btn btn-outline-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('attraction')">명소</button>
-                        <button class="btn btn-outline-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('restaurant')">식당</button>
-                        <button class="btn btn-outline-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('cafe')">카페</button>
-                    </div>
+					  <button id="btn-recommend" class="btn btn-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('recommend')">추천 장소</button>
+					  <button id="btn-attraction" class="btn btn-outline-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('attraction')">명소</button>
+					  <button id="btn-restaurant" class="btn btn-outline-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('restaurant')">식당</button>
+					  <button id="btn-cafe" class="btn btn-outline-primary btn-sm btn-category" type="button" onclick="setCategoryAndSubmit('cafe')">카페</button>
+					</div>
 
                     <!-- 추천 장소 리스트 -->
                     <div id="placeList" class="overflow-auto" style="max-height: 500px;">
