@@ -200,9 +200,9 @@
                 <h4>류지호</h4>
                 <span>팀원</span>
                 <div class="social">
-                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="https://www.instagram.com/_g_.h0/" target="_blank"><i class="bi bi-instagram"></i></a>
                   <a href="#"><i class="bi bi-facebook"></i></a>
-                  <a href="#"><i class="bi bi-instagram"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
@@ -216,9 +216,9 @@
                 <h4>이강진</h4>
                 <span>팀장</span>
                 <div class="social">
-                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="https://www.instagram.com/gang_a_jin_/" target="_blank"><i class="bi bi-instagram"></i></a>
                   <a href="#"><i class="bi bi-facebook"></i></a>
-                  <a href="#"><i class="bi bi-instagram"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
@@ -232,9 +232,9 @@
                 <h4>박상준</h4>
                 <span>팀원</span>
                 <div class="social">
-                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="https://www.instagram.com/ps.j0_0n/" target="_blank"><i class="bi bi-instagram"></i></a>
                   <a href="#"><i class="bi bi-facebook"></i></a>
-                  <a href="#"><i class="bi bi-instagram"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
