@@ -29,12 +29,27 @@ public class UserService {
    
    //DB의 userId랑 암호화된 비밀번호 비교
    public UserDto login(String userId, String userPasswd) {
-       UserDto user = userDao.findByUserId(userId);
-       if (user != null && passwordEncoder.matches(userPasswd, user.getUserPasswd())) {
-           return user;
-       }
-       return null;
-   }
+	    UserDto user = userDao.findByUserId(userId);
+	    
+	    if (user != null) {
+	        // ✅ [1] 계정 상태 확인
+	        String status = user.getUserStatus();
+	        if ("잠금".equals(status)) {
+	            throw new IllegalStateException("해당 계정은 잠금 상태입니다.");
+	        } else if ("휴면".equals(status)) {
+	            throw new IllegalStateException("휴면 계정입니다. 비밀번호를 변경해주세요.");
+	        } else if ("탈퇴".equals(status)) {
+	            throw new IllegalStateException("이미 탈퇴된 계정입니다.");
+	        }
+
+	        // ✅ [2] 비밀번호 비교
+	        if (passwordEncoder.matches(userPasswd, user.getUserPasswd())) {
+	            return user;
+	        }
+	    }
+	    
+	    return null;
+	}
    
    //로그인창에서 아이디 맞는지
    public UserDto findByUserId(String userId) {

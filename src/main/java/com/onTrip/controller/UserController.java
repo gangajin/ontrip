@@ -73,6 +73,18 @@ public class UserController {
             model.addAttribute("userIdError", "존재하지 않는 아이디입니다.");
             return "User/login";
         }
+        
+        // ✅ 계정 상태 체크
+        String status = user.getUserStatus();
+        if ("잠금".equals(status)) {
+            model.addAttribute("errorMessage", "해당 계정은 잠금 상태입니다. 관리자에게 문의해 주세요.");
+            model.addAttribute("userId", user.getUserId()); 
+            return "Inquiry/publicInquiryWrite"; 
+        } else if ("휴면".equals(status)) {
+            model.addAttribute("userId", user.getUserId());  // 전달용
+            model.addAttribute("loginMessage", "휴면 계정입니다. 비밀번호를 변경해주세요.");
+            return "User/sleepAccount";  // 휴면 안내 페이지로 이동
+        }
 
         if (!passwordEncoder.matches(userPasswd, user.getUserPasswd())) {
             model.addAttribute("passwordError", "비밀번호가 일치하지 않습니다.");
