@@ -96,7 +96,33 @@ function goToStep3() {
 }
 
 // 카테고리 선택 후 form 제출
-function setCategoryAndSubmit(category) {
-  document.getElementById("categoryInput").value = category;
-  document.getElementById("searchForm").submit();
-}
+let currentCategory = document.getElementById("categoryInput").value || "recommend";
+
+  window.addEventListener("DOMContentLoaded", () => {
+    updateButtonStyles(currentCategory);
+  });
+
+  function setCategoryAndSubmit(category) {
+    const prevCategory = currentCategory;
+    currentCategory = (prevCategory === category) ? "" : category;
+
+    document.getElementById("categoryInput").value = currentCategory;
+    updateButtonStyles(currentCategory);
+    document.getElementById("searchForm").submit();
+  }
+
+  function updateButtonStyles(selectedCategory) {
+    const categories = ["recommend", "attraction", "restaurant", "cafe"];
+    categories.forEach(cat => {
+      const btn = document.getElementById("btn-" + cat);
+      if (btn) {
+        if (selectedCategory === cat) {
+          btn.classList.remove("btn-outline-primary");
+          btn.classList.add("btn-primary");
+        } else {
+          btn.classList.remove("btn-primary");
+          btn.classList.add("btn-outline-primary");
+        }
+      }
+    });
+  }
