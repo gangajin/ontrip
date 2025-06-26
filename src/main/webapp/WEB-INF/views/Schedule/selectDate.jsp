@@ -28,8 +28,11 @@
         <div class="col-10 p-5">
             <h2>${destinationName}</h2>
             <p>${scheduleStart} ~ ${scheduleEnd}</p>
-            <a href="https://www.skyscanner.co.kr/" target="_blank"><button class="btn btn-outline-primary">항공</button></a>
-            <a href="https://kr.trip.com/?locale=ko-KR&curr=KRW" target="_blank"><button class="btn btn-outline-secondary">숙소</button></a>
+            <button class="btn btn-outline-primary" onclick="openWithNotice('https://www.skyscanner.co.kr', '항공권 예매는 스카이스캐너 공식 사이트에서\n출발지, 도착지, 날짜를 직접 입력해 주세요.')">✈️ 항공</button>
+            <button class="btn btn-outline-primary" onclick="openWithNotice('https://www.letskorail.com', '기차 예매는 레츠코레일 공식 사이트에서\n출발역, 도착역, 날짜를 직접 입력해 주세요.')">🚝 기차</button>
+            <button class="btn btn-outline-primary" onclick="openWithNotice('https://www.bustago.or.kr/newweb/kr/index.do', '버스 예매는 버스타고 공식 사이트에서\n출발지, 도착지, 날짜를 직접 입력해 주세요.')">🚌 버스</button> | 
+            <a class="btn btn-outline-secondary"  href="https://www.yeogi.com/domestic-accommodations?keyword=${destinationName}&checkIn=${scheduleStartParam}&checkOut=${scheduleEndParam}&personal=2&freeForm=false" target="_blank">🏠 숙소</a>
+
             <div id="map" style="width:100%; height:400px; margin-top:20px;"></div>
         </div>
     </div>
@@ -53,6 +56,12 @@
 	const userNum = "${sessionScope.userNum}";
 	const destinationLat = "${destinationLat}";
 	const destinationLong = "${destinationLong}";
+	
+	function openWithNotice(url, message) {
+		  alert(message);
+		  window.open(url, "_blank");
+		}
+
 </script>
 
 <script src="/JS/selectDate.js"></script>

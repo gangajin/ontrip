@@ -56,13 +56,17 @@ public class ScheduleController {
             Model model,
             HttpSession session) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(E)", Locale.KOREAN);
+        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(E)", Locale.KOREAN);
+        DateTimeFormatter urlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
         DestinationDto destination = destinationService.getDestinationByNum(destinationNum);
 
         model.addAttribute("destinationNum", destinationNum);
         model.addAttribute("destinationName", destinationName);
-        model.addAttribute("scheduleStart", scheduleStart.format(formatter));
-        model.addAttribute("scheduleEnd", scheduleEnd.format(formatter));
+        model.addAttribute("scheduleStart", scheduleStart.format(displayFormatter));
+        model.addAttribute("scheduleEnd", scheduleEnd.format(displayFormatter));
+        model.addAttribute("scheduleStartParam", scheduleStart.format(urlFormatter));
+        model.addAttribute("scheduleEndParam", scheduleEnd.format(urlFormatter)); 
         model.addAttribute("destinationLat", destination.getDestinationLat());
         model.addAttribute("destinationLong", destination.getDestinationLong());
 
