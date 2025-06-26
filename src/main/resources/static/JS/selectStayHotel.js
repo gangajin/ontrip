@@ -172,37 +172,38 @@ function updateHotelStatus() {
   const statusDiv = document.getElementById("selectedHotelStatus");
   statusDiv.innerHTML = "";
 
-  const dateListDiv = document.getElementById("hotelReservationTextList");
-  if (dateListDiv) dateListDiv.innerHTML = "";
-
   travelDates.forEach(date => {
     const matched = stayHotelData.find(item => item.stayHotelDate === date);
 
     const card = document.createElement("div");
-    card.className = "status-card";
-    let html = `<div class='status-info'><div class='status-date'>${date}</div>`;
+    card.className = "status-card mb-2";
 
-    html += matched
-      ? `<div class='status-hotel'>${matched.placeName}</div></div><div><button class='btn btn-sm btn-outline-primary'>예약하기</button></div>`
-      : `<div class='status-hotel text-muted'>선택 안함</div></div>`;
+    let html = "";
+
+    if (matched) {
+      html = `
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-bold">${date}</div>
+            <div>${matched.placeName}</div>
+          </div>
+          <button class="btn btn-sm btn-outline-primary"
+            onclick="goToReservation('${matched.placeName}', '${matched.stayHotelDate}')">예약하기</button>
+        </div>`;
+    } else {
+      html = `
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-bold">${date}</div>
+            <div class="text-muted">선택 안함</div>
+          </div>
+        </div>`;
+    }
 
     card.innerHTML = html;
     statusDiv.appendChild(card);
-
-    if (dateListDiv && matched) {
-      const line = document.createElement("div");
-      line.innerHTML = `
-        <div class="border p-2 mb-2">
-          <strong>${date}</strong><br/>
-          ${matched.placeName}
-          <button class='btn btn-sm btn-outline-primary'>예약하기</button>
-        </div>
-      `;
-      dateListDiv.appendChild(line);
-    }
   });
 }
-
 function renderStayHotelMarkers() {
   if (!mapReady) return;
 
@@ -226,6 +227,19 @@ function renderStayHotelMarkers() {
 
     hotelMarkers.push(marker);
   });
+}
+
+function goToReservation(placeName, checkInDate) {
+  const checkIn = new Date(checkInDate);
+  const checkOut = new Date(checkIn);
+  checkOut.setDate(checkOut.getDate() + 1); // 1박 기준
+
+  const format = date => date.toISOString().split("T")[0];
+
+  const encodedKeyword = encodeURIComponent(placeName);
+  const url = `https://www.yeogi.com/domestic-accommodations?keyword=${encodedKeyword}&checkIn=${format(checkIn)}&checkOut=${format(checkOut)}&personal=2&freeForm=false`;
+
+  window.open(url, '_blank');
 }
 
 function submitStayHotel() {

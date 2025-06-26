@@ -15,48 +15,55 @@
 </head>
 <body style="margin: 0; padding: 0;">
 <%@ include file="../header.jsp" %>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-2 sidebar d-flex flex-column align-items-center">
-      		<div class="mb-3"><a href="/step1?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}"class="text-decoration-none text-dark">STEP 1<br>날짜 확인</a></div>
-          	<div class="mb-3"><a href="/step2?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}&destinationLat=${destinationLat}&destinationLong=${destinationLong}"class="text-decoration-none text-dark">STEP 2<br>장소 선택</a></div>
-            <div class="mb-3"><a href="/selectStayHotel?destinationNum=${destinationNum}"class="text-decoration-none text-primary fw-bold">STEP 3<br>숙소 선택</a></div>
-      <div class="d-grid mt-4 w-100 px-4">
-        <button class="btn btn-dark" type="button" onclick="submitStayHotel()">저장하기</button>
-      </div>
+
+<div class="d-flex">
+  <!-- STEP 사이드바 -->
+  <div class="col-2 sidebar d-flex flex-column align-items-center bg-white border-end" style="min-height: 100vh;">
+    <div class="mb-3 mt-4"><a href="/step1?..." class="text-decoration-none text-dark">STEP 1<br>날짜 확인</a></div>
+    <div class="mb-3"><a href="/step2?..." class="text-decoration-none text-dark">STEP 2<br>장소 선택</a></div>
+    <div class="mb-3"><a href="/selectStayHotel?..." class="text-decoration-none text-primary fw-bold">STEP 3<br>숙소 선택</a></div>
+    <div class="d-grid mt-4 w-100 px-4">
+      <button class="btn btn-dark" type="button" onclick="submitStayHotel()">저장하기</button>
     </div>
-    <div class="col-10 p-4">
-      <h2 class="mb-4">숙소 선택</h2>
-      <div class="row g-3 align-items-start">
-        <div class="col-4">
-          <div class="input-group mb-3">
-            <input type="hidden" id="destinationNum" value="${destinationNum}">
-            <input type="text" id="searchKeyword" class="form-control" placeholder="숙소명을 입력하세요"
-              onkeypress="if(event.key === 'Enter') { event.preventDefault(); searchHotels(); }">
-            <button type="button" class="btn btn-outline-secondary" onclick="searchHotels()">검색</button>
-          </div>
-          <div id="hotelList"></div>
+  </div>
+
+  <!-- 오른쪽 콘텐츠 영역 -->
+  <div class="flex-grow-1 p-4">
+    <h2 class="mb-4">숙소 선택</h2>
+    <div class="row g-3 align-items-start">
+      <!-- 숙소 리스트 -->
+      <div class="col-3-6">
+        <div class="input-group mb-3">
+          <input type="text" id="searchKeyword" class="form-control" placeholder="숙소명을 입력하세요"
+            onkeypress="if(event.key === 'Enter') { event.preventDefault(); searchHotels(); }">
+          <button type="button" class="btn btn-outline-secondary" onclick="searchHotels()">검색</button>
         </div>
-        <div class="col-4">
-          <div class="card" style="min-height:200px;">
-            <div class="card-body">
-              <h5 class="card-title">날짜별 숙소 선택 현황</h5>
-              <div id="selectedHotelStatus"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div id="map"
-               data-lat="${destinationLat}"
-               data-lng="${destinationLong}"
-               data-name="${destinationName}"
-               style="width: 100%; height: 400px; border: 1px solid #ccc; border-radius: 8px; background: #fff;">
+        <div id="hotelList"></div>
+      </div>
+
+      <!-- 날짜별 숙소 현황 -->
+      <div class="col-3-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">날짜별 숙소 선택 현황</h5>
+            <div id="selectedHotelStatus"></div>
           </div>
         </div>
       </div>
+
+      <!-- 지도 -->
+     <div class="col-4-8">
+	  <div id="map"
+	       data-lat="${destinationLat}"
+	       data-lng="${destinationLong}"
+	       data-name="${destinationName}"
+	       style="width: 100%; height: 600px; border: 1px solid #ccc; border-radius: 8px; background: #fff;">
+	  </div>
+	</div>
     </div>
   </div>
 </div>
+
 <div id="modal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
   border:1px solid #000; padding: 20px; background: white; width: 400px; box-shadow: 0 0 10px rgba(0,0,0,0.3); border-radius: 8px;">
   <h3 id="hotelName" style="font-size: 20px; margin-bottom: 15px;"></h3>
