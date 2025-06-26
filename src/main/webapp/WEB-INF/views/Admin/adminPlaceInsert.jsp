@@ -4,7 +4,8 @@
 <html>
 <head>
   	<meta charset="UTF-8">
-  	<title>장소 등록</title>
+  	<title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
   	<script type="text/javascript" src="/js/placeCheck.js"></script>
   	<link rel="stylesheet" type="text/css" href="/CSS/insertPlace.css">
 	<link rel="stylesheet" href="/CSS/header.css">

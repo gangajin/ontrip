@@ -4,7 +4,8 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>일정 미리보기</title>
+  <title>On:trip</title>
+  <link rel="icon" href="/Image/header/logo2.png" type="image/png" />
   <link rel="stylesheet" href="/CSS/preview.css">
 </head>
 <body>

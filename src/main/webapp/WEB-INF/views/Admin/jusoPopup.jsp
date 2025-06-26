@@ -3,7 +3,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>주소검색</title>
+<title>On:trip</title>
+<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
 <% 
 	request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
 	String inputYn = request.getParameter("inputYn"); 

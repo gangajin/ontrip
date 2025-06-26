@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>문의 상세</title>
+    <title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
 	<link rel="stylesheet" href="/CSS/inquiryDetail.css">
 	<link rel="stylesheet" href="/CSS/header.css">
   	<script src="/JS/header.js"></script>

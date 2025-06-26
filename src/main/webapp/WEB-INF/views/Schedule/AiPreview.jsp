@@ -5,7 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AI 자동 일정 미리보기</title>
+    <title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/CSS/AiPreview.css">
     <script type="text/javascript"

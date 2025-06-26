@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인 페이지</title>
+<title>On:trip</title>
+<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
 <link rel="stylesheet" href="/CSS/login.css">
 </head>
 <body>

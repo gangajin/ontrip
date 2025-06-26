@@ -3,7 +3,8 @@
 <html>
 <head>
   	<meta charset="UTF-8">
-  	<title>신규 장소 등록</title>
+  	<title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
   	<link rel="stylesheet" href="/CSS/insertPlace.css">
   	<script type="text/javascript" src="/js/placeCheck.js"></script>
 	<link rel="stylesheet" href="/CSS/header.css">

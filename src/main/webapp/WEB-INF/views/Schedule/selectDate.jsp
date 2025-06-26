@@ -4,7 +4,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>여행 일정 확인</title>
+    <title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/CSS/selectDate.css">
@@ -31,7 +32,8 @@
             <button class="btn btn-outline-primary" onclick="openWithNotice('https://www.skyscanner.co.kr', '항공권 예매는 스카이스캐너 공식 사이트에서\n출발지, 도착지, 날짜를 직접 입력해 주세요.')">✈️ 항공</button>
             <button class="btn btn-outline-primary" onclick="openWithNotice('https://www.letskorail.com', '기차 예매는 레츠코레일 공식 사이트에서\n출발역, 도착역, 날짜를 직접 입력해 주세요.')">🚝 기차</button>
             <button class="btn btn-outline-primary" onclick="openWithNotice('https://www.bustago.or.kr/newweb/kr/index.do', '버스 예매는 버스타고 공식 사이트에서\n출발지, 도착지, 날짜를 직접 입력해 주세요.')">🚌 버스</button> | 
-            <a class="btn btn-outline-secondary"  href="https://www.yeogi.com/domestic-accommodations?keyword=${destinationName}&checkIn=${scheduleStartParam}&checkOut=${scheduleEndParam}&personal=2&freeForm=false" target="_blank">🏠 숙소</a>
+            <a class="btn btn-outline-secondary"  href="https://www.yeogi.com/domestic-accommodations?keyword=${destinationName}&checkIn=${scheduleStartParam}&checkOut=${scheduleEndParam}&personal=2&freeForm=false" target="_blank">🏠 숙소</a><p>
+            <p>항공, 기차, 버스, 숙소 예약 없이 바로 넘어가시려면 <b>왼쪽의 ‘다음’ 버튼을 클릭하세요.</b></p>
 
             <div id="map" style="width:100%; height:400px; margin-top:20px;"></div>
         </div>

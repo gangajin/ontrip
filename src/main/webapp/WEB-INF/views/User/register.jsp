@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입 페이지</title>
+<title>On:trip</title>
+<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
 <script src="/JS/register.js"></script>
 <link rel="stylesheet" href="/CSS/register.css">
 </head>

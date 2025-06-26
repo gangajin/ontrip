@@ -3,7 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <title>회원 문의 관리</title>
+    <title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
     <link rel="stylesheet" href="/CSS/adminInquiry.css">
 	<link rel="stylesheet" href="/CSS/header.css">
   	<script src="/JS/header.js"></script>

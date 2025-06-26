@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>문의 작성</title>
+	<title>On:trip</title>
+	<link rel="icon" href="/Image/header/logo2.png" type="image/png" />
 	<link rel="stylesheet" href="/CSS/inquiryWrite.css">
 	<link rel="stylesheet" href="/CSS/header.css">
   	<script src="/JS/header.js"></script>

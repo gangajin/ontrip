@@ -6,7 +6,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>On:trip</title>
+    <link rel="icon" href="/Image/header/logo2.png" type="image/png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/CSS/mypage.css"/>
