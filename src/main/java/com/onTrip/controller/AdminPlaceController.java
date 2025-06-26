@@ -54,11 +54,18 @@ public class AdminPlaceController {
         }
 
         int totalPages = (int) Math.ceil((double) totalPlaces / pageSize);
+        
+        //페이징 블럭계산
+        int pageBlock = 10;
+        int blockStart = ((page - 1) / pageBlock) * pageBlock + 1;
+        int blockEnd = Math.min(blockStart + pageBlock - 1, totalPages);
 
         model.addAttribute("destinationList", destinationList);
         model.addAttribute("placeList", placeList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("blockStart", blockStart);
+        model.addAttribute("blockEnd", blockEnd);
 
         return "Admin/adminPlaceList";
     }

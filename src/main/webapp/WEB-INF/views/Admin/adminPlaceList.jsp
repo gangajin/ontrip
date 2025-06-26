@@ -85,20 +85,26 @@
 	<div class="d-flex justify-content-center mt-4">
 	    <nav>
 	        <ul class="pagination">
-	            <c:forEach var="i" begin="1" end="${totalPages}">
-	                <c:choose>
-	                    <c:when test="${i == currentPage}">
-	                        <li class="page-item active">
-	                            <a class="page-link" href="/admin/place/list?page=${i}<c:if test='${not empty selectedDestinationNum}'>&destinationNum=${selectedDestinationNum}</c:if>">${i}</a>
-	                        </li>
-	                    </c:when>
-	                    <c:otherwise>
-	                        <li class="page-item">
-	                            <a class="page-link" href="/admin/place/list?page=${i}<c:if test='${not empty selectedDestinationNum}'>&destinationNum=${selectedDestinationNum}</c:if>">${i}</a>
-	                        </li>
-	                    </c:otherwise>
-	                </c:choose>
+	            <!-- 이전 블록 -->
+	            <c:if test="${blockStart > 1}">
+	                <li class="page-item">
+	                    <a class="page-link" href="/admin/place/list?page=${blockStart - 1}<c:if test='${not empty selectedDestinationNum}'>&destinationNum=${selectedDestinationNum}</c:if>">«</a>
+	                </li>
+	            </c:if>
+	
+	            <!-- 페이지 번호들 -->
+	            <c:forEach var="i" begin="${blockStart}" end="${blockEnd}">
+	                <li class="page-item ${i == currentPage ? 'active' : ''}">
+	                    <a class="page-link" href="/admin/place/list?page=${i}<c:if test='${not empty selectedDestinationNum}'>&destinationNum=${selectedDestinationNum}</c:if>">${i}</a>
+	                </li>
 	            </c:forEach>
+	
+	            <!-- 다음 블록 -->
+	            <c:if test="${blockEnd < totalPages}">
+	                <li class="page-item">
+	                    <a class="page-link" href="/admin/place/list?page=${blockEnd + 1}<c:if test='${not empty selectedDestinationNum}'>&destinationNum=${selectedDestinationNum}</c:if>">»</a>
+	                </li>
+	            </c:if>
 	        </ul>
 	    </nav>
 	</div>
