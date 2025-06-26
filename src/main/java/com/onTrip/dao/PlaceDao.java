@@ -40,6 +40,8 @@ public interface PlaceDao {
 
     // 관리자용 키워드 검색
     List<PlaceDto> adminSearchPlace(@Param("keyword") String keyword);
+    
+    List<PlaceDto> adminSearchDestination(@Param("destinationNum") Integer destinationNum, @Param("keyword") String keyword);
 
     List<PlaceDto> selectByScheduleNum(@Param("scheduleNum") int scheduleNum);
     

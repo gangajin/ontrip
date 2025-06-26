@@ -21,7 +21,7 @@
 	        <label for="destinationNum" class="form-label mb-0">지역 필터:</label>
 	    </div>
 	    <div class="col-auto" style="min-width: 160px;">
-	        <select name="destinationNum" id="destinationNum" class="form-select form-select-sm">
+	        <select name="destinationNum" id="destinationNum" class="form-select form-select-sm" onchange="this.form.submit()">
 	            <option value="">전체</option>
 	            <c:forEach var="destination" items="${destinationList}">
 	                <option value="${destination.destinationNum}"

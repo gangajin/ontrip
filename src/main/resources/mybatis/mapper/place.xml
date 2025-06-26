@@ -129,6 +129,22 @@
 	    ORDER BY placeNum DESC
 	</select>
 	
+	<!-- 지역 + 키워드 조건 -->
+	<select id="adminSearchDestination" resultType="com.onTrip.dto.PlaceDto">
+		  SELECT *
+		  FROM place
+		  WHERE 1 = 1
+		  <if test="destinationNum != null">
+		    AND destinationNum = #{destinationNum}
+		  </if>
+		  <if test="keyword != null and keyword != ''">
+		    AND (
+		      placeName LIKE CONCAT('%', #{keyword}, '%')
+		      OR placeRoadAddr LIKE CONCAT('%', #{keyword}, '%')
+		    )
+		  </if>
+	</select>
+	
 	<!-- 각 지역의 기차역 -->
 	<select id="getStationByDestination" resultType="com.onTrip.dto.PlaceDto">
 	    SELECT * FROM place WHERE destinationNum  = #{destinationNum} AND placeCategory = 'station'

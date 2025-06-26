@@ -86,15 +86,31 @@ public class AdminPlaceController {
     
     // 키워드 검색 (placeName, placeRoadAddr)
     @GetMapping("/search")
-    public String adminSearchPlace(@RequestParam("keyword") String keyword, Model model) {
+    public String adminSearchPlace(
+            @RequestParam(value = "destinationNum", required = false) Integer destinationNum,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            Model model) {
 
         List<DestinationDto> destinationList = destinationDao.selectAll();  // 드롭다운 유지용
-        List<PlaceDto> placeList = placeService.adminSearchPlace(keyword);
+        List<PlaceDto> placeList;
+
+        if ((keyword == null || keyword.trim().isEmpty()) && destinationNum != null) {
+            //지역만 선택했을 경우
+            placeList = placeDao.adminPlaceByDestination(destinationNum);
+        } else if (keyword != null && !keyword.trim().isEmpty()) {
+            //키워드로 검색 (destinationNum도 같이 넘겨주면 그 조건도 포함)
+            placeList = placeDao.adminSearchDestination(destinationNum, keyword);
+        } else {
+            // 아무 것도 없을 경우 전체
+            placeList = placeService.adminPagedPlaces(0, 100);
+        }
 
         model.addAttribute("destinationList", destinationList);
         model.addAttribute("placeList", placeList);
+        model.addAttribute("selectedDestinationNum", destinationNum);
         model.addAttribute("keyword", keyword);
 
         return "Admin/adminPlaceList";
     }
+
 }
