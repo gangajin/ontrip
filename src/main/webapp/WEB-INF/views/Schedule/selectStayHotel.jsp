@@ -19,9 +19,9 @@
 <div class="d-flex">
   <!-- STEP 사이드바 -->
   <div class="col-2 sidebar d-flex flex-column align-items-center bg-white border-end" style="min-height: 100vh;">
-    <div class="mb-3 mt-4"><a href="/step1?..." class="text-decoration-none text-dark">STEP 1<br>날짜 확인</a></div>
-    <div class="mb-3"><a href="/step2?..." class="text-decoration-none text-dark">STEP 2<br>장소 선택</a></div>
-    <div class="mb-3"><a href="/selectStayHotel?..." class="text-decoration-none text-primary fw-bold">STEP 3<br>숙소 선택</a></div>
+    <div class="mb-3"><a href="/step1?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}"class="text-decoration-none text-dark">STEP 1<br>날짜 확인</a></div>
+    <div class="mb-3"><a href="/step2?destinationNum=${destinationNum}&destinationName=${destinationName}&scheduleStart=${scheduleStartParam}&scheduleEnd=${scheduleEndParam}&destinationLat=${destinationLat}&destinationLong=${destinationLong}"class="text-decoration-none text-dark">STEP 2<br>장소 선택</a></div>
+    <div class="mb-3"><a href="/selectStayHotel?destinationNum=${destinationNum}"class="text-decoration-none text-primary fw-bold">STEP 3<br>숙소 선택</a></div>
     <div class="d-grid mt-4 w-100 px-4">
       <button class="btn btn-dark" type="button" onclick="submitStayHotel()">저장하기</button>
     </div>
