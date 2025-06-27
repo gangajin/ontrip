@@ -59,3 +59,12 @@ html, body {
             padding-top: 20px;
             border-right: 1px solid #ddd;
         }
+        .schedule-panel {
+		  flex: 1;
+		  padding: 30px;
+		  overflow-y: auto;
+		}
+		
+		.schedule-panel .day-card {
+		  width: 100%; /* ✅ 카드 1개일 때도 꽉 채움 */
+		}

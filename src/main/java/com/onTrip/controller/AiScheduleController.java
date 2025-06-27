@@ -49,8 +49,10 @@ public class AiScheduleController {
     public String generateAiSchedule(@RequestParam("scheduleNum") int scheduleNum,
                                      @RequestParam("transportType") String transportType,
                                      HttpSession session) {
+        // 기존 일정 삭제
         scheduleDetailService.deleteDetailsByScheduleNum(scheduleNum);
 
+        // 장소 및 호텔 정보 준비
         List<PlaceDto> placeList = placeService.getPlacesByScheduleNum(scheduleNum);
         List<StayHotelDto> hotelDtoList = stayHotelService.getStayListByScheduleNum(scheduleNum);
         List<PlaceDto> hotelList = new ArrayList<>();
@@ -73,12 +75,14 @@ public class AiScheduleController {
         int destinationNum = schedule.getDestinationNum();
         PlaceDto station = placeService.getStationByDestination(destinationNum);
 
+        // GPT 호출 및 결과 처리
         List<PlaceDto> fullList = new ArrayList<>(placeList);
         fullList.addAll(hotelList);
         String prompt = openAiService.buildAiPrompt(fullList, transportType, startDate.toString(), endDate.toString());
         List<String> orderedNames = openAiService.getOrderedPlaceNames(prompt);
         List<PlaceDto> orderedList = openAiService.matchOrderedPlaces(orderedNames, fullList);
 
+        // 카테고리별 분류
         List<PlaceDto> cafes = new ArrayList<>();
         List<PlaceDto> restaurants = new ArrayList<>();
         List<PlaceDto> attractions = new ArrayList<>();
@@ -108,12 +112,24 @@ public class AiScheduleController {
                 time = time.plusHours(2);
             }
 
-            time = insertCategory(scheduleNum, attractions, visited, time, 1);
-            time = insertCategory(scheduleNum, restaurants, visited, time, 1);
-            time = insertCategory(scheduleNum, cafes, visited, time, 1);
-            time = insertCategory(scheduleNum, attractions, visited, time, 2);
-            time = insertCategory(scheduleNum, restaurants, visited, time, 1);
+            time = insertCategory(scheduleNum, attractions, visited, time, 1); // 명소 1
+            time = insertCategory(scheduleNum, restaurants, visited, time, 1); // 점심
+            time = insertCategory(scheduleNum, cafes, visited, time, 1);       // 카페
+            time = insertCategory(scheduleNum, attractions, visited, time, 2); // 명소 추가
 
+            // ✅ 저녁 식사 강제 포함 (20시 전까지)
+            int before = visited.size();
+            time = insertCategory(scheduleNum, restaurants, visited, time, 1); // 저녁 시도
+            boolean hadDinner = (visited.size() > before);
+            if (!hadDinner && !restaurants.isEmpty()) {
+                LocalDateTime dinnerTime = date.atTime(19, 0);
+                PlaceDto dinnerPlace = restaurants.remove(0);
+                insert(scheduleNum, dinnerPlace, dinnerTime);
+                visited.add(dinnerPlace.getPlaceNum());
+                time = dinnerTime.plusHours(2);
+            }
+
+            // 마무리 (호텔 또는 기차역)
             if (d == totalDays - 1) {
                 insert(scheduleNum, station, time);
             } else {
