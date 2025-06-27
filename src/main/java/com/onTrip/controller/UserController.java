@@ -92,9 +92,13 @@ public class UserController {
             return "User/login";
         }
 
+        // ✅ 로그인 성공 처리
         session.setAttribute("loginUser", user);
         session.setAttribute("userNum", user.getUserNum());
         session.setAttribute("userRole", user.getUserRole());
+        
+        // ✅ 로그인 성공 시 인트로가 뜨도록 introShown false로 설정 (필수!)
+        session.setAttribute("introShown", false);
 
         String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
         if (redirectUrl != null) {
