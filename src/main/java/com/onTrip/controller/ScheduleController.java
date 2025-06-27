@@ -93,7 +93,8 @@ public class ScheduleController {
     	
     	 Integer userNum = (Integer) session.getAttribute("userNum");
     	    if (userNum == null) {
-    	        model.addAttribute("loginMessage", "로그인 이후 사용 가능합니다.");
+    	    	model.addAttribute("msg", "로그인 후 이용 가능합니다.");
+    	        model.addAttribute("url", "/login");
     	        return "User/forceLogin";  // ✳️ alert 띄우는 전용 JSP로 이동
     	    }
 

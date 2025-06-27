@@ -47,6 +47,12 @@ public class StayHotelController {
             HttpSession session,
             Model model) {
 
+    	Integer userNum = (Integer) session.getAttribute("userNum");
+	    if (userNum == null) {
+	    	model.addAttribute("msg", "로그인 후 이용 가능합니다.");
+	        model.addAttribute("url", "/login");
+	        return "User/forceLogin";  // ✳️ alert 띄우는 전용 JSP로 이동
+	    }
 
         // 날짜 가져오기
         Object startObj = session.getAttribute("scheduleStart");

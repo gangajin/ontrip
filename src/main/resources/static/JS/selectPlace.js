@@ -51,7 +51,7 @@ function addSelectedPlace(placeNum) {
         console.warn("❗ 추가할 장소를 찾을 수 없습니다. placeNum:", placeNum);
       }
     } else {
-      alert("로그인 후 이용 가능합니다.");
+      alert("세션 오류입니다., STEP1에서 다음 버튼을 누르시고 이용해주세요.");
     }
   });
 }
