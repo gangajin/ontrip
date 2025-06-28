@@ -12,7 +12,12 @@
     <link rel="stylesheet" href="/CSS/header.css">
 	<script src="/JS/header.js"></script>
 </head>
-<body style="margin: 0; padding: 0;">
+<body style="margin: 0; padding: 0;"
+  data-usernum="${sessionScope.userNum}"
+  data-schedulenum="${sessionScope.scheduleNum}"
+  data-destinationnum="${destinationNum}"
+  data-schedulestart="${scheduleStart}"
+  data-scheduleend="${scheduleEnd}">
 <%@ include file="../header.jsp" %>
 <div class="container-fluid">
     <div class="row">

@@ -126,3 +126,34 @@ let currentCategory = document.getElementById("categoryInput").value || "recomme
       }
     });
   }
+  
+  //insertSchedule 호출 (사이드바 STEP2 클릭 시 세션에 scheduleNum이 없으면 호출)
+  window.addEventListener("DOMContentLoaded", () => {
+    updateButtonStyles(currentCategory); // 기존 실행 로직 유지
+
+    const userNum = document.body.dataset.usernum;
+    const scheduleNum = document.body.dataset.schedulenum;
+    const destinationNum = document.body.dataset.destinationnum;
+    const scheduleStart = document.body.dataset.schedulestart;
+    const scheduleEnd = document.body.dataset.scheduleend;
+
+    if (!scheduleNum || scheduleNum === "null") {
+      fetch("/insertSchedule", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `destinationNum=${destinationNum}&scheduleStart=${scheduleStart}&scheduleEnd=${scheduleEnd}&userNum=${userNum}`
+      })
+      .then(res => res.text())
+      .then(data => {
+        console.log("✅ scheduleNum 세션 저장 완료:", data);
+        location.reload(); // 세션 반영을 위해 한 번 새로고침
+      })
+      .catch(err => {
+        alert("⚠️ 세션 초기화 실패 - STEP1에서 다시 시도해주세요.");
+        console.error(err);
+      });
+    }
+  });
+
