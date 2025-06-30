@@ -27,7 +27,7 @@
 - 캘린더로 여행 날짜를 선택하고 일정 기간을 설정할 수 있음
 ![날짜 선택](src/main/resources/static/Image/capture/calendar.png)
 ### 🗺️ 지역·날짜 확인 화면
-- 앞에서 선택한 여행 지역과 날짜를 한눈에 확인할 수 있는 페이지
+- 앞에서 선택한 여행 지역과 날짜를 한눈에 확인 가능
 ![스텝 1](src/main/resources/static/Image/capture/step1.png)
 ### 📍 명소·식당·카페 선택 화면
 - 명소, 식당, 카페를 선택하고 지도에서 위치를 한눈에 확인 가능
