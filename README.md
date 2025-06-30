@@ -66,7 +66,7 @@ On:Trip - AI 여행 일정 생성 서비스
 ### ⚙️ 환경설정
 1️⃣ MySQL에 ontrip 데이터베이스를 생성합니다.
 
-2️⃣ src/main/resources/application.properties 파일에 DB 접속 정보를 아래와 같이 설정합니다:
+2️⃣ src/main/resources/application.properties 파일에 DB 접속 정보를 아래와 같이 설정합니다.
 
     spring.datasource.url=jdbc:mysql://localhost:3306/ontrip
 
@@ -74,18 +74,18 @@ On:Trip - AI 여행 일정 생성 서비스
 
     spring.datasource.password=DB_PASSWORD
 
-3️⃣ OpenAI API Key, Kakao API Key 등 외부 서비스 키를 application.properties에 추가합니다:
+3️⃣ OpenAI API Key, Kakao API Key 등 외부 서비스 키를 application.properties에 추가합니다.
 
     openai.api.key=YOUR_OPENAI_API_KEY 
 
     kakao.api.key=YOUR_KAKAO_API_KEY
 
 ### ▶️ 빌드 및 실행
-아래 명령어로 애플리케이션을 빌드하고 실행합니다:
+아래 명령어로 애플리케이션을 빌드하고 실행합니다.
 
-.gradlew build
+  gradlew build
 
-.gradlew bootRun
+  gradlew bootRun
 
 ✅ 실행 후 웹 브라우저에서 http://localhost:8080에 접속해 서비스를 확인하세요.
 
@@ -113,7 +113,7 @@ On:Trip - AI 여행 일정 생성 서비스
 - 여행 날짜별로 숙소를 선택하고 지도에서 위치 확인 가능
 ![step3](src/main/resources/static/Image/capture/step3.png)
 #### 🗂 일정 상세 화면
-- AI가 추천한 일정과 각 날짜별 동선, 명소, 숙소 등을 확인할 수 있음
+- 선택한 일정과 명소, 식당, 카페, 숙소 등을 확인할 수 있음
 ![stepPlan](src/main/resources/static/Image/capture/stepPlan.png)
 #### ✅ AI 생성 일정 확인 화면
 - AI가 생성한 여행 계획을 날짜별로 확인하고, 각 일차별 동선도 지도에서 시각적으로 확인 가능
