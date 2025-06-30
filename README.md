@@ -68,24 +68,24 @@ On:Trip - AI 여행 일정 생성 서비스
 
 2️⃣ src/main/resources/application.properties 파일에 DB 접속 정보를 아래와 같이 설정합니다:
 
-spring.datasource.url=jdbc:mysql://localhost:3306/ontrip
+    spring.datasource.url=jdbc:mysql://localhost:3306/ontrip
 
-spring.datasource.username=DB_USERNAME
+    spring.datasource.username=DB_USERNAME
 
-spring.datasource.password=DB_PASSWORD
+    spring.datasource.password=DB_PASSWORD
 
 3️⃣ OpenAI API Key, Kakao API Key 등 외부 서비스 키를 application.properties에 추가합니다:
 
-openai.api.key=YOUR_OPENAI_API_KEY 
+    openai.api.key=YOUR_OPENAI_API_KEY 
 
-kakao.api.key=YOUR_KAKAO_API_KEY
+    kakao.api.key=YOUR_KAKAO_API_KEY
 
 ### ▶️ 빌드 및 실행
 아래 명령어로 애플리케이션을 빌드하고 실행합니다:
 
-./gradlew build
+.gradlew build
 
-./gradlew bootRun
+.gradlew bootRun
 
 ✅ 실행 후 웹 브라우저에서 http://localhost:8080에 접속해 서비스를 확인하세요.
 
