@@ -121,7 +121,7 @@ On:Trip - AI 여행 일정 생성 서비스
 
 ## 4️⃣ DB 설계 및 API 정보
 ### 🗂️ ERD 이미지
-![ERDiagram](src/main/resources/static/Image/capture/ERDiagram.png)
+
 
 #### 🧩 테이블 설명
 
