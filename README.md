@@ -50,6 +50,8 @@ On:Trip - AI 여행 일정 생성 서비스
   </li>
 </ul>
 
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=tkdwns087@gmail.com)](https://github.com/anuraghazra/github-readme-stats)
+
 ### 👥 팀원 및 담당 역할
 - **공통 역할**: DB설계, 메인화면, AI 일정 생성
 - **이강진**: 
