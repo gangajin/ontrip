@@ -59,9 +59,9 @@ On:Trip - AI 여행 일정 생성 서비스
 
 ## 2️⃣ 설치 및 실행 방법
 ### 📥 Git clone
-  git clone https://github.com/on-trip/ontrip.git
+    git clone https://github.com/on-trip/ontrip.git
   
-  cd ontrip
+    cd ontrip
 
 ### ⚙️ 환경설정
 1️⃣ MySQL에 ontrip 데이터베이스를 생성합니다.
