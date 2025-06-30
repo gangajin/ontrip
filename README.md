@@ -1,47 +1,104 @@
-# 📌 프로젝트 이름
+## 📌 프로젝트 이름
 <span>
 On:Trip - AI 여행 일정 생성 서비스
 <img src="src/main/resources/static/Image/header/logo.png" width="50px" style="vertical-align:middle;"/>
 </span>
 
-## 📚 프로젝트 소개
+
+
+## 1️⃣ 프로젝트 개요
+
+### 📚 소개
 이 프로젝트는 여행 일정을 쉽게 계획하지 못 하는 분들을 위해서 AI를 통해서 자동으로 일정을 게획해주는 웹 애플리케이션입니다.
 
-## 🛠️ 주요 기능
-- AI 기반 일정 자동 생성
-- 여행 기간 선택 및 캘린더 UI
-- 장소 및 숙소 선택 (카카오 지도 연동)
-- 여행 일정 저장 및 시각화
-  
-## 👥 팀원 및 담당 역할
+### 🛠️ 기술 스택
+<ul>
+  <li><b>Frontend</b>
+    <ul>
+      <li>JavaScript, HTML5, CSS3</li>
+    </ul>
+  </li>
+  <li><b>Backend</b>
+    <ul>
+      <li>Java (JDK 21), JSP & Servlet, MyBatis, JavaMail</li>
+    </ul>
+  </li>
+  <li><b>Framework / Library</b>
+    <ul>
+      <li>Spring Boot, Flatpickr, JavaMail</li>
+    </ul>
+  </li>
+  <li><b>API / External Service</b>
+    <ul>
+      <li>OpenAI API, Kakao Maps API, 행정안전부 공공 API, OAuth</li>
+    </ul>
+  </li>
+  <li><b>Database</b>
+    <ul>
+      <li>MySQL, ER Diagram</li>
+    </ul>
+  </li>
+  <li><b>Tool / Environment</b>
+    <ul>
+      <li>Eclipse STS (Spring Tool Suite), MySQL Workbench, Windows 10, WAS (Apache Tomcat 10.1)</li>
+    </ul>
+  </li>
+  <li><b>Collaboration</b>
+    <ul>
+      <li>GitHub</li>
+    </ul>
+  </li>
+</ul>
+
+### 👥 팀원 및 담당 역할
 - **공통 역할**: DB설계, 메인화면, AI 일정 생성
 - **이강진**: 
 - **박상준**: 
 - **류지호**:
 
 
-## 📸 화면
-### 🗓 메인 화면
+## 2️⃣ 설치 및 실행 방법
+### 📥 Git clone
+
+### ⚙️ 환경설정
+(환경 변수, DB 설정 방법)
+
+### ▶️ 빌드 및 실행
+(실행 명령어)
+
+### 3️⃣ 주요 기능 및 화면
+### ✨ 주요 기능
+- AI 기반 일정 자동 생성
+- 여행 기간 선택 및 캘린더 UI
+- 장소 및 숙소 선택 (카카오 지도 연동)
+- 여행 일정 저장 및 시각화
+
+### 🖥️ 화면 캡처
+#### 🗓 메인 화면
 - AI 여행 일정 생성 시작 화면으로, 여행 지역과 기간을 입력할 수 있음
 ![메인 화면](src/main/resources/static/Image/capture/main.png)
-### 📅 날짜 선택(캘린더) 화면
+#### 📅 날짜 선택(캘린더) 화면
 - 캘린더로 여행 날짜를 선택하고 일정 기간을 설정할 수 있음
 ![날짜 선택](src/main/resources/static/Image/capture/calendar.png)
-### 🗺️ 지역·날짜 확인 화면
+#### 🗺️ 지역·날짜 확인 화면
 - 앞에서 선택한 여행 지역과 날짜를 한눈에 확인 가능
 ![스텝 1](src/main/resources/static/Image/capture/step1.png)
-### 📍 명소·식당·카페 선택 화면
+#### 📍 명소·식당·카페 선택 화면
 - 명소, 식당, 카페를 선택하고 지도에서 위치를 한눈에 확인 가능
 ![스텝 2](src/main/resources/static/Image/capture/step2.png)
-### 🏨 숙소 선택 화면
+#### 🏨 숙소 선택 화면
 - 여행 날짜별로 숙소를 선택하고 지도에서 위치 확인 가능
 ![step3](src/main/resources/static/Image/capture/step3.png)
-### 🗂 일정 상세 화면
+#### 🗂 일정 상세 화면
 - AI가 추천한 일정과 각 날짜별 동선, 명소, 숙소 등을 확인할 수 있음
 ![stepPlan](src/main/resources/static/Image/capture/stepPlan.png)
-### ✅ AI 생성 일정 확인 화면
+#### ✅ AI 생성 일정 확인 화면
 - AI가 생성한 여행 계획을 날짜별로 확인하고, 각 일차별 동선도 지도에서 시각적으로 확인 가능
 ![AiPlan](src/main/resources/static/Image/capture/AiPlan.png)
 
-## ⚙️ 설치 및 실행 방법
-1.
+## 4️⃣ DB 설계 및 API 정보
+### 🗂️ ERD 이미지
+
+#### 🧩 테이블 설명
+
+## 5️⃣ 업데이트 및 버전 관리 (선택
