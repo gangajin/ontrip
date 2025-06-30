@@ -97,27 +97,63 @@ On:Trip - AI 여행 일정 생성 서비스
 - 여행 일정 저장 및 시각화
 
 ### 🖥️ 화면 캡처
-#### 🗓 메인 화면
-- AI 여행 일정 생성 시작 화면으로, 여행 지역과 기간을 입력할 수 있음
-![메인 화면](src/main/resources/static/Image/capture/main.png)
-#### 📅 날짜 선택(캘린더) 화면
-- 캘린더로 여행 날짜를 선택하고 일정 기간을 설정할 수 있음
-![날짜 선택](src/main/resources/static/Image/capture/calendar.png)
-#### 🗺️ 지역·날짜 확인 화면
-- 앞에서 선택한 여행 지역과 날짜를 한눈에 확인 가능
-![스텝 1](src/main/resources/static/Image/capture/step1.png)
-#### 📍 명소·식당·카페 선택 화면
-- 명소, 식당, 카페를 선택하고 지도에서 위치를 한눈에 확인 가능
-![스텝 2](src/main/resources/static/Image/capture/step2.png)
-#### 🏨 숙소 선택 화면
-- 여행 날짜별로 숙소를 선택하고 지도에서 위치 확인 가능
-![step3](src/main/resources/static/Image/capture/step3.png)
-#### 🗂 일정 상세 화면
-- 선택한 일정과 명소, 식당, 카페, 숙소 등을 확인할 수 있음
-![stepPlan](src/main/resources/static/Image/capture/stepPlan.png)
-#### ✅ AI 생성 일정 확인 화면
-- AI가 생성한 여행 계획을 날짜별로 확인하고, 각 일차별 동선도 지도에서 시각적으로 확인 가능
-![AiPlan](src/main/resources/static/Image/capture/AiPlan.png)
+
+<details>
+<summary>🗓 메인 화면</summary>
+
+- AI 여행 일정 생성 시작 화면으로, 여행 지역과 기간을 입력할 수 있음  
+<img src="src/main/resources/static/Image/capture/main.png" alt="메인 화면"/>
+
+</details>
+
+<details>
+<summary>📅 날짜 선택(캘린더) 화면</summary>
+
+- 캘린더로 여행 날짜를 선택하고 일정 기간을 설정할 수 있음  
+<img src="src/main/resources/static/Image/capture/calendar.png" alt="날짜 선택 화면"/>
+
+</details>
+
+<details>
+<summary>🗺️ 지역·날짜 확인 화면</summary>
+
+- 앞에서 선택한 여행 지역과 날짜를 한눈에 확인 가능  
+<img src="src/main/resources/static/Image/capture/step1.png" alt="스텝1"/>
+
+</details>
+
+<details>
+<summary>📍 명소·식당·카페 선택 화면</summary>
+
+- 명소, 식당, 카페를 선택하고 지도에서 위치를 한눈에 확인 가능  
+<img src="src/main/resources/static/Image/capture/step2.png" alt="스텝2"/>
+
+</details>
+
+<details>
+<summary>🏨 숙소 선택 화면</summary>
+
+- 여행 날짜별로 숙소를 선택하고 지도에서 위치 확인 가능  
+<img src="src/main/resources/static/Image/capture/step3.png" alt="숙소 선택"/>
+
+</details>
+
+<details>
+<summary>🗂 일정 상세 화면</summary>
+
+- 선택한 일정과 명소, 식당, 카페, 숙소 등을 확인할 수 있음  
+<img src="src/main/resources/static/Image/capture/stepPlan.png" alt="일정 상세"/>
+
+</details>
+
+<details>
+<summary>✅ AI 생성 일정 확인 화면</summary>
+
+- AI가 생성한 여행 계획을 날짜별로 확인하고, 각 일차별 동선도 지도에서 시각적으로 확인 가능  
+<img src="src/main/resources/static/Image/capture/AiPlan.png" alt="AI 생성 일정"/>
+
+</details>
+
 
 ## 4️⃣ DB 설계 및 API 정보
 ### 🗂️ ERD 이미지
