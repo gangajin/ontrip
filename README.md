@@ -24,5 +24,9 @@
 ![날짜 선택](src/main/resources/static/Image/capture/calendar.png)
 ![스텝 1](src/main/resources/static/Image/capture/step1.png)
 ![스텝 2](src/main/resources/static/Image/capture/step2.png)
+![step3](src/main/resources/static/Image/capture/step3.png)
+![stepPlan](src/main/resources/static/Image/capture/stepPlan.png)
+![AiPlan](src/main/resources/static/Image/capture/AiPlan.png)
+
 ## ⚙️ 설치 및 실행 방법
 1.
