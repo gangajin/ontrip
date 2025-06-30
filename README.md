@@ -21,7 +21,8 @@
 
 ## 📸 화면
 ![메인 화면](src/main/resources/static/Image/capture/main.png)
-
-
+![날짜 선택](src/main/resources/static/Image/capture/calendar.png)
+![스텝 1](src/main/resources/static/Image/capture/step1.png)
+![스텝 2](src/main/resources/static/Image/capture/step2.png)
 ## ⚙️ 설치 및 실행 방법
 1.
