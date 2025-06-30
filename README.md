@@ -1,4 +1,4 @@
-## 📌 프로젝트 이름
+![image](https://github.com/user-attachments/assets/cc74aa63-710e-48a7-9da4-17f272ce7900)## 📌 프로젝트 이름
 <span>
 On:Trip - AI 여행 일정 생성 서비스
 <img src="src/main/resources/static/Image/header/logo.png" width="50px" style="vertical-align:middle;"/>
@@ -121,7 +121,7 @@ On:Trip - AI 여행 일정 생성 서비스
 
 ## 4️⃣ DB 설계 및 API 정보
 ### 🗂️ ERD 이미지
-
+![ERDiagram](src/main/resources/static/Image/capture/ERDiagram.png)
 
 #### 🧩 테이블 설명
 
