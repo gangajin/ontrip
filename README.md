@@ -83,9 +83,9 @@ On:Trip - AI 여행 일정 생성 서비스
 ### ▶️ 빌드 및 실행
 아래 명령어로 애플리케이션을 빌드하고 실행합니다.
 
-  gradlew build
+    ./gradlew build
 
-  gradlew bootRun
+    ./gradlew bootRun
 
 ✅ 실행 후 웹 브라우저에서 http://localhost:8080에 접속해 서비스를 확인하세요.
 
