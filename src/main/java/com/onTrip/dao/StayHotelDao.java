@@ -14,5 +14,7 @@ public interface StayHotelDao {
             @Param("stayHotelDate") String stayHotelDate, 
             @Param("placeNum") int placeNum);
 	
+	void deleteByScheduleNum(int scheduleNum);
+	
 	List<StayHotelDto> selectByScheduleNum(@Param("scheduleNum") int scheduleNum);
 }

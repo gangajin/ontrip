@@ -136,6 +136,7 @@ public class StayHotelController {
 
         int scheduleNum = (Integer) session.getAttribute("scheduleNum");
 
+        stayhoteldao.deleteByScheduleNum(scheduleNum);
         for (int i = 0; i < stayHotelDates.length; i++) {
             stayhoteldao.insertStayHotel(scheduleNum, stayHotelDates[i], Integer.parseInt(placeNums[i]));
         }

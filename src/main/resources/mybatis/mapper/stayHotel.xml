@@ -20,5 +20,9 @@
 		  where s.scheduleNum = #{scheduleNum}
 	</select>
 	
+	<delete id="deleteByScheduleNum">
+    	delete from stayhotel where scheduleNum = #{scheduleNum}
+	</delete>
+	
 
 	</mapper>

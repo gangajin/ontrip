@@ -183,21 +183,22 @@ public class ScheduleController {
         // 날짜 기준으로 숙소 정렬
         stayList.sort(Comparator.comparing(StayHotelDto::getStayHotelDate));
 
-        // 날짜별 빈 일정 리스트 생성
+        // ✅ 선택한 숙소 날짜만 추출해 DAY 생성
         List<ScheduleDto> scheduleList = new ArrayList<>();
-        LocalDate start = schedule.getScheduleStart();
-        LocalDate end = schedule.getScheduleEnd();
-
-        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-            ScheduleDto daily = new ScheduleDto();
-            daily.setScheduleStart(date);
-            scheduleList.add(daily);
-        }
+        stayList.stream()
+                .map(StayHotelDto::getStayHotelDate)
+                .distinct()
+                .sorted()
+                .forEach(date -> {
+                    ScheduleDto daily = new ScheduleDto();
+                    daily.setScheduleStart(date);
+                    scheduleList.add(daily);
+                });
 
         model.addAttribute("schedule", schedule);
         model.addAttribute("scheduleList", scheduleList);
         model.addAttribute("placeList", placeList);
-        model.addAttribute("stayList", stayList); // 👈 List로 전달
+        model.addAttribute("stayList", stayList);
 
         return "Schedule/preview";
     }
