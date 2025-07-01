@@ -70,7 +70,7 @@
               <img src="/Image/header/icon.png" alt="유저 아이콘" style="width: 30px; height: 30px;" />
             </div>
             <div id="userDropdown" class="user-dropdown position-absolute bg-white border rounded shadow p-2" style="top: 40px; right: 0; display: none; min-width: 150px;">
-              <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#guideModal">이용방법 보기</button>
+             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#guideModal">이용방법 보기</a>
               <a href="/user/myPage" class="dropdown-item">마이페이지</a>
               <c:if test="${sessionScope.loginUser.userRole eq 'admin'}">
                 <a href="/adminMain" class="dropdown-item">관리자 페이지</a>
