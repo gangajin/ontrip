@@ -70,6 +70,7 @@
               <img src="/Image/header/icon.png" alt="유저 아이콘" style="width: 30px; height: 30px;" />
             </div>
             <div id="userDropdown" class="user-dropdown position-absolute bg-white border rounded shadow p-2" style="top: 40px; right: 0; display: none; min-width: 150px;">
+              <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#guideModal">이용방법 보기</button>
               <a href="/user/myPage" class="dropdown-item">마이페이지</a>
               <c:if test="${sessionScope.loginUser.userRole eq 'admin'}">
                 <a href="/adminMain" class="dropdown-item">관리자 페이지</a>
@@ -82,13 +83,65 @@
           </div>
         </c:when>
         <c:otherwise>
+          <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#guideModal">이용방법 보기</button>
           <a href="/login" class="btn btn-outline-primary ms-2">로그인</a>
         </c:otherwise>
       </c:choose>
     </div>
-
   </div>
 </header>
+
+	<!-- 모달 -->
+<div class="modal fade" id="guideModal" tabindex="-1" aria-labelledby="guideModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="guideModalLabel">이용 가이드</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Carousel -->
+        <div id="guideCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="/Image/capture/guide1.png" class="d-block w-100" alt="가이드1">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide2.png" class="d-block w-100" alt="가이드2">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide3.png" class="d-block w-100" alt="가이드3">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide4.png" class="d-block w-100" alt="가이드4">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide5.png" class="d-block w-100" alt="가이드5">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide6.png" class="d-block w-100" alt="가이드6">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide7.png" class="d-block w-100" alt="가이드7">
+            </div>
+            <div class="carousel-item">
+              <img src="/Image/capture/guide8.png" class="d-block w-100" alt="가이드8">
+            </div>
+          </div>
+          <!-- 슬라이드 컨트롤 -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#guideCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">이전</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#guideCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">다음</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <main class="main">
 

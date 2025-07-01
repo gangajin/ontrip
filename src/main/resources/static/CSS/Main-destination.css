@@ -1,4 +1,18 @@
 /* ====== 여행지 카드 ====== */
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal {
+  z-index: 1050 !important;
+  pointer-events: auto !important;
+}
+
+.modal.show {
+  display: block !important;
+}
+
+
 .destination-container {
   display: flex;
   flex-wrap: wrap;
