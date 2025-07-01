@@ -35,7 +35,10 @@
 
     <!-- 일정 카드 -->
     <div class="schedule-panel">
-        <h4 class="mb-4">🗓 AI 자동 생성된 일정 미리보기</h4>
+        <h4 class="mb-4">🗓 AI 자동 생성된 일정</h4>
+        <p>일정을 자유롭게 수정하신 뒤 <b>반드시 저장</b>해 주세요.<br>
+		마이페이지에서도 완성된 일정을 확인하실 수 있습니다.
+
         <div class="schedule-container d-flex gap-3 overflow-auto" style="padding-bottom: 10px;">
             <c:forEach var="entry" items="${groupedDetailMap}" varStatus="dayStatus">
                 <div class="day-card" id="day${dayStatus.index + 1}">
