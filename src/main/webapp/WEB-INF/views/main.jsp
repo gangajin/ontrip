@@ -116,16 +116,13 @@
               <img src="/Image/capture/guide4.png" class="d-block w-100" alt="가이드4">
             </div>
             <div class="carousel-item">
-              <img src="/Image/capture/guide5.png" class="d-block w-100" alt="가이드5">
+              <img src="/Image/capture/guide6.png" class="d-block w-100" alt="가이드5">
             </div>
             <div class="carousel-item">
-              <img src="/Image/capture/guide6.png" class="d-block w-100" alt="가이드6">
+              <img src="/Image/capture/guide7.png" class="d-block w-100" alt="가이드6">
             </div>
             <div class="carousel-item">
-              <img src="/Image/capture/guide7.png" class="d-block w-100" alt="가이드7">
-            </div>
-            <div class="carousel-item">
-              <img src="/Image/capture/guide8.png" class="d-block w-100" alt="가이드8">
+              <img src="/Image/capture/guide8.png" class="d-block w-100" alt="가이드7">
             </div>
           </div>
           <!-- 슬라이드 컨트롤 -->
