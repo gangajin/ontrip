@@ -62,4 +62,10 @@
 	    DELETE FROM scheduledetail WHERE scheduleNum = #{scheduleNum}
 	</delete>
     
+    <update id="updateTime">
+	    UPDATE scheduledetail
+	     SET scheduleDetailDay = #{newDateTime}
+	     WHERE scheduleDetailNum = #{scheduleDetailNum}
+	</update>
+    
 </mapper>

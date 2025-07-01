@@ -15,4 +15,7 @@ public interface ScheduleDetailDao {
     void updateScheduleStatusToComplete(@Param("scheduleNum") int scheduleNum);
     // 이어쓰기 시 기존 스케줄 삭제
     void deleteByScheduleNum(@Param("scheduleNum") int scheduleNum);
+    
+    void updateTime(@Param("scheduleDetailNum") int scheduleDetailNum,
+            @Param("newDateTime") String newDateTime);
 }

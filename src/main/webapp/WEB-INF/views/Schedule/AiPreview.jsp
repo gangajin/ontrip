@@ -27,9 +27,10 @@
                 </button>
             </c:forEach>
         </div>
-        <div class="d-grid mt-4">
-            <button class="btn btn-dark" onclick="confirmAndRedirect()">저장</button>
-        </div>
+        <div class="d-grid mt-4" style="gap: 8px;">
+		  <button class="btn" style="background-color: #333; color: white;" onclick="saveScheduleTimes()">저장</button>
+		  <a href="/user/myPage" class="btn" style="background-color: #00c6be; color: white;">마이페이지로 이동</a>
+		</div>
     </div>
 
     <!-- 일정 카드 -->
@@ -55,7 +56,24 @@
                                 <div class="timeline-content card flex-fill shadow-sm border-0">
                                     <div class="card-body">
                                         <h6 class="card-title mb-1">${detail.place.placeName}</h6>
-                                        <p class="mb-1"><strong>시간:</strong> <fmt:formatDate value="${detail.scheduleDetailDay}" pattern="yyyy-MM-dd HH:mm" /></p>
+                                        <p class="mb-1">
+										  <strong>날짜:</strong>
+										  <span class="date-span">
+										    <fmt:formatDate value="${detail.scheduleDetailDay}" pattern="yyyy-MM-dd"/>
+										  </span>
+										</p>
+										
+										<div class="mb-1 d-flex align-items-center gap-2">
+										  <label><strong>시간:</strong></label>
+										  <input
+										    type="time"
+										    class="form-control"
+										    data-id="${detail.scheduleDetailNum}"
+										    value="<fmt:formatDate value='${detail.scheduleDetailDay}' pattern='HH:mm' />"
+										    style="width: 150px;"
+										  />
+										</div>
+
                                         <p class="mb-1"><strong>주소:</strong> ${detail.place.placeRoadAddr}</p>
                                         <p class="mb-0">
                                             <c:choose>
@@ -108,6 +126,54 @@ var groupedPlaceList = {
         ]<c:if test="${!dayStatus.last}">,</c:if>
     </c:forEach>
 };
+<!--여기-->
+document.querySelectorAll('input[type="time"]').forEach(input => {
+	  console.log("ID:", input.dataset.id);
+	  console.log("Time:", input.value);
+	  const date = input.closest(".card-body").querySelector(".date-span").textContent.trim();
+	  console.log("Date:", date);
+	});
+	
+function collectScheduleUpdates() {
+	  const updates = [];
+	  document.querySelectorAll('input[type="time"]').forEach(input => {
+	    const id = input.dataset.id;
+	    const time = input.value;
+	    const date = input.closest(".card-body").querySelector(".date-span").textContent.trim();
+	    const dateTime = date + " " + time + ":00";
+	    updates.push({
+	      scheduleDetailNum: id,
+	      newDateTime: dateTime
+	    });
+	  });
+	  console.log("🟢 수집된 데이터:", updates);
+	  return updates;
+	}
+
+	function saveScheduleTimes() {
+	  const updates = collectScheduleUpdates();
+	  if (!confirm("저장하시겠습니까?")) return;
+
+	  fetch("/schedule/updateTimes", {
+	    method: "POST",
+	    headers: {"Content-Type": "application/json"},
+	    body: JSON.stringify(updates)
+	  })
+	  .then(res => {
+	    if (res.ok) {
+	      alert("저장 완료!");
+	      location.reload();
+	    } else {
+	      alert("저장 실패");
+	    }
+	  })
+	  .catch(err => {
+	    console.error(err);
+	    alert("오류 발생");
+	  });
+	}
+
+
 </script>
 
 <script src="/JS/aiPreview.js"></script>

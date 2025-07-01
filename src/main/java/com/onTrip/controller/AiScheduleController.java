@@ -4,15 +4,35 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.onTrip.dto.*;
-import com.onTrip.service.*;
+import com.onTrip.dto.PlaceDto;
+import com.onTrip.dto.ScheduleDetailDto;
+import com.onTrip.dto.ScheduleDto;
+import com.onTrip.dto.ScheduleTimeUpdateDto;
+import com.onTrip.dto.StayHotelDto;
+import com.onTrip.service.DestinationService;
+import com.onTrip.service.OpenAiService;
+import com.onTrip.service.PlaceService;
+import com.onTrip.service.ScheduleDetailService;
+import com.onTrip.service.ScheduleService;
+import com.onTrip.service.StayHotelService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -104,35 +124,32 @@ public class AiScheduleController {
             LocalDate date = startDate.plusDays(d);
             LocalDateTime time = date.atTime(10, 0);
 
+            // 시작 장소
             if (d == 0) {
+                // 첫날 시작: 기차역
                 insert(scheduleNum, station, time);
                 time = time.plusHours(2);
-            } else if (lastHotel != null) {
+            } else {
+                // 나머지 날 시작: 전날 호텔
                 insert(scheduleNum, lastHotel, time);
                 time = time.plusHours(2);
             }
 
-            time = insertCategory(scheduleNum, attractions, visited, time, 1); // 명소 1
+            // 고정 순서대로 일정 추가
+            time = insertCategory(scheduleNum, attractions, visited, time, 1); // 명소1
             time = insertCategory(scheduleNum, restaurants, visited, time, 1); // 점심
             time = insertCategory(scheduleNum, cafes, visited, time, 1);       // 카페
-            time = insertCategory(scheduleNum, attractions, visited, time, 2); // 명소 추가
+            time = insertCategory(scheduleNum, attractions, visited, time, 2); // 명소2
 
-            // ✅ 저녁 식사 강제 포함 (20시 전까지)
-            int before = visited.size();
-            time = insertCategory(scheduleNum, restaurants, visited, time, 1); // 저녁 시도
-            boolean hadDinner = (visited.size() > before);
-            if (!hadDinner && !restaurants.isEmpty()) {
-                LocalDateTime dinnerTime = date.atTime(19, 0);
-                PlaceDto dinnerPlace = restaurants.remove(0);
-                insert(scheduleNum, dinnerPlace, dinnerTime);
-                visited.add(dinnerPlace.getPlaceNum());
-                time = dinnerTime.plusHours(2);
-            }
+            // 저녁 식사: 무조건 insertCategory로 통일
+            time = insertCategory(scheduleNum, restaurants, visited, time, 1);
 
-            // 마무리 (호텔 또는 기차역)
+            // 종료 장소
             if (d == totalDays - 1) {
-                insert(scheduleNum, station, time);
+                // 마지막날은 기차역으로 끝
+                insert(scheduleNum, station, time.withHour(22));
             } else {
+                // 나머지 날은 호텔로 끝
                 PlaceDto hotel = !hotels.isEmpty() ? hotels.get(d % hotels.size()) : hotelList.get(d % hotelList.size());
                 insert(scheduleNum, hotel, time.withHour(22));
                 lastHotel = hotel;
@@ -183,4 +200,14 @@ public class AiScheduleController {
         model.addAttribute("detailList", detailList);
         return "Schedule/AiPreview";
     }
+    
+    @PostMapping("/schedule/updateTimes")	
+    @ResponseBody
+    public ResponseEntity<?> updateScheduleTimes(@RequestBody List<ScheduleTimeUpdateDto> updates) {
+        for (ScheduleTimeUpdateDto dto : updates) {
+            scheduleDetailService.updateTime(dto.getScheduleDetailNum(), dto.getNewDateTime());
+        }
+        return ResponseEntity.ok().build();
+    }
+ 
 }

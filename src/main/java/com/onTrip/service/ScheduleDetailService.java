@@ -32,4 +32,7 @@ public class ScheduleDetailService {
         scheduleDetailDao.deleteByScheduleNum(scheduleNum);
     }
 
+    public void updateTime(int scheduleDetailNum, String newDateTime) {
+    	scheduleDetailDao.updateTime(scheduleDetailNum, newDateTime);
+    }
 }
