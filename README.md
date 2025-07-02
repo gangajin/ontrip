@@ -30,7 +30,7 @@ On:Trip - AI 여행 일정 생성 서비스
   </li>
   <li><b>API / External Service</b>
     <ul>
-      <li>OpenAI API, Kakao Maps API, 행정안전부 공공 API, OAuth</li>
+      <li>OpenAI API, Kakao Maps API, 행정안전부 공공 API, OAuth(Google, Kakao, Naver)</li>
     </ul>
   </li>
   <li><b>Database</b>
@@ -54,7 +54,7 @@ On:Trip - AI 여행 일정 생성 서비스
 - **공통 역할**: DB설계, 메인화면, AI 일정 생성
 - **이강진**: 관리자 페이지, 마이페이지, 여행갈 장소 등록(step2), 비회원 문의
 - **박상준**: 문의사항 , 숙소 선택, 장소 등록, 여행 일정 확인
-- **류지호**: 날짜 및 시간 선택, 회원 관리(로그인/가입/탈퇴, OAuth 연동, 비밀번호 찾기, 닉네임 변경)
+- **류지호**: 날짜 및 시간 선택, 회원 관리 및 소셜 로그인(OAuth), 개인정보 수정
 
 
 ## 2️⃣ 설치 및 실행 방법
