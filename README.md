@@ -297,3 +297,5 @@ On:Trip - AI 여행 일정 생성 서비스
   - 주요 오류 수정 및 기능 안정화
 
 
+## 6️⃣ PPT 자료
+[👉 Ontrip 자료 다운로드 (Google Drive)](https://drive.google.com/file/d/1KeNt7N2KBka2UqxzCbYXlJLEPfWNa-MT/view?usp=sharing)
