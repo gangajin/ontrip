@@ -207,7 +207,7 @@ On:Trip - AI 여행 일정 생성 서비스
 <summary>✅ AI 생성 일정 확인 화면</summary>
 
 - AI가 생성한 여행 계획을 날짜별로 확인하고, 각 일차별 동선도 지도에서 시각적으로 확인 가능  
-<img src="src/main/resources/static/Image/capture/AiPlan.png" alt="AI 생성 일정"/>
+<img src="src/main/resources/static/Image/capture/AiPlan2.png" alt="AI 생성 일정"/>
 
 </details>
 
