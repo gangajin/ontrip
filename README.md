@@ -30,7 +30,7 @@ On:Trip - AI 여행 일정 생성 서비스
   </li>
   <li><b>API / External Service</b>
     <ul>
-      <li>OpenAI API, Kakao Maps API, 행정안전부 공공 API, OAuth</li>
+      <li>OpenAI API, Kakao Maps API, 행정안전부 공공 API, OAuth(Google, Kakao, Naver)</li>
     </ul>
   </li>
   <li><b>Database</b>
