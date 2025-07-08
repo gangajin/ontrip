@@ -153,7 +153,7 @@ On:Trip - AI 여행 일정 생성 서비스
 
 </ul>
 
-### 🖥️ 화면 캡처
+### 🖥️ 화면 구현 설명
 
 <details>
 <summary>🗓 메인 화면</summary>
