@@ -20,7 +20,7 @@ On:Trip - AI 여행 일정 생성 서비스
   </li>
   <li><b>Backend</b>
     <ul>
-      <li>Java (JDK 21), JSP & Servlet, MyBatis, JavaMail</li>
+      <li>Java (JDK 21), JSP & Servlet, MyBatis</li>
     </ul>
   </li>
   <li><b>Framework / Library</b>
@@ -40,7 +40,7 @@ On:Trip - AI 여행 일정 생성 서비스
   </li>
   <li><b>Tool / Environment</b>
     <ul>
-      <li>Eclipse STS (Spring Tool Suite), MySQL Workbench, Windows 10, WAS (Apache Tomcat 10.1)</li>
+      <li>Eclipse STS (Spring Tool Suite), MySQL Workbench, Windows 11, WAS (Apache Tomcat 10.1)</li>
     </ul>
   </li>
   <li><b>Collaboration</b>
