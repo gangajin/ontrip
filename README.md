@@ -299,3 +299,4 @@ On:Trip - AI 여행 일정 생성 서비스
 
 ## 6️⃣ PPT 자료
 [👉 Ontrip 자료 다운로드 (Google Drive)](https://drive.google.com/file/d/1KeNt7N2KBka2UqxzCbYXlJLEPfWNa-MT/view?usp=sharing)
+  - ontrip.sql을 MySQL에 붙여넣기 하여 DB사용가능
